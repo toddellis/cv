@@ -530,12 +530,12 @@
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
           \href{https://orcid.org/\@orcid}{\aiOrcidSquare\acvHeaderIconSep\@orcid}%
         }%
-      % \ifthenelse{\isundefined{\@googlescholar}}%
-      %   {}%
-      %   {%
-      %     \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
-      %     \href{https://scholar.google.com/citations?user=\@googlescholar}{\aiGoogleScholarSquare\acvHeaderIconSep\@googlescholar}%
-      %   }%
+       \ifthenelse{\isundefined{\@googlescholar}}%
+         {}%
+         {%
+           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
+           \href{https://scholar.google.com/citations?user=\@googlescholar}{\aiGoogleScholarSquare\acvHeaderIconSep\@googlescholar}%
+         }%
       \ifthenelse{\isundefined{\@researchgate}}%
         {}%
         {%

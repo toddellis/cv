@@ -33,22 +33,10 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, 
                       warning = FALSE, 
-                      message = FALSE)
-library(vitae)
-library(rorcid)
-library(ggplot2)
-library(dplyr)
-library(sf)
-library(rnaturalearth)
-library(sfnetworks)
-library(ggrepel)
-library(emojifont)
-library(fontawesome)
-library(kableExtra)
-library(huxtable)
-library(gridExtra)
-library(rsvg)
-library(htmltools)
+                      message = FALSE,
+                      cache = FALSE)
+
+source(here::here('./scripts/base_data.R'))
 
 ## FONTS #### 
 .uni <-
@@ -64,44 +52,12 @@ library(htmltools)
 # EDUCATION 
 
 ```{r}
-library(tibble)
-tibble::tribble(~ UNIVERSITY, 
-                ~ DATES,
-                ~ DEGREE, 
-                ~ LOCATION,
-                ~ THESIS,
-                ~ SUPERVISOR) |>
-  ## PhD
-  tibble::add_row(
-    UNIVERSITY = "University of Tasmania",
-    DATES = "2019 - 2023",
-    DEGREE = "Doctor of Philosophy, Biological Sciences",
-    LOCATION = "Sandy Bay, TAS, Australia",
-    THESIS = c("Dissertation: Dynamic mapping and analysis of New South Wales fire regimes: Past, present, and future",
-               "Supervisors: Drs. Grant J. Williamson and David M.J.S. Bowman")
-  ) |>
-  ## MSc
-  tibble::add_row(
-    UNIVERSITY = "Western Washington University",
-    DATES = "2013 - 2016",
-    DEGREE = "Master of Science, Geography",
-    LOCATION = "Bellingham, WA, USA",
-    THESIS = c("Thesis: Climatic drivers of western spruce budworm outbreaks in the Okanogan Highlands", 
-               "Supervisor: Dr. Aquila Flower")
-  ) |>
-  ## BSc
-  tibble::add_row(
-    UNIVERSITY = "Texas State University",
-    DATES = "2007 - 2012",
-    DEGREE = "Bachelor of Science, Physical Geography / Geology",
-    LOCATION = "San Marcos, TX, USA",
-    THESIS = "Capstone: Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987 - 1988"
-  ) |>
+EDUCATION |>
   detailed_entries(UNIVERSITY, DATES, DEGREE, LOCATION, THESIS,
                    .protect=FALSE)
 ```
 
-# PROFESSIONAL EXPERIENCE
+# RESEARCH EXPERIENCE
 
 ```{r}
 # tibble::tribble(
@@ -114,186 +70,98 @@ tibble::tribble(~ UNIVERSITY,
 #     Year, 
 #     Desc
 #   )
-tibble::tribble(
-  ~ POSITION, 
-  ~ DATES,
-  ~ INSTITUTION,
-  ~ LOCATION,
-  ~ DESCRIPTION
-) |>
-  tibble::add_row(
-    POSITION = "Data Analyst",
-    DATES = "2021-02 - present",
-    INSTITUTION = "University of Tasmania: Division of Future Students",
-    LOCATION = "Sandy Bay, TAS, Australia",
-    DESCRIPTION = c(
-      "Developing models and tools for meeting university targets and KPIs using statistical and machine learning",
-      "Overseeing development of internal reporting and statistical packages",
-      "Designing and implementing data analytics training seminars",
-      "Processing, analysing and reporting data to promote and review university programs",
-      "Managing design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION =  "Adjunct Researcher",
-    DATES = "2019-08 - present",
-    INSTITUTION = "University of Tasmania: College of Sciences and Engineering",
-    LOCATION = "Sandy Bay, TAS, Australia",
-    DESCRIPTION = c(
-      "Overseeing multi-year projct design and implementation addressing wildfire and global climate change challenges",
-      "Managing custom platform for interactive web-mapping, on-the-fly statistical analyses, and novel data visualisation",
-      "Developing complex data-processing and analysis pipelines using high-performance computing and big data",
-      "Collaborating with national and international research teams tackling climate change risk and mitigation"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Sustainability Analyst",
-    DATES = "2019-10 - 2021-02",
-    INSTITUTION = "University of Tasmania: Division of Future Students",
-    LOCATION = "Sandy Bay, TAS, Australia",
-    DESCRIPTION = c(
-      "Processed, analysed, and reported data to promote and review institution programmes",
-      "Developed pipelines for automating data cleaning and collation",
-      "Prepared data and briefings for global institution rankings",
-      "Promoted nation-wide sustainability targets using data dashboards and reports"
-    )
-  ) |>
-  ## Independent Research Contractor
-  tibble::add_row(
-    POSITION = "Independent Research Contractor",
-    DATES = "2018-07 - 2020-09",
-    INSTITUTION = "Self-Employed",
-    LOCATION = NA_character_,
-    DESCRIPTION = c(
-      "Developed large-scale data-processing methodologies for resource and hazard management",
-      "Produced interactive, dynamic dashboard products for exploratory data analysis and modelling"
-      # "Notable contracts incl. U.S. Forest Service (2018-08, 2019-06) and Frontier Developments Lab (2020-08)"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Data \\& GIS Analyst",
-    DATES = "2018-12 - 2019-05",
-    INSTITUTION = "Apex Systems: Apple, Inc.",
-    LOCATION = "Austin, TX, USA",
-    DESCRIPTION = c(
-      "Developed and standardised data-processing methods for vector and multispectral raster datasets",
-      "Prepared statistical smmaries, models, and analytical reports",
-      "Managed and processed corporate GIS databases using data-driven software and programming languages",
-      "Led research and development projects to define novel methodologies for geospatial data",
-      "Collaboratd with a global network of analysts and technicians"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Faculty Research Assistant",
-    DATES = "2017-11 - 2018-06",
-    INSTITUTION = "Oregon State University: USDA Forest Service Forestry Sciences Laboratory",
-    LOCATION = "Wenatchee, WA, USA",
-    DESCRIPTION = c(
-      "Gathered and analysed ecological data using statistical software",
-      "Built analytical models using a variety of programming languages",
-      "Created and maintained relational databases for government research",
-      "Converted complex data and findings into understandable figures and summary reports"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Biological Science Technician II",
-    DATES = "2017-08 - 2017-11",
-    INSTITUTION = "Washington Department of Fish and Wildlife: Region 5",
-    LOCATION = "Ridgefield, WA, USA",
-    DESCRIPTION = c(
-      "Collected and recorded biological data for government research and both commercial and tribal fisheries",
-      "Applied QA/QC to develop electronic biolgoical data collection system and relational database",
-      "Analysed biological fisheries data for research reporting",
-      "Designed, built, and maintained department, fisheries, and commercial research equipment",
-      "Monitord critical fish migrations using DNA sampling and the PTAGIS coordination project",
-      "Conducted outreach to the public, providing information on fisheries research, management principles, and local regulations",
-      "Received training in fish, plant, and organism identification, government safety procedures, boat operation, and defensive driving"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Substitute Teacher",
-    DATES = "2017-01 - 2017-08",
-    INSTITUTION = "Kelso School District: Beacon Hill Elementary School",
-    LOCATION = "Kelso, WA, USA",
-    DESCRIPTION = c(
-      "Taught a variety of classrooms, with a focus on K-5 primary education, special education, and LAP classrooms using specialised learning plans",
-      "Engaged young students with an interest in scientific research, giving special outreach presentations",
-      "Helped integrate and refine special education lesson plans as an instructional assistant"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Graduate Assistant",
-    DATES = "2013-08 - 2016-08",
-    INSTITUTION = "Western Washington University: Huxley College of the Environment",
-    LOCATION = "Bellingham, WA, USA",
-    DESCRIPTION = c(
-      "Developed and published novel dendroecological research projects",
-      "Scripted statistical methods for identifying complex ecological and climatological relationships",
-      "Trained and led teams of research volunteers in the safe use of field and laboratory equipment",
-      "Presented research findings at national conferences",
-      "Created and maintained university GIS geodatabses and topologies",
-      "Presided over and maintained the Huxley Tree Ring Laboratory"
-    ),
-  ) |>
-  tibble::add_row(
-    POSITION = "Research Engineer",
-    DATES = "2013-04 - 2013-09",
-    INSTITUTION = "The University of Texas at Austin: Texas Natural Science Center",
-    LOCATION = "Austin, TX, USA",
-    DESCRIPTION = c(
-      "Compiled, georeferences, and managed academic collections and geospatial databaes",
-      "Contributed historial species range data to statewide virtual biodiversity museum",
-      "Reconstructed historical biodata collections and events"
-    ),
-  ) |>
-  tibble::add_row(
-    POSITION = "Trail Management Intern",
-    DATES = "2013-01 - 2013-04",
-    INSTITUTION = "Student Conservation Association",
-    LOCATION = "Angeles National Forest, CA, USA",
-    DESCRIPTION = c(
-      "Co-managed Trails Assessment and Conditions Survey (TrACS) team",
-      "Conducted detailed survey of fire damage to public roads and trail systems",
-      "Assisted in infrastructure restoration projects to maximise public access benefits",
-      "Received national government-sponsored training in defensive driving"
-    ),
-  ) |>
-  tibble::add_row(
-    POSITION = "Laboratory Assistant",
-    DATES = "2012-01 - 2013-01",
-    INSTITUTION = "The University of Texas at Austin: Texas Natural Science Center",
-    LOCATION = "Austin, TX, USA",
-    DESCRIPTION = c(
-      "Catalogued, conserved, photographed, and archived acadmic fish and fossils collections",
-      "Maintained and updated relational database management system for institution collections",
-      "Trained volunteers and students in laboratory safety and inventory procedures"
-    )
-  ) |>
-  tibble::add_row(
-    POSITION = "Laboratory Assistant",
-    DATES = "2011-03 - 2012-12",
-    INSTITUTION = "Texas State University: Department of Geography",
-    LOCATION = "San Marcos, TX, USA",
-    DESCRIPTION = c(
-      "Captured and processed ichnological and palaeontological data using Structure from Motion",
-      "Prepared vertebrate fossils for laboratory use and public display",
-      "Established geology and palaeontology laboratories for the university",
-      "Curated departmental fossils and rock collections",
-      "Trained volunteers in laboratory procedures and sample preparation techniques",
-      "Organised and led field exercises for sample collections and cleanings"
-    )
-  ) |>
- detailed_entries(INSTITUTION, DATES, POSITION, LOCATION, DESCRIPTION,
-                  .protect = FALSE)
+PROFESSIONAL_EXPERIENCE |>
+  # dplyr::filter(OUTPUT == 'resume') |>
+  dplyr::filter(dplyr::between(ID, max(ID) - 5, max(ID))) |>
+  dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
+  dplyr::slice(1:3) |>
+  vitae::detailed_entries(INSTITUTION,
+                          DATES,
+                          POSITION,
+                          LOCATION,
+                          DESCRIPTION,
+                          .protect = FALSE)
 ```
 
-# Publications
+# TEACHING EXPERIENCE
 
 ```{r}
-library(dplyr)
-knitr::write_bib(c("vitae", "tibble"), "packages.bib")
-
-bibliography_entries("packages.bib") %>%
-  arrange(desc(author$family), issued)
+TEACHING_EXPERIENCE |>
+  # dplyr::filter(OUTPUT == 'resume') |>
+  # dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
+  # dplyr::slice(1:3) |>
+  vitae::detailed_entries(INSTITUTION,
+                          DATES,
+                          POSITION, 
+                          LOCATION,
+                          DESCRIPTION,
+                          .protect = FALSE)
 ```
 
+# INDEPENDENT RESEARCH CONSULTING
+
+```{r, results = "asis"}
+CONSULTING %>%
+  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 desc(readr::parse_number(AMOUNT))) %>%
+  baretable(align='lllp{9.3cm}r',
+            hline.after=c(0,NROW(.)),
+            size="\\fontsize{10}{16}",
+            add.to.row=list(
+              pos=as.list(seq(NROW(.))),
+              command=rep("\\\\[-0.2cm]",NROW(.))))
+```
+
+# PUBLICATIONS
+
+```{r}
+vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
+  dplyr::filter(type != '') |>
+  dplyr::arrange(desc(issued),
+                 desc(author$family))
+```
+
+# PACKAGES AND DATA
+
+```{r}
+vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
+  dplyr::filter(type == '') |>
+  dplyr::arrange(desc(issued),
+                 desc(author$family))
+```
+
+# MANUSCRIPT REVIEWER
+
+* [Fire Ecology](https://link.springer.com/journal/42408)
+
+# HONOURS
+
+```{r, results = "asis"}
+HONOURS %>%
+  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 desc(readr::parse_number(AMOUNT))) %>%
+  baretable(align='llp{5.5cm}p{7.75cm}r',
+            hline.after=c(0,NROW(.)),
+            size="\\fontsize{10}{16}",
+            add.to.row=list(
+              pos=as.list(seq(NROW(.))),
+              command=rep("\\\\[-0.2cm]",NROW(.))))
+```
+
+# PRESS
+
+* 2021-10-12: [Bushfire research team awarded prestigious Eureka Prize](https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize). University of Tasmania.
+
+# CONFERENCES AND PRESENTATIONS
+
+* **Ellis, T.M.** 2021-10. Tasmania Analytics Project. Department of Education Lunch and Learn. Sandy Bay, Tasmania, Australia.
+* **Ellis, T.M.** 2020-03. Changes in moisture availability drive fire risk. Bushfire Risk Management Research Hub Researchers Meeting 220. Wollongong, New South Wales, Australia.
+* **Ellis, T.M.** 2016-06. Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands. Western Washington University. Bellingham, Washington, USA. 
+* **Ellis, T.M.**, and Flower, A. 2016-04. Controlling factors of spruce budworm outbreaks in the Okanogan Highlands. American Association of Geographers. San Francisco, California, USA.
+* Pettit, J., Stachowiak, L., Sala, A., Pinnell, S., Sykora, J., & **Ellis, T.M.** 2014-07. Climate responses of *Pseudotsuga menziesii* and *Pinus flexilis* in the Greater Yellowstone (USA). North American Dendroecological Fieldweek. Cody, Wyoming, USA.
+* **Ellis, T.M.** 2014-05. Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery. Western Washington University. Bellingham, Washington, USA. 
+* **Ellis, T.M.**, Huling, D., and McGee, C. 2014-04. Perceptions of risk in Bellingham, Washington. Association of Washington Geographers. Seattle, Washington, USA.
+* **Ellis, T.M.** 2013-12. Biogeographic implications of Structure-from-Motion imagery. Western Washington University. Bellingham, Washington, USA. 
+* **Ellis, T.M.** 2012-05. Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988. Texas State University. San Marcos, Texas, USA.
+* **Ellis, T.M.** 2012-04. Cretaceous-aged fossiliferous outcrops of the Big Bend region. Texas State University. San Marcos, Texas, USA.
+* **Ellis, T.M.**, and McDonnell, R. 2011-12. Predator-prey relations in the Greater Yellowstone Ecosystem. Texas State University. San Marcos, Texas, USA.
