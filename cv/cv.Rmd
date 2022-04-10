@@ -123,9 +123,21 @@ vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
                  desc(author$family))
 ```
 
-# MANUSCRIPT REVIEWER
-
-* [Fire Ecology](https://link.springer.com/journal/42408)
+```{r}
+# # CONFERENCES AND PRESENTATIONS
+# 
+# * **Ellis, T.M.** 2021-10. Tasmania Analytics Project. Department of Education Lunch and Learn. Sandy Bay, Tasmania, Australia.
+# * **Ellis, T.M.** 2020-03. Changes in moisture availability drive fire risk. Bushfire Risk Management Research Hub Researchers Meeting 220. Wollongong, New South Wales, Australia.
+# * **Ellis, T.M.** 2016-06. Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands. Western Washington University. Bellingham, Washington, USA. 
+# * **Ellis, T.M.**, and Flower, A. 2016-04. Controlling factors of spruce budworm outbreaks in the Okanogan Highlands. American Association of Geographers. San Francisco, California, USA.
+# * Pettit, J., Stachowiak, L., Sala, A., Pinnell, S., Sykora, J., & **Ellis, T.M.** 2014-07. Climate responses of *Pseudotsuga menziesii* and *Pinus flexilis* in the Greater Yellowstone (USA). North American Dendroecological Fieldweek. Cody, Wyoming, USA.
+# * **Ellis, T.M.** 2014-05. Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery. Western Washington University. Bellingham, Washington, USA. 
+# * **Ellis, T.M.**, Huling, D., and McGee, C. 2014-04. Perceptions of risk in Bellingham, Washington. Association of Washington Geographers. Seattle, Washington, USA.
+# * **Ellis, T.M.** 2013-12. Biogeographic implications of Structure-from-Motion imagery. Western Washington University. Bellingham, Washington, USA. 
+# * **Ellis, T.M.** 2012-05. Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988. Texas State University. San Marcos, Texas, USA.
+# * **Ellis, T.M.** 2012-04. Cretaceous-aged fossiliferous outcrops of the Big Bend region. Texas State University. San Marcos, Texas, USA.
+# * **Ellis, T.M.**, and McDonnell, R. 2011-12. Predator-prey relations in the Greater Yellowstone Ecosystem. Texas State University. San Marcos, Texas, USA.
+```
 
 # HONOURS
 
@@ -141,20 +153,10 @@ HONOURS %>%
               command=rep("\\\\[-0.2cm]",NROW(.))))
 ```
 
+# MANUSCRIPT REVIEWER
+
+* [Fire Ecology](https://link.springer.com/journal/42408)
+
 # PRESS
 
 * 2021-10-12: [Bushfire research team awarded prestigious Eureka Prize](https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize). University of Tasmania.
-
-# CONFERENCES AND PRESENTATIONS
-
-* **Ellis, T.M.** 2021-10. Tasmania Analytics Project. Department of Education Lunch and Learn. Sandy Bay, Tasmania, Australia.
-* **Ellis, T.M.** 2020-03. Changes in moisture availability drive fire risk. Bushfire Risk Management Research Hub Researchers Meeting 220. Wollongong, New South Wales, Australia.
-* **Ellis, T.M.** 2016-06. Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands. Western Washington University. Bellingham, Washington, USA. 
-* **Ellis, T.M.**, and Flower, A. 2016-04. Controlling factors of spruce budworm outbreaks in the Okanogan Highlands. American Association of Geographers. San Francisco, California, USA.
-* Pettit, J., Stachowiak, L., Sala, A., Pinnell, S., Sykora, J., & **Ellis, T.M.** 2014-07. Climate responses of *Pseudotsuga menziesii* and *Pinus flexilis* in the Greater Yellowstone (USA). North American Dendroecological Fieldweek. Cody, Wyoming, USA.
-* **Ellis, T.M.** 2014-05. Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery. Western Washington University. Bellingham, Washington, USA. 
-* **Ellis, T.M.**, Huling, D., and McGee, C. 2014-04. Perceptions of risk in Bellingham, Washington. Association of Washington Geographers. Seattle, Washington, USA.
-* **Ellis, T.M.** 2013-12. Biogeographic implications of Structure-from-Motion imagery. Western Washington University. Bellingham, Washington, USA. 
-* **Ellis, T.M.** 2012-05. Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988. Texas State University. San Marcos, Texas, USA.
-* **Ellis, T.M.** 2012-04. Cretaceous-aged fossiliferous outcrops of the Big Bend region. Texas State University. San Marcos, Texas, USA.
-* **Ellis, T.M.**, and McDonnell, R. 2011-12. Predator-prey relations in the Greater Yellowstone Ecosystem. Texas State University. San Marcos, Texas, USA.
