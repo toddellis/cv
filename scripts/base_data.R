@@ -11,6 +11,7 @@ library(ggrepel)
 library(emojifont)
 library(fontawesome)
 library(kableExtra)
+library(lubridate)
 library(huxtable)
 library(gridExtra)
 library(rsvg)
@@ -78,7 +79,7 @@ EDUCATION <-
     DATES = "2007 - 2012",
     DEGREE = "Bachelor of Science, Physical Geography / Geology",
     LOCATION = "San Marcos, TX, USA",
-    THESIS = "Capstone: Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987 - 1988"
+    THESIS = NULL # "Capstone: Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987 - 1988"
   )
 ## -----------------------------------------------------------------------------
 ### PROFESSIONAL EXPERIENCE ----------------------------------------------------
@@ -96,10 +97,10 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 13,
     POSITION = "Data Analyst",
     DATES = "2021-02 - present",
-    INSTITUTION = "University of Tasmania: Division of Future Students",
+    INSTITUTION = "University of Tasmania: Division of Future Students (part-time)",
     LOCATION = "Sandy Bay, TAS, Australia",
     DESCRIPTION = c(
-      "Developing models and tools for meeting university targets and KPIs using statistical and machine learning",
+      "Developing statistical models and tools for meeting target university milestones",
       "Managing design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation",
       "Designing and implementing programming and data analytics training seminars for institution staff",
       "Overseeing development of internal reporting and statistical packages",
@@ -110,8 +111,8 @@ PROFESSIONAL_EXPERIENCE <-
   tibble::add_row(
     ID = 12,
     POSITION =  "Adjunct Researcher",
-    DATES = "2019-08 - present",
-    INSTITUTION = "University of Tasmania: College of Sciences and Engineering",
+    DATES = "2019-09 - present",
+    INSTITUTION = "University of Tasmania: College of Sciences and Engineering (full-time)",
     LOCATION = "Sandy Bay, TAS, Australia",
     DESCRIPTION = c(
       "Overseeing multi-year projct design and implementation addressing wildfire and global climate change challenges",
@@ -125,7 +126,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 11,
     POSITION = "Sustainability Analyst",
     DATES = "2019-10 - 2021-02",
-    INSTITUTION = "University of Tasmania: Division of Future Students",
+    INSTITUTION = "University of Tasmania: Division of Future Students (casual)",
     LOCATION = "Sandy Bay, TAS, Australia",
     DESCRIPTION = c(
       "Processed, analysed, and reported data to promote and review institution programmes",
@@ -153,12 +154,12 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 9,
     POSITION = "Data \\& GIS Analyst",
     DATES = "2018-12 - 2019-05",
-    INSTITUTION = "Apex Systems: Apple, Inc.",
+    INSTITUTION = "Apex Systems: Apple, Inc. (contract)",
     LOCATION = "Austin, TX, USA",
     DESCRIPTION = c(
       "Developed and standardised data-processing methods for vector and multispectral raster datasets",
       "Managed and processed corporate GIS databases using data-driven software and programming languages",
-      "Prepared statistical smmaries, models, and analytical reports",
+      "Prepared statistical summaries, models, and analytical reports",
       "Led research and development projects to define novel methodologies for geospatial data",
       "Collaboratd with a global network of analysts and technicians"
     ),
@@ -168,11 +169,11 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 8,
     POSITION = "Faculty Research Assistant",
     DATES = "2017-11 - 2018-06",
-    INSTITUTION = "Oregon State University: USDA Forest Service Forestry Sciences Laboratory",
+    INSTITUTION = "Oregon State University: USDA Forest Service Forestry Sciences Laboratory (contract)",
     LOCATION = "Wenatchee, WA, USA",
     DESCRIPTION = c(
-      "Converted complex data and findings into understandable figures and summary reports",
-      "Built analytical models combining multiple statistical programming languages",
+      "Converted complex data and findings into academic and government reports",
+      "Developed explanatory models for sustainable forest management under climate change",
       "Created and maintained relational databases for government research",
       "Gathered and analysed ecological data using statistical software"
     ),
@@ -182,14 +183,14 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 7,
     POSITION = "Biological Science Technician II",
     DATES = "2017-08 - 2017-11",
-    INSTITUTION = "Washington Department of Fish and Wildlife: Region 5",
+    INSTITUTION = "Washington Department of Fish and Wildlife: Region 5 (contract)",
     LOCATION = "Ridgefield, WA, USA",
     DESCRIPTION = c(
-      "Collected and recorded biological data for government research and both commercial and tribal fisheries",
       "Applied QA/QC to develop electronic biological data collection system and relational database",
+      "Analysed biological fisheries data for state government research reporting",
+      "Collected and recorded biological data for government research and both commercial and tribal fisheries",
       "Designed, built, and maintained department, fisheries, and commercial research equipment",
       "Conducted outreach to the public, providing information on fisheries research, management principles, and local regulations",
-      "Analysed biological fisheries data for research reporting",
       "Monitord critical fish migrations using DNA sampling and the PTAGIS coordination project",
       "Received training in fish, plant, and organism identification, government safety procedures, boat operation, and defensive driving"
     ),
@@ -199,7 +200,7 @@ PROFESSIONAL_EXPERIENCE <-
   #   ID = 6,
   #   POSITION = "Substitute Teacher",
   #   DATES = "2017-01 - 2017-08",
-  #   INSTITUTION = "Kelso School District: Beacon Hill Elementary School",
+  #   INSTITUTION = "Kelso School District: Beacon Hill Elementary School (casual)",
   #   LOCATION = "Kelso, WA, USA",
   #   DESCRIPTION = c(
   #     "Taught a variety of classrooms, with a focus on K-5 primary education, special education, and LAP classrooms using specialised learning plans",
@@ -212,15 +213,21 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 5,
     POSITION = "Graduate Assistant",
     DATES = "2013-08 - 2016-08",
-    INSTITUTION = "Western Washington University: Huxley College of the Environment",
+    INSTITUTION = "Western Washington University: Huxley College of the Environment (full-time)",
     LOCATION = "Bellingham, WA, USA",
     DESCRIPTION = c(
-      "Scripted statistical methods for identifying complex ecological and climatological relationships",
-      "Trained and led teams of research volunteers in the safe use of field and laboratory equipment",
-      "Created and maintained university GIS geodatabses and topologies",
-      "Developed and published novel dendroecological research projects",
-      "Presented research findings at national conferences",
-      "Presided over and maintained the Huxley Tree Ring Laboratory"
+      ## Research half
+      "Conceptualised, developed, and published novel dendroecological research", ## RA
+      "Presented research findings at national academic conferences", ## RA
+      "Coordinated and taught laboratory classrooms for analytical GIS, remote sensing, and research methodology", ## TA
+      "Trained and led teams of students in the safe use of field and laboratory equipment in inclement weather and rough terrain", ## TA/RA
+      "Scripted statistical methods for identifying complex ecological and climatological relationships", ## RA
+      "Presided over and maintained the Huxley Tree Ring Laboratory", ## RA
+      # "Led overnight field exercises in inclement weather and rough terrain", ## TA
+      "Coordinated international travel and classrooms for students and participating agencies",
+      # "Created and maintained university GIS geodatabses and topologies", ## TA/RA
+      "Edited and performed technical reviews of student research papers at the developmental, substantive, and line level", ## TA
+      "Classes taught: Remote Sensing (ESCI 442), Introduction to GIS (ENVS 320), Computer Cartography (ENVS 321), Research and Writing (ENVS 319), Environmental Data and Information (ENVS 201), Environmental History and Ethics (ENVS 305), Physical Geography (ENVS 203), the Soil Environment and Landscapes (ENVS 427), Water Resources (ENVS 427), Agroecology and Sustainable Agriculture (ENVS 410), Food Cultures of Italy (ENVS 497), and Ecogastronomy (ENVS 110)" ## TA
     ),
     OUTPUT = "cv"
   ) |>
@@ -228,7 +235,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 4,
     POSITION = "Research Engineer",
     DATES = "2013-04 - 2013-08",
-    INSTITUTION = "The University of Texas at Austin: Texas Natural Science Center",
+    INSTITUTION = "The University of Texas at Austin: Texas Natural Science Center (contract)",
     LOCATION = "Austin, TX, USA",
     DESCRIPTION = c(
       "Compiled, georeferences, and managed academic collections and geospatial databaes",
@@ -241,7 +248,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 3,
     POSITION = "Trail Management Intern",
     DATES = "2013-01 - 2013-04",
-    INSTITUTION = "Student Conservation Association",
+    INSTITUTION = "Student Conservation Association (contract)",
     LOCATION = "Angeles National Forest, CA, USA",
     DESCRIPTION = c(
       "Co-managed Trails Assessment and Conditions Survey (TrACS) team",
@@ -255,7 +262,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 2,
     POSITION = "Laboratory Assistant",
     DATES = "2012-01 - 2013-01",
-    INSTITUTION = "The University of Texas at Austin: Texas Natural Science Center",
+    INSTITUTION = "The University of Texas at Austin: Texas Natural Science Center (internship)",
     LOCATION = "Austin, TX, USA",
     DESCRIPTION = c(
       "Catalogued, conserved, photographed, and archived acadmic fish and fossils collections",
@@ -268,7 +275,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 1,
     POSITION = "Laboratory Assistant",
     DATES = "2011-03 - 2012-12",
-    INSTITUTION = "Texas State University: Department of Geography",
+    INSTITUTION = "Texas State University: Department of Geography (internship)",
     LOCATION = "San Marcos, TX, USA",
     DESCRIPTION = c(
       "Established geology and palaeontology laboratories for the university",
@@ -322,7 +329,7 @@ TEACHING_EXPERIENCE <-
       "Coordinated and taught laboratory classrooms for analytical GIS, remote sensing, and research methodology",
       "Led overnight field exercises in inclement weather and rough terrain",
       "Coordinated international travel and classrooms for students and participating agencies",
-      "Created and maintained GIS geodatabases and associated topologies",
+      # "Created and maintained GIS geodatabases and associated topologies",
       "Edited and performed technical reviews of student research papers at the developmental, substantive, and line level",
       "Classes taught: Remote Sensing (ESCI 442), Introduction to GIS (ENVS 320), Computer Cartography (ENVS 321), Research and Writing (ENVS 319), Environmental Data and Information (ENVS 201), Environmental History and Ethics (ENVS 305), Physical Geography (ENVS 203), the Soil Environment and Landscapes (ENVS 427), Water Resources (ENVS 427), Agroecology and Sustainable Agriculture (ENVS 410), Food Cultures of Italy (ENVS 497), and Ecogastronomy (ENVS 110)"
     )
@@ -389,14 +396,14 @@ HONOURS <-
   tibble::add_row(
     DATE = "2019-09",
     AGENCY = "NSW Bushfire Risk Management Research Hub",
-    HONOUR = "Tasmania Graduate Research Scholarship",
-    AMOUNT = "AUD\\$98,000"
+    HONOUR = "Tasmania Graduate Research Scholarship (3.5x)",
+    AMOUNT = "AUD\\$28,000 p.a."
   ) |>
   tibble::add_row(
     DATE = "2019-09",
     AGENCY = "NSW Bushfire Risk Management Research Hub",
-    HONOUR = "NSW Bushfire Risk Management Research Hub Top-Up",
-    AMOUNT = "AUD\\$17,500"
+    HONOUR = "NSW Bushfire Risk Management Research Hub Top-Up (3.5x)",
+    AMOUNT = "AUD\\$5,000 p.a."
   ) |>
   tibble::add_row(
     DATE = "2018-06",

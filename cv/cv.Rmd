@@ -45,9 +45,9 @@ source(here::here('./scripts/base_data.R'))
   fontawesome::fa('briefcase')
 ```
 
-# SUMMARY
+# PROFESSIONAL SUMMARY
 
- * 
+ * I’m a data analyst and scientist with a background in the environmental sciences. I’ve worked in a variety of laboratory and field settings, coordinating research projects in academic, government, and industry settings. I’ve also maintained relational database systems for public and private organizations, developed novel mathematical tools and statistical models for critical management efforts, trained hundreds of students and volunteers in analytical methods and project design, and coordinated project efforts with public and industry managers.
 
 # EDUCATION 
 
@@ -57,45 +57,37 @@ EDUCATION |>
                    .protect=FALSE)
 ```
 
-# RESEARCH EXPERIENCE
+# PROFESSIONAL EXPERIENCE
 
 ```{r}
-# tibble::tribble(
-#   ~Year, ~Type, ~Desc,
-#   1903, "Physics", "Awarded for her work on radioactivity with Pierre Curie and Henri Becquerel",
-#   1911, "Chemistry", "Awarded for the discovery of radium and polonium"
-# ) %>% 
-#   brief_entries(
-#     glue::glue("Nobel Prize in {Type}"),
-#     Year, 
-#     Desc
-#   )
+
 PROFESSIONAL_EXPERIENCE |>
   # dplyr::filter(OUTPUT == 'resume') |>
-  dplyr::filter(dplyr::between(ID, max(ID) - 5, max(ID))) |>
+  # dplyr::filter(dplyr::between(ID, max(ID) - 5, max(ID))) |>
   dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
-  dplyr::slice(1:3) |>
+  dplyr::slice(1:4) |>
   vitae::detailed_entries(INSTITUTION,
                           DATES,
                           POSITION,
                           LOCATION,
                           DESCRIPTION,
                           .protect = FALSE)
+
 ```
 
-# TEACHING EXPERIENCE
-
 ```{r}
-TEACHING_EXPERIENCE |>
-  # dplyr::filter(OUTPUT == 'resume') |>
-  # dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
-  # dplyr::slice(1:3) |>
-  vitae::detailed_entries(INSTITUTION,
-                          DATES,
-                          POSITION, 
-                          LOCATION,
-                          DESCRIPTION,
-                          .protect = FALSE)
+# TEACHING EXPERIENCE ----
+# N.B. Dropped for time being, consolidated into research experience and renamed to professional experience
+# TEACHING_EXPERIENCE |>
+#   # dplyr::filter(OUTPUT == 'resume') |>
+#   # dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
+#   # dplyr::slice(1:3) |>
+#   vitae::detailed_entries(INSTITUTION,
+#                           DATES,
+#                           POSITION, 
+#                           LOCATION,
+#                           DESCRIPTION,
+#                           .protect = FALSE)
 ```
 
 # INDEPENDENT RESEARCH CONSULTING
@@ -106,7 +98,8 @@ CONSULTING %>%
                  desc(readr::parse_number(AMOUNT))) %>%
   baretable(align='lllp{9.3cm}r',
             hline.after=c(0,NROW(.)),
-            size="\\fontsize{10}{16}",
+            ## Default {10}{16}
+            size="\\fontsize{6}{11}", 
             add.to.row=list(
               pos=as.list(seq(NROW(.))),
               command=rep("\\\\[-0.2cm]",NROW(.))))
