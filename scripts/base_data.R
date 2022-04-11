@@ -17,9 +17,21 @@ library(gridExtra)
 library(rsvg)
 library(htmltools)
 library(tibble)
+library(stringr)
 library(here)
 library(xtable)
 ## -----------------------------------------------------------------------------
+embolden <- function(x) {
+    glue::glue("\\textbf{<x>}",
+               .open = "<",
+               .close = ">")
+}
+
+filter_latest <- function(x, col, n = 5) {
+  x |>
+    dplyr::filter(!! sym(col) >= lubridate::year(Sys.Date()) - n)
+}
+
 baretable <- function(tbl, digits = 0,
                       include.colnames = FALSE, include.rownames = FALSE,
                       hline.after = NULL,
@@ -248,7 +260,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 3,
     POSITION = "Trail Management Intern",
     DATES = "2013-01 - 2013-04",
-    INSTITUTION = "Student Conservation Association (contract)",
+    INSTITUTION = "Student Conservation Association (internship)",
     LOCATION = "Angeles National Forest, CA, USA",
     DESCRIPTION = c(
       "Co-managed Trails Assessment and Conditions Survey (TrACS) team",
@@ -275,7 +287,7 @@ PROFESSIONAL_EXPERIENCE <-
     ID = 1,
     POSITION = "Laboratory Assistant",
     DATES = "2011-03 - 2012-12",
-    INSTITUTION = "Texas State University: Department of Geography (internship)",
+    INSTITUTION = "Texas State University: Department of Geography (casual)",
     LOCATION = "San Marcos, TX, USA",
     DESCRIPTION = c(
       "Established geology and palaeontology laboratories for the university",
@@ -286,7 +298,13 @@ PROFESSIONAL_EXPERIENCE <-
       "Curated departmental fossils and rock collections"
     ),
     OUTPUT = "cv"
-  )
+  ) |>
+  dplyr::mutate(YEAR_START = as.numeric(substr(DATES, 1, 4))) |>
+  dplyr::mutate(YEAR_END = substr(DATES, 11, 14) |>
+                  readr::parse_number()) |>
+  dplyr::mutate(YEAR_END = ifelse(is.na(YEAR_END),
+                                  lubridate::year(Sys.Date()),
+                                  YEAR_END))
 ## -----------------------------------------------------------------------------
 ### TEACHING EXPERIENCE ----------------------------------------------------
 TEACHING_EXPERIENCE <-
@@ -333,7 +351,33 @@ TEACHING_EXPERIENCE <-
       "Edited and performed technical reviews of student research papers at the developmental, substantive, and line level",
       "Classes taught: Remote Sensing (ESCI 442), Introduction to GIS (ENVS 320), Computer Cartography (ENVS 321), Research and Writing (ENVS 319), Environmental Data and Information (ENVS 201), Environmental History and Ethics (ENVS 305), Physical Geography (ENVS 203), the Soil Environment and Landscapes (ENVS 427), Water Resources (ENVS 427), Agroecology and Sustainable Agriculture (ENVS 410), Food Cultures of Italy (ENVS 497), and Ecogastronomy (ENVS 110)"
     )
-  )
+  ) |>
+  dplyr::mutate(YEAR_START = as.numeric(substr(DATES, 1, 4))) |>
+  dplyr::mutate(YEAR_END = substr(DATES, 11, 14) |>
+                  readr::parse_number()) |>
+  dplyr::mutate(YEAR_END = ifelse(is.na(YEAR_END),
+                                  lubridate::year(Sys.Date()),
+                                  YEAR_END))
+
+## VOLUNTEER EXPERIENCE -----
+VOLUNTEER_EXPERIENCE <-
+  tibble::tribble(
+    ~ POSITION, ~ DATES, ~ INSTITUTION, ~ LOCATION,
+    "Foster Parent", "2020-05 - present", "Ten Lives Cat Centre", "Hobart, TAS, Australia",
+    "Animal Handler", "2018-08 - 2019-01", "Humane Society of the New Braunfels Area", "New Braunfels, TX, USA",
+    "Technology Tutor", "2018-01 - 2018-08", "North Central Regional Library", "Wenatchee, WA, USA",
+    "Animal Handler", "2018-03 - 2018-08", "Wenatchee Valley Humane Society", "Wenatchee, WA, USA",
+    "Geographic Information Systems Technician", "2017-01 - 2017-11", "Portland State University", "Portland, OR, USA",
+    "Assistant Librarian", "2017-01 - 2017-11", "Beacon Hill Elementary School", "Kelso, WA, USA",
+    "Technology Tutor", "2014-07 - 2016-08", "Bellingham Public Library", "Bellingham, WA, USA",
+    "Laboratory Assistant", "2011-03 - 2012-12", "Texas State University", "San Marcos, TX, USA"
+  ) |>
+  dplyr::mutate(YEAR_START = as.numeric(substr(DATES, 1, 4))) |>
+  dplyr::mutate(YEAR_END = substr(DATES, 11, 14) |>
+                  readr::parse_number()) |>
+  dplyr::mutate(YEAR_END = ifelse(is.na(YEAR_END),
+                                  lubridate::year(Sys.Date()),
+                                  YEAR_END))
 
 CONSULTING <-
   tibble::tribble(
@@ -346,13 +390,13 @@ CONSULTING <-
     DATE = "2018-08",
     AGENCY = "U.S. Forest Service",
     PROJECT = "Restoration treatment effects on ponderosa pine growth sensitivity to climate",
-    AMOUNT = "USD\\$2,750"
+    AMOUNT = "USD\\$2,500"
   ) |>
   tibble::add_row(
     DATE = "2019-06",
     AGENCY = "U.S. Forest Service",
     PROJECT = "Post-fire logging effects on reburn severity",
-    AMOUNT = "USD\\$2,750"
+    AMOUNT = "USD\\$2,500"
   ) |>
   tibble::add_row(
     DATE = "2020-08",
@@ -367,78 +411,271 @@ HONOURS <-
     ~ DATE,
     ~ AGENCY,
     ~ HONOUR,
-    ~ AMOUNT
+    ~ AMOUNT,
+    ~ TYPE
   ) |>
   tibble::add_row(
     DATE = "2021-10",
     AGENCY = "Australian Museum",
     HONOUR = "NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research",
-    AMOUNT = "AUD\\$10,000"
+    AMOUNT = "AUD\\$10,000",
+    TYPE = "award"
   ) |>
   tibble::add_row(
     DATE = "2021-09",
     AGENCY = "University of Tasmania",
     HONOUR = "Sustainability Award",
-    AMOUNT = NA_character_
+    AMOUNT = NA_character_,
+    TYPE = "award"
   ) |>
   tibble::add_row(
     DATE = "2021-08",
     AGENCY = "Ten Lives Cat Centre",
     HONOUR = "Certifi-Cat of Appreciation",
-    AMOUNT = NA_character_
+    AMOUNT = NA_character_,
+    TYPE = "award"
   ) |>
   tibble::add_row(
     DATE = "2020-08",
     AGENCY = "Frontier Development Lab",
     HONOUR = "Bushfire Data Quest 2020",
-    AMOUNT = "AUD\\$1,000"
+    AMOUNT = "AUD\\$1,000",
+    TYPE = "grant"
   ) |>
   tibble::add_row(
     DATE = "2019-09",
     AGENCY = "NSW Bushfire Risk Management Research Hub",
     HONOUR = "Tasmania Graduate Research Scholarship (3.5x)",
-    AMOUNT = "AUD\\$28,000 p.a."
+    AMOUNT = "AUD\\$28,000 p.a.",
+    TYPE = "scholarship"
   ) |>
   tibble::add_row(
     DATE = "2019-09",
     AGENCY = "NSW Bushfire Risk Management Research Hub",
     HONOUR = "NSW Bushfire Risk Management Research Hub Top-Up (3.5x)",
-    AMOUNT = "AUD\\$5,000 p.a."
+    AMOUNT = "AUD\\$5,000 p.a.",
+    TYPE = "scholarship"
   ) |>
   tibble::add_row(
     DATE = "2018-06",
     AGENCY = "Washington Department of Fish and Wildlife",
     HONOUR = "Best Fish and Wildlife Science",
-    AMOUNT = NA_character_
+    AMOUNT = NA_character_,
+    TYPE = "award"
   ) |>
   tibble::add_row(
     DATE = "2017-10",
     AGENCY = "Washington Department of Fish and Wildlife",
     HONOUR = "Conservation Award",
-    AMOUNT = NA_character_
+    AMOUNT = NA_character_,
+    TYPE = "award"
   ) |>
   tibble::add_row(
     DATE = "2016-04",
     AGENCY = "Western Washington University",
     HONOUR = "Dean and Sandy Blinn Travel and Research Fund",
-    AMOUNT = "USD\\$450"
+    AMOUNT = "USD\\$450",
+    TYPE = "scholarship"
   ) |>
   tibble::add_row(
     DATE = "2016-04",
     AGENCY = "Western Washington University",
     HONOUR = "Dean's Fund for Sustainability Studies",
-    AMOUNT = "USD\\$500"
+    AMOUNT = "USD\\$500",
+    TYPE = "scholarship"
   ) |>
   tibble::add_row(
     DATE = "2014-07",
     AGENCY = "North American Dendroecological Fieldweek",
     HONOUR = "North American Dendroecological Fieldweek research fellowship",
-    AMOUNT = "USD\\$3,000"
+    AMOUNT = "USD\\$3,000",
+    TYPE = "scholarship"
   ) |>
   tibble::add_row(
     DATE = "2014-05",
     AGENCY = "Association of Washington Geographers",
     HONOUR = "Award for Outstanding Poster Presentation by a Graduate Student",
-    AMOUNT = "USD\\$125"
+    AMOUNT = "USD\\$125",
+    TYPE = "award"
+  ) |>
+  dplyr::mutate(YEAR = as.numeric(substr(DATE, 1, 4)))
+
+PRESENTATIONS <-
+  tibble::tribble(
+    ~ DATE,
+    ~ PRESENTATION,
+    ~ LOCATION,
+    ~ AGENCY,
+    ~ COAUTHORS
+  ) |>
+  tibble::add_row(
+    DATE = "2021-10",
+    PRESENTATION = "Lunch and Learn with the Department of Education: Tasmanian Analytics Project",
+    LOCATION = "Sandy Bay, TAS, Australia",
+    AGENCY = "Department of Education",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2020-07",
+    PRESENTATION = "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future",
+    LOCATION = "Sandy Bay, TAS, Australia",
+    AGENCY = "University of Tasmania",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2020-03",
+    PRESENTATION = "Bushfire Risk Management Research Hub Researchers Meeting 2020: Changes in moisture availability drive fire risk",
+    LOCATION = "Wollongong, NSW, Australia",
+    AGENCY = "Bushfire Risk Management Research Hub",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2016-06",
+    PRESENTATION = "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands",
+    LOCATION = "Bellingham, WA, USA",
+    AGENCY = "Western Washington University",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2016-04",
+    PRESENTATION = "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands",
+    LOCATION = "San Francisco, CA, USA",
+    AGENCY = "American Association of Geographers",
+    COAUTHORS = "Aquila Flower"
+  ) |>
+  tibble::add_row(
+    DATE = "2014-07",
+    PRESENTATION = "Climate responses of Pseudotsuga menziesii and Pinus flexilis in the Greater Yellowstone (USA)",
+    LOCATION = "Cody, WY, USA",
+    AGENCY = "North American Dendroecological Fieldweek",
+    COAUTHORS = "Joey Pettit, Lauren Stachowiak, Anna Sala, Sean Pinnell, Jasmin Sykora"
+  ) |>
+  tibble::add_row(
+    DATE = "2014-05",
+    PRESENTATION = "Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery",
+    LOCATION = "Bellingham, WA, USA",
+    AGENCY = "Western Washington University",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2014-04",
+    PRESENTATION = "Perceptions of risk in Bellingham, Washington",
+    LOCATION = "Seattle, WA, USA",
+    AGENCY = "Association of Washington Geographers",
+    COAUTHORS = "Derek Huling, Casey McGee"
+  ) |>
+  tibble::add_row(
+    DATE = "2013-12",
+    PRESENTATION = "Biogeographic implications of Structure-from-Motion imagery",
+    LOCATION = "Bellingham, WA, USA",
+    AGENCY = "Western Washington University",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2012-05",
+    PRESENTATION = "Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988",
+    LOCATION = "San Marcos, TX, USA",
+    AGENCY = "Texas State University",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2012-04",
+    PRESENTATION = "Cretaceous-aged fossiliferous outcrops of the Big Bend region",
+    LOCATION = "San Marcos, TX, USA",
+    AGENCY = "Texas State University",
+    COAUTHORS = ""
+  ) |>
+  tibble::add_row(
+    DATE = "2011-12",
+    PRESENTATION = "Predator-prey relations in the Greater Yellowstone Ecosystem",
+    LOCATION = "San Marcos, TX, USA",
+    AGENCY = "Texas State University",
+    COAUTHORS = "Ryan McDonnell"
+  ) |>
+  dplyr::mutate(YEAR = as.numeric(substr(DATE, 1, 4)))
+
+BIBLIO_R <-
+  tibble::tribble(
+    ~ PKG,
+    ~ DATE,
+    ~ ROLE,
+    ~ DESCRIPTION
+  ) |>
+  tibble::add_row(
+    PKG = "miao",
+    DATE = "2021",
+    ROLE = "Lead Developer",
+    DESCRIPTION = "Simple data exploration and statistical tools (https://github.com/toddellis/miao)"
+  ) |>
+  tibble::add_row(
+    PKG = "utaspptx",
+    DATE = "2022",
+    ROLE = "Lead Developer",
+    DESCRIPTION = "Simple methods for producing UTas-themed reports and presentations in Microsoft Office software (https://github.com/utas-analytics/utaspptx)"
+  ) |>
+  tibble::add_row(
+    PKG = "utastoolkit",
+    DATE = "2021",
+    ROLE = "Lead Developer",
+    DESCRIPTION = "Tools for accessing and reporting internal University data from the enterprise data warehouse (https://github.com/utas-analytics/utastoolkit)"
   )
 
+SKILLS <-
+  tibble::tribble(
+    ~ GROUP, ~ HOBBY, ~ YEAR_START, ~ YEAR_END, ~ SKILL,
+    "personal", "Reading", 1995, NA, 5,
+    NA, "Writing", 2006, NA, 3,
+    NA, "Video games", 1995, NA, 5,
+    NA, "Hiking", 2008, NA, 3,
+    NA, "Board games", 2012, NA, 4,
+    NA, "Animal fostercare", 2017, NA, 4,
+    NA, "Improv", 2015, 2017, 3,
+    "certifications", "CPR & First Aid", 2017, 2019, NA,
+    NA, "Crane Operations", 2017, 2022, NA,
+    NA, "Fall Protection", 2017, NA, NA,
+    "os", "Microsoft Windows", 1995, NA, 5,
+    NA, "Linux", 2010, 2013, 2,
+    NA, "macOS", 2018, NA, 3,
+    "programming", "Bash", 2017, NA, 3,
+    NA, "Git", 2017, NA, 4,
+    NA, "C#", 2011, 2013, 1,
+    NA, "GML", 2016, 2018, 2,
+    NA, "HTML5", 2008, NA, 3,
+    NA, "JavaScript", 2017, 2018, 1,
+    NA, "Markdown", 2015, NA, 4,
+    NA, "PowerShell", 2017, NA, 3,
+    NA, "Python", 2015, 2019, 3,
+    NA, "R", 2015, NA, 5,
+    NA, "regex", 2017, NA, 4,
+    NA, "SAS", 2017, 2018, 2,
+    NA, "SQL", 2017, NA, 5,
+    "database", "Microsoft Access", 2017, 2018, 3,
+    NA, "Microsoft SQL Server", 2017, 2018, 2,
+    NA, "MySQL", 2017, 2019, 3,
+    NA, "Oracle Database", 2019, NA, 5,
+    NA, "PostgreSQL", 2017, NA, 4,
+    NA, "Specify", 2011, 2013, 1,
+    "gis", "ArcGIS", 2010, NA, 4,
+    NA, "eCognition", 2010, 2011, 1,
+    NA, "ENVI", 2013, 2016, 3,
+    NA, "ERDAS IMAGINE", 2010, 2012, 3,
+    NA, "FUSION", 2015, 2016, 2,
+    NA, "GEOLocate", 2012, 2013, 2,
+    NA, "GRASS", 2015, 2019, 3,
+    NA, "PostGIS", 2017, NA, 4,
+    NA, "QGIS", 2013, NA, 5,
+    NA, "SPRING", 2015, 2016, 2,
+    "software", "Microsoft Office", 2001, NA, 5,
+    NA, "SPSS Statistics", 2014, 2015, 2
+  ) |>
+  tidyr::fill(GROUP,
+              .direction = 'down') |>
+  dplyr::mutate(YEARS = ifelse(!is.na(YEAR_END),
+                               YEAR_END - YEAR_START,
+                               lubridate::year(Sys.Date()) - YEAR_START)) |>
+  dplyr::arrange(GROUP,
+                 desc(SKILL),
+                 desc(YEARS)) |>
+  dplyr::filter(ifelse(GROUP == 'certifications',
+                       is.na(YEAR_END) | YEAR_END >= lubridate::year(Sys.Date()),
+                       TRUE))

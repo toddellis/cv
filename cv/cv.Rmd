@@ -47,14 +47,18 @@ source(here::here('./scripts/base_data.R'))
 
 # PROFESSIONAL SUMMARY
 
- * I’m a data analyst and scientist with a background in the environmental sciences. I’ve worked in a variety of laboratory and field settings, coordinating research projects in academic, government, and industry settings. I’ve also maintained relational database systems for public and private organizations, developed novel mathematical tools and statistical models for critical management efforts, trained hundreds of students and volunteers in analytical methods and project design, and coordinated project efforts with public and industry managers.
+I’m a data analyst and scientist with a background in forest ecology, physical geography, and higher education. I've worked as an analyst in a wide variety of laboratory, field, and office settings across the United States and Australia. Across these experiences for public and private organisations, I've developed novel mathematical tools and statistical models; maintained relational databases and statistical packages used for conducting data analysis and producing standardised reports; trained countless staff, students, and volunteers; and managed complex and critical projects. My research has been published in high-impact, peer-reviewed journals, but I'm also skilled at conveying complex data and information to both casual and experienced stakeholders.
 
 # EDUCATION 
 
 ```{r}
 EDUCATION |>
-  detailed_entries(UNIVERSITY, DATES, DEGREE, LOCATION, THESIS,
-                   .protect=FALSE)
+  vitae::detailed_entries(UNIVERSITY, 
+                          DATES, 
+                          DEGREE,
+                          embolden(LOCATION), 
+                          THESIS,
+                          .protect=FALSE)
 ```
 
 # PROFESSIONAL EXPERIENCE
@@ -63,17 +67,20 @@ EDUCATION |>
 
 PROFESSIONAL_EXPERIENCE |>
   # dplyr::filter(OUTPUT == 'resume') |>
-  # dplyr::filter(dplyr::between(ID, max(ID) - 5, max(ID))) |>
+  # dplyr::filter(dplyr::between(ID, max(ID) - 7, max(ID))) |>
+  filter_latest("YEAR_END", 5) |>
   dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
   dplyr::slice(1:4) |>
   vitae::detailed_entries(INSTITUTION,
                           DATES,
                           POSITION,
-                          LOCATION,
+                          embolden(LOCATION),
                           DESCRIPTION,
                           .protect = FALSE)
 
 ```
+
+<!-- # TEACHING EXPERIENCE
 
 ```{r}
 # TEACHING EXPERIENCE ----
@@ -90,22 +97,11 @@ PROFESSIONAL_EXPERIENCE |>
 #                           .protect = FALSE)
 ```
 
-# INDEPENDENT RESEARCH CONSULTING
-
-```{r, results = "asis"}
-CONSULTING %>%
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT))) %>%
-  baretable(align='lllp{9.3cm}r',
-            hline.after=c(0,NROW(.)),
-            ## Default {10}{16}
-            size="\\fontsize{6}{11}", 
-            add.to.row=list(
-              pos=as.list(seq(NROW(.))),
-              command=rep("\\\\[-0.2cm]",NROW(.))))
-```
-
+-->
+<!--
 # PUBLICATIONS
+
+## ACADEMIC
 
 ```{r}
 vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
@@ -114,44 +110,154 @@ vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
                  desc(author$family))
 ```
 
-# PACKAGES AND DATA
+## OPEN-ACCESS DATA
 
 ```{r}
 vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
-  dplyr::filter(type == '') |>
+  # dplyr::filter(type == '') |>
+  dplyr::filter(tolower(publisher) %in% c('figshare')) |>
   dplyr::arrange(desc(issued),
                  desc(author$family))
 ```
 
+## SOFTWARE
+
+```{r}
+vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
+  # dplyr::filter(type == '') |>
+  dplyr::filter(stringr::str_detect(tolower(note), "r package")) |>
+  dplyr::arrange(title)
+# BIBLIO_R |>
+#   vitae::brief_entries(glue::glue("\\textbf{<PKG>}: <ROLE> \\newline <DESCRIPTION>", 
+#                                   .open = "<", 
+#                                   .close = ">"), 
+#                        paste0(DATE, "\\newline"),
+#                        .protect = FALSE)
+
+```
+-->
+<!-- # CONFERENCES AND PRESENTATIONS
+
 ```{r}
 # # CONFERENCES AND PRESENTATIONS
-# 
-# * **Ellis, T.M.** 2021-10. Tasmania Analytics Project. Department of Education Lunch and Learn. Sandy Bay, Tasmania, Australia.
-# * **Ellis, T.M.** 2020-03. Changes in moisture availability drive fire risk. Bushfire Risk Management Research Hub Researchers Meeting 220. Wollongong, New South Wales, Australia.
-# * **Ellis, T.M.** 2016-06. Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands. Western Washington University. Bellingham, Washington, USA. 
-# * **Ellis, T.M.**, and Flower, A. 2016-04. Controlling factors of spruce budworm outbreaks in the Okanogan Highlands. American Association of Geographers. San Francisco, California, USA.
-# * Pettit, J., Stachowiak, L., Sala, A., Pinnell, S., Sykora, J., & **Ellis, T.M.** 2014-07. Climate responses of *Pseudotsuga menziesii* and *Pinus flexilis* in the Greater Yellowstone (USA). North American Dendroecological Fieldweek. Cody, Wyoming, USA.
-# * **Ellis, T.M.** 2014-05. Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery. Western Washington University. Bellingham, Washington, USA. 
-# * **Ellis, T.M.**, Huling, D., and McGee, C. 2014-04. Perceptions of risk in Bellingham, Washington. Association of Washington Geographers. Seattle, Washington, USA.
-# * **Ellis, T.M.** 2013-12. Biogeographic implications of Structure-from-Motion imagery. Western Washington University. Bellingham, Washington, USA. 
-# * **Ellis, T.M.** 2012-05. Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988. Texas State University. San Marcos, Texas, USA.
-# * **Ellis, T.M.** 2012-04. Cretaceous-aged fossiliferous outcrops of the Big Bend region. Texas State University. San Marcos, Texas, USA.
-# * **Ellis, T.M.**, and McDonnell, R. 2011-12. Predator-prey relations in the Greater Yellowstone Ecosystem. Texas State University. San Marcos, Texas, USA.
+PRESENTATIONS |> 
+  dplyr::filter(lubridate::year(lubridate::as_date(paste0(DATE, "-01"))) >= 2014) |>
+  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 PRESENTATION) |>
+  vitae::brief_entries(glue::glue("\\textbf{<PRESENTATION>} \\newline <AGENCY>, <LOCATION>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       # glue::glue("\\textbf{<LOCATION>}",
+                       #            .open = "<",
+                       #            .close = ">"),
+                       .protect = FALSE)
+```
+-->
+# CONSULTING
+
+```{r, results = "asis"}
+CONSULTING |>
+  ## Because FDL belongs more in Honours than IRC...
+  dplyr::filter(AGENCY != "Frontier Development Lab") |>
+  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 desc(readr::parse_number(AMOUNT))) |>
+  vitae::brief_entries(glue::glue("\\textbf{<PROJECT>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       glue::glue("\\textbf{<AMOUNT>}",
+                                  .open = "<",
+                                  .close = ">"),
+                       .protect = FALSE)
 ```
 
 # HONOURS
 
 ```{r, results = "asis"}
-HONOURS %>%
+HONOURS |>
+  # dplyr::filter(TYPE == 'award') |>
+  filter_latest("YEAR", 5) |>
   dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT))) %>%
-  baretable(align='llp{5.5cm}p{7.75cm}r',
-            hline.after=c(0,NROW(.)),
-            size="\\fontsize{10}{16}",
-            add.to.row=list(
-              pos=as.list(seq(NROW(.))),
-              command=rep("\\\\[-0.2cm]",NROW(.))))
+                 desc(readr::parse_number(AMOUNT)))  |>
+  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       ifelse(!is.na(AMOUNT),
+                              glue::glue("\\textbf{<AMOUNT>}",
+                                         .open = "<",
+                                         .close = ">"),
+                              paste0("")),
+                       .protect = FALSE)
 ```
+<!--
+## AWARDS
+
+```{r, results = "asis"}
+HONOURS |>
+  dplyr::filter(TYPE == 'award') |>
+  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 desc(readr::parse_number(AMOUNT)))  |>
+  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       ifelse(!is.na(AMOUNT),
+                              glue::glue("\\textbf{<AMOUNT>}",
+                                         .open = "<",
+                                         .close = ">"),
+                              paste0("")),
+                       .protect = FALSE)
+# baretable(align='llp{5.5cm}p{7.75cm}r',
+  #           hline.after=c(0,NROW(.)),
+  #           size="\\fontsize{5}{2}",
+  #           add.to.row=list(
+  #             pos=as.list(seq(NROW(.))),
+  #             command=rep("\\\\[-0.2cm]",NROW(.))))
+```
+
+## GRANTS AND SCHOLARSHIPS
+
+```{r}
+HONOURS |>
+  dplyr::filter(TYPE %in% c('grant', 'scholarship')) |>
+  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 desc(readr::parse_number(AMOUNT)))  |>
+  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       ifelse(!is.na(AMOUNT),
+                              glue::glue("\\textbf{<AMOUNT>}",
+                                         .open = "<",
+                                         .close = ">"),
+                              paste0("")),
+                       .protect = FALSE)
+```
+-->
+# VOLUNTEER EXPERIENCE
+
+```{r}
+VOLUNTEER_EXPERIENCE |>
+  # dplyr::filter(YEAR_END >= lubridate::year(Sys.Date()) - 5) |>
+  filter_latest("YEAR_END", 5) |>
+  dplyr::arrange(desc(YEAR_START)) |>
+  vitae::detailed_entries(INSTITUTION,
+                          DATES,
+                          POSITION,
+                          embolden(LOCATION),
+                          .protect = FALSE)
+  # vitae::brief_entries(glue::glue("\\textbf{<POSITION>} \\newline <INSTITUTION>",
+  #                                 .open = "<",
+  #                                 .close = ">"),
+  #                      paste0(DATES, "\\newline"),
+  #                      glue::glue("\\textbf{<LOCATION>}",
+  #                                 .open = "<",
+  #                                 .close = ">"),
+  #                      .protect = FALSE)
+```
+<!--
 
 # MANUSCRIPT REVIEWER
 
@@ -160,3 +266,4 @@ HONOURS %>%
 # PRESS
 
 * 2021-10-12: [Bushfire research team awarded prestigious Eureka Prize](https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize). University of Tasmania.
+-->
