@@ -37,12 +37,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = FALSE)
 
 source(here::here('./scripts/base_data.R'))
-
-## FONTS #### 
-.uni <-
-  fontawesome::fa('university')
-.job <-
-  fontawesome::fa('briefcase')
 ```
 
 # PROFESSIONAL SUMMARY
