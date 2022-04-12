@@ -41,13 +41,19 @@ source(here::here('./scripts/base_data.R'))
 
 # PROFESSIONAL SUMMARY
 
-I’m a data analyst and scientist with a background in forest ecology, physical geography, and higher education. I've worked as an analyst in a wide variety of laboratory, field, and office settings across the United States and Australia. Over the course of my career, I've developed novel mathematical tools and statistical models; maintained relational databases and statistical packages used for conducting data analysis and producing standardized reports; trained countless staff, students, and volunteers; and managed complex and critical projects. My research has been published in high-impact, peer-reviewed journals, but I'm also skilled at conveying complex data and information to both casual and experienced stakeholders.
+I’m a data analyst and scientist with a background in forest ecology, physical geography, and higher education. I've worked as an analyst in a wide variety of laboratory, field, and office settings across the United States and Australia. Over the course of my career, I've developed novel mathematical tools and statistical models; maintained relational databases and statistical packages used for conducting data analysis and producing standardized reports; trained countless staff, students, and volunteers; and managed complex and critical projects. My research has been published in high-impact, peer-reviewed journals, and I'm also skilled at conveying complex data and information to both casual and experienced stakeholders.
 
 # EDUCATION 
 
 ```{r}
 EDUCATION |>
-  vitae::detailed_entries(UNIVERSITY, 
+  ## Remove my TXState faux-thesis.
+  ## N.B. This 'thesis' is really just the major, defining research project of my undergraduate which I simply want to remember for its impact.
+  tidyr::unnest() |>
+  dplyr::mutate(THESIS = ifelse(INSTITUTION == 'Texas State University',
+                                NA_character_,
+                                THESIS)) |>
+  vitae::detailed_entries(INSTITUTION, 
                           DATES, 
                           DEGREE,
                           embolden(LOCATION), 
@@ -60,10 +66,19 @@ EDUCATION |>
 ```{r}
 
 PROFESSIONAL_EXPERIENCE |>
-  filter_latest("YEAR_END", 5) |>
-  dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
+  ## Remove those positions that don't quite fit
+  dplyr::filter(!POSITION %in% c(
+    ## If displaying a consulsting section, don't need this
+    "Independent Research Contractor", 
+    ## Likely not relevant for most applications
+    "Substitute Teacher"
+  )) |>
+  tidyr::unnest(DESCRIPTION) |>
+  dplyr::group_by(INSTITUTION, DATES, POSITION) |>
   dplyr::slice(1:4) |>
-  vitae::detailed_entries(INSTITUTION,
+  filter_latest("YEAR_END", 5) |>
+  order_by_date() |>
+  vitae::detailed_entries(paste0(INSTITUTION, ": ", DEPARTMENT, " (", TYPE, ")"),
                           DATES,
                           POSITION,
                           embolden(LOCATION),
@@ -75,18 +90,16 @@ PROFESSIONAL_EXPERIENCE |>
 # CONSULTING
 
 ```{r, results = "asis"}
-CONSULTING |>
+CONSULTING_EXPERIENCE |>
   ## Because FDL belongs more in Honours than IRC...
   dplyr::filter(AGENCY != "Frontier Development Lab") |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT))) |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 # desc(readr::parse_number(AMOUNT))) |>
   vitae::brief_entries(glue::glue("\\textbf{<PROJECT>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
-                       glue::glue("\\textbf{<AMOUNT>}",
-                                  .open = "<",
-                                  .close = ">"),
+                       embolden(AMOUNT),
                        .protect = FALSE)
 ```
 
@@ -94,17 +107,15 @@ CONSULTING |>
 
 ```{r, results = "asis"}
 HONOURS |>
-  filter_latest("YEAR", 5) |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT)))  |>
+  filter_latest("DATE", 5) |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+  #                desc(readr::parse_number(AMOUNT)))  |>
   vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
                        ifelse(!is.na(AMOUNT),
-                              glue::glue("\\textbf{<AMOUNT>}",
-                                         .open = "<",
-                                         .close = ">"),
+                              embolden(AMOUNT),
                               paste0("")),
                        .protect = FALSE)
 ```
