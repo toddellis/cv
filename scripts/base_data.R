@@ -248,8 +248,8 @@ CONSULTING_EXPERIENCE <-
   tibble::tribble(
     ~ DATE, ~ AGENCY, ~ PROJECT, ~ AMOUNT,
     "2020-08", "Frontier Development Lab", "Predicting fire behaviour using historical satellite imagery", "AUD\\$1,000",
-    "2019-06", "U.S. Forest Service", "Post-fire logging effects on reburn severity", "USD\\$2,500",
-    "2018-08", "U.S. Forest Service", "Restoration treatment effects on ponderosa pine growth sensitivity to climate", "USD\\$2,500"
+    "2019-06", "USDA Forest Service", "Post-fire logging effects on reburn severity", "USD\\$2,500",
+    "2018-08", "USDA Forest Service", "Restoration treatment effects on ponderosa pine growth sensitivity to climate", "USD\\$2,500"
   ) |>
   order_by_date()
 
@@ -272,31 +272,59 @@ HONOURS <-
   ) |>
   order_by_date()
 
-PRESENTATIONS <-
+OUTREACH <-
   tibble::tribble(
-    ~ DATE, ~ PRESENTATION, ~ LOCATION, ~ AGENCY, ~ TYPE, ~ COAUTHORS,
-    "2021-10", "Lunch and Learn with the Department of Education: Tasmanian Analytics Project", "Sandy Bay, TAS, Australia", "Department of Education", "professional", "",
-    "2020-07", "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future", "Sandy Bay, TAS, Australia", "University of Tasmania", "thesis", "",
-    "2020-03", "Bushfire Risk Management Research Hub Researchers Meeting 2020: Changes in moisture availability drive fire risk", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "research", "",
-    "2016-06", "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands", "Bellingham, WA, USA", "Western Washington University", "thesis", "",
-    "2016-04", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "San Francisco, CA, USA", "American Association of Geographers", "research", "Aquila Flower",
-    "2014-07", "Climate responses of Pseudotsuga menziesii and Pinus flexilis in the Greater Yellowstone (USA)", "Cody, WY, USA", "North American Dendroecological Fieldweek", "research", "Joey Pettit, Lauren Stachowiak, Anna Sala, Sean Pinnell, Jasmin Sykora",
-    "2014-05", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "Bellingham, WA, USA", "Western Washington University", "thesis", "",
-    "2014-05", "Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery", "Bellingham, WA, USA", "Western Washington University", "coursework", "",
-    "2014-04", "Perceptions of risk in Bellingham, Washington", "Seattle, WA, USA", "Association of Washington Geographers", "coursework", "Derek Huling, Casey McGee",
-    "2013-12", "Biogeographic implications of Structure-from-Motion imagery", "Bellingham, WA, USA", "Western Washington University", "coursework", "",
-    "2012-05", "Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988", "San Marcos, TX, USA", "Texas State University", "coursework", "",
-    "2012-04", "Cretaceous-aged fossiliferous outcrops of the Big Bend region", "San Marcos, TX, USA", "Texas State University", "coursework", "",
-    "2011-12", "Predator-prey relations in the Greater Yellowstone Ecosystem", "San Marcos, TX, USA", "Texas State University", "coursework", "Ryan McDonnell"
+    ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
+    "2021-10-12", "press", "Bushfire research team awarded prestigious Eureka Prize", NA_character_, NA_character_, "University of Tasmania", "https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize", "article",
+    "2021-10", "professional", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
+    "2020-07", "coursework", "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future", "University of Tasmania Graduate Seminars", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
+    "2020-03", "academic", "Changes in moisture availability drive fire risk", "Bushfire Risk Management Research Hub Researchers' Meeting 2020", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2020/03/firehub_meet_20200302.pdf", "presentation",
+    "2016-06", "coursework", "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Defense", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_thesis_defense.pdf", "presentation",
+    "2016-04", "conference", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "American Association of Geographers Annual Meeting 2016", "San Francisco, CA, USA", "American Association of Geographers", "https://toddmellis.files.wordpress.com/2016/10/ellis-2016_aag_pres.pdf", "presentation",
+    "2014-07", "academic", "Climate responses of \\textit{Pseudotsuga menziesii} and \\textit{Pinus flexilis} in the Greater Yellowstone (USA)", "North American Dendroecological Fieldweek 2014", "Cody, WY, USA", "North American Dendroecological Fieldweek", c("https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponsepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponse.pdf"), c("presentation", "paper"),
+    "2014-05", "coursework", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Seminars", "Bellingham, WA, USA", "Western Washington University", NA_character_, NA_character_,
+    "2014-05", "coursework", "Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery", "Western Washington University EGEO 504: Geographic Methods \\& Techniques", "Bellingham, WA, USA", "Western Washington University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetreepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetree.pdf"), c("presentation", "paper"),
+    "2014-04", "conference", "Perceptions of risk in Bellingham, Washington", "Association of Washington Geographers Spring Meeting 2014", "Seattle, WA, USA", "Association of Washington Geographers", NA_character_, NA_character_,
+    "2013-12", "coursework", "Biogeographic implications of Structure-from-Motion imagery", "Western Washington University EGEO 501: History and Philosophy of Geography", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_2013_sfm.pdf", "paper",
+    "2012-05", "coursework", "Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988", "Texas State University GEO 4412: Digital Remote Sensing", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazardpres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazard.pdf"), c("presentation", "paper"),
+    "2012-04", "coursework", "Cretaceous-aged fossiliferous outcrops of the Big Bend region", "Texas State University GEO 4310: Regional Field Studies", "San Marcos, TX, USA", "Texas State University", "https://toddmellis.files.wordpress.com/2017/11/ellis-20120301-cretaceous-aged-fossiliferous-outcrops-of-the-big-bend-region.pdf", "paper",
+    "2011-12", "coursework", "Predator-prey relations in the Greater Yellowstone Ecosystem", "Texas State University GEO 4316: Landscape Biogeography", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye-presentation.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye.pdf"), c("presentation", "paper")
   ) |>
   order_by_date()
 
 BIBLIO_R <-
   tibble::tribble(
-    ~ PKG, ~ DATE_START, ~ DATE_END, ~ ROLE, ~ DESCRIPTION, ~ URL,
-    "miao", "2021-08", "2022-02", "Lead Developer", "Simple data exploration and statistical tools", "https://github.com/toddellis/miao",
-    "utaspptx", "2021-11", "2022-01", "Lead Developer", "Simple methods for producing UTas-themed reports and presentations in Microsoft Office software", "https://github.com/utas-analytics/utaspptx",
-    "utastoolkit", "2021-05", "2022-03", "Lead Developer", "Tools for accessing and reporting internal University data from the enterprise data warehouse", "https://github.com/utas-analytics/utastoolkit"
+    ~ TITLE, ~ DATE_START, ~ DATE_END, ~ ROLE, ~ DESCRIPTION, ~ URL, ~ TYPE, ~ SRC,
+    "miao", "2021-08", "2022-02", "Lead Developer", "Custom exploratory data analysis and statistical tools", "https://github.com/toddellis/miao", "public", "GitHub",
+    "utaspptx", "2021-11", "2022-01", "Lead Developer", "Simple methods for producing themed reports and presentations in Microsoft Office software", "https://github.com/utas-analytics/utaspptx", "private", "GitHub",
+    "utastoolkit", "2021-05", "2022-03", "Lead Developer", "Tools for accessing and reporting internal University data from the Enterprise Data Warehouse", "https://github.com/utas-analytics/utastoolkit", "private", "GitHub"
   ) |>
   order_by_date()
 
+# rorcid::orcid_auth()
+## Add identifier to the R environment
+# usethis::edit_r_environ()
+
+BIBLIOGRAPHY <-
+  rorcid::works("0000-0002-4410-8676") |>
+  tibble::as_tibble() |>
+  tidyr::unnest(`external-ids.external-id`)  |>
+  dplyr::filter(`external-id-type` == 'doi') |>
+  tidyr::replace_na(list(`publication-date.day.value` = "01")) |>
+  dplyr::transmute(TYPE = type,
+                   TITLE = `title.title.value`,
+                   JOURNAL = ifelse(!is.na(`journal-title.value`),
+                                    `journal-title.value`,
+                                    stringr::str_extract(`url.value`, "(figshare)")),
+                   URL = `url.value`,
+                   DATE = paste0(`publication-date.year.value`, "-",
+                                 `publication-date.month.value`, "-",
+                                 `publication-date.day.value`) |>
+                     lubridate::as_date(),
+                   ## 6th edition APA DOI
+                   DOI = paste0("doi:", `external-id-value`),
+                   ## 7th edition APA DOI
+                   DOI_URL = ifelse(!is.na(`external-id-value`),
+                                    paste0("https://doi.org/", `external-id-value`),
+                                    NA_real_),
+                   .SRC = `source.source-name.value`)

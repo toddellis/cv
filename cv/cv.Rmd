@@ -39,21 +39,28 @@ knitr::opts_chunk$set(echo = FALSE,
 source(here::here('./scripts/base_data.R'))
 
 ## FONTS #### 
-.uni <-
-  fontawesome::fa('university')
-.job <-
-  fontawesome::fa('briefcase')
+## Only needed if I end up keeping the map -- not sure I like that, however.
+# .uni <-
+#   fontawesome::fa('university')
+# .job <-
+#   fontawesome::fa('briefcase')
 ```
 
 # PROFESSIONAL SUMMARY
 
-I’m a data analyst and scientist with a background in forest ecology, physical geography, and higher education. I've worked as an analyst in a wide variety of laboratory, field, and office settings across the United States and Australia. Across these experiences for public and private organisations, I've developed novel mathematical tools and statistical models; maintained relational databases and statistical packages used for conducting data analysis and producing standardised reports; trained countless staff, students, and volunteers; and managed complex and critical projects. My research has been published in high-impact, peer-reviewed journals, but I'm also skilled at conveying complex data and information to both casual and experienced stakeholders.
+I’m a data analyst and scientist with a background in forest ecology, physical geography, and higher education. I've worked as an analyst in a wide variety of laboratory, field, and office settings across the United States and Australia. Over the course of my career, I've developed novel mathematical tools and statistical models; maintained relational databases and statistical packages used for conducting data analysis and producing standardized reports; trained countless staff, students, and volunteers; and managed complex and critical projects. My research has been published in high-impact, peer-reviewed journals, and I'm also skilled at conveying complex data and information to both casual and experienced stakeholders.
 
 # EDUCATION 
 
 ```{r}
 EDUCATION |>
-  vitae::detailed_entries(UNIVERSITY, 
+  ## Remove my TXState faux-thesis.
+  ## N.B. This 'thesis' is really just the major, defining research project of my undergraduate which I simply want to remember for its impact.
+  tidyr::unnest(THESIS) |>
+  dplyr::mutate(THESIS = ifelse(INSTITUTION == 'Texas State University',
+                                NA_character_,
+                                THESIS)) |>
+  vitae::detailed_entries(INSTITUTION, 
                           DATES, 
                           DEGREE,
                           embolden(LOCATION), 
@@ -64,14 +71,21 @@ EDUCATION |>
 # PROFESSIONAL EXPERIENCE
 
 ```{r}
-
+## May want to filter out teaching aspects of WWU Graduate Teaching Assistant role here.
 PROFESSIONAL_EXPERIENCE |>
-  # dplyr::filter(OUTPUT == 'resume') |>
-  # dplyr::filter(dplyr::between(ID, max(ID) - 7, max(ID))) |>
-  filter_latest("YEAR_END", 5) |>
-  dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
-  dplyr::slice(1:4) |>
-  vitae::detailed_entries(INSTITUTION,
+  ## Remove those positions that don't quite fit
+  dplyr::filter(!POSITION %in% c(
+    ## Likely not relevant for most applications
+    # "Substitute Teacher",
+    ## If displaying a consulting section, don't need this
+    "Independent Research Contractor"
+  )) |>
+  # tidyr::unnest(DESCRIPTION) |>
+  # dplyr::group_by(INSTITUTION, DATES, POSITION) |>
+  # dplyr::slice(1:4) |>
+  # filter_latest("YEAR_END", 5) |>
+  order_by_date() |>
+  vitae::detailed_entries(paste0(INSTITUTION, ": ", DEPARTMENT, " (", TYPE, ")"),
                           DATES,
                           POSITION,
                           embolden(LOCATION),
@@ -79,54 +93,164 @@ PROFESSIONAL_EXPERIENCE |>
                           .protect = FALSE)
 
 ```
-
-<!-- # TEACHING EXPERIENCE
+<!-- May only be worth expanding and splitting from professional experience if pursuing a teaching academic position.
+# TEACHING EXPERIENCE
 
 ```{r}
-# TEACHING EXPERIENCE ----
 # N.B. Dropped for time being, consolidated into research experience and renamed to professional experience
-# TEACHING_EXPERIENCE |>
-#   # dplyr::filter(OUTPUT == 'resume') |>
-#   # dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
-#   # dplyr::slice(1:3) |>
-#   vitae::detailed_entries(INSTITUTION,
-#                           DATES,
-#                           POSITION, 
-#                           LOCATION,
-#                           DESCRIPTION,
-#                           .protect = FALSE)
+TEACHING_EXPERIENCE |>
+  # dplyr::filter(OUTPUT == 'resume') |>
+  # dplyr::group_by(desc(ID), INSTITUTION, DATES, POSITION) |>
+  # dplyr::slice(1:3) |>
+  vitae::detailed_entries(INSTITUTION,
+                          DATES,
+                          POSITION,
+                          LOCATION,
+                          DESCRIPTION,
+                          .protect = FALSE)
+```
+-->
+
+# VOLUNTEER EXPERIENCE
+
+```{r}
+VOLUNTEER_EXPERIENCE |>
+  order_by_date() |>
+  # filter_latest("YEAR_END", 5) |>
+  # dplyr::arrange(desc(YEAR_START)) |>
+  vitae::detailed_entries(INSTITUTION,
+                          DATES,
+                          POSITION,
+                          embolden(LOCATION),
+                          .protect = FALSE)
 ```
 
--->
-<!--
 # PUBLICATIONS
 
-## ACADEMIC
+## JOURNAL ARTICLES
 
 ```{r}
-vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
-  dplyr::filter(type != '') |>
-  dplyr::arrange(desc(issued),
-                 desc(author$family))
+# gprofile <- 
+#   rvest::read_html("https://scholar.google.com/citations?user=q6vTAroAAAAJ")
+# 
+# rvest::html_nodes(gprofile, ".gsc_a_h") |>
+#   rvest::html_text() %>%
+#   .[2:length(.)]|>
+#   dplyr::bind_cols(rvest::html_nodes(gprofile, ".gsc_a_at") |>
+#                      rvest::html_text()) |>
+#   dplyr::bind_cols(rvest::html_nodes(gprofile, ".gsc_a_ac") |>
+#                      rvest::html_text()) |>
+#   dplyr::bind_cols(rvest::html_nodes(gprofile, ".gs_gray") |>
+#                      rvest::html_text() %>%
+#                      .[seq(2, length(.), by = 2)] %>%
+#                      .[2:length(.)]) |>
+#   dplyr::transmute(TITLE = `...2`,
+#                    DATE = as.numeric(`...1`),
+#                    CITATIONS = as.numeric(`...3`),
+#                    JOURNAL = stringr::str_remove_all(`...4`, "[,-.\\(\\)[0-9]]") |>
+#                      stringr::str_trim() |>
+#                      tools::toTitleCase()) |>
+#   dplyr::mutate(JOURNAL = ifelse(JOURNAL %in% c("University of Tasmania", "Western Washington University"),
+#                                  paste0(JOURNAL, " (thesis)"),
+#                                  JOURNAL)) |>
+#   dplyr::arrange(desc(DATE), JOURNAL) |>
+#   vitae::brief_entries(ifelse(!is.na(CITATIONS) & CITATIONS > 0,
+#                               glue::glue("\\textbf{<TITLE>} \\newline via \\textit{<JOURNAL>}: <CITATIONS> <ifelse(CITATIONS == 1, 'citation', 'citations')> as of <format(Sys.Date(), format = '%Y %B')>",
+#                                   .open = "<",
+#                                   .close = ">"),
+#                               glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}",
+#                                          .open = "<",
+#                                          .close = ">")),
+#                        paste0(DATE, "\\newline"),
+#                        # embolden(JOURNAL), 
+#                        .protect = FALSE)
+
+BIBLIOGRAPHY |>
+  dplyr::filter(TYPE == "journal-article") |>
+  order_by_date() |>
+  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI_URL>}}",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(substr(DATE, 1, 7), "\\newline"),
+                       # paste0(substr(DATE, 1, 7)),
+                       # embolden(JOURNAL), 
+                       .protect = FALSE)
+  
+# vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
+#   dplyr::filter(type != '') |>
+#   dplyr::arrange(desc(issued),
+#                  desc(author$family))
 ```
+
+## THESES
+
+```{r}
+BIBLIOGRAPHY |>
+  dplyr::filter(TYPE == "dissertation-thesis") |>
+  # dplyr::mutate(TITLE = ifelse(TYPE == 'dissertation-thesis',
+  #                              paste0(TITLE, " (graduate thesis)"),
+  #                              TITLE)) |>
+  order_by_date() |>
+  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI_URL>}}",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(substr(DATE, 1, 7), "\\newline"),
+                       # paste0(substr(DATE, 1, 7)),
+                       # embolden(JOURNAL), 
+                       .protect = FALSE)
+```
+
 
 ## OPEN-ACCESS DATA
 
 ```{r}
-vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
-  # dplyr::filter(type == '') |>
-  dplyr::filter(tolower(publisher) %in% c('figshare')) |>
-  dplyr::arrange(desc(issued),
-                 desc(author$family))
+# vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
+#   # dplyr::filter(type == '') |>
+#   dplyr::filter(tolower(publisher) %in% c('figshare')) |>
+#   dplyr::arrange(desc(issued),
+#                  desc(author$family))
+# 
+# BIBLIO <- 
+#   rvest::read_html("https://orcid.org/0000-0002-4410-8676")
+# 
+# BIBLIO |>
+#   rvest::html_nodes("secondary-text") |>
+#   rvest::html_text()
+
+BIBLIOGRAPHY |>
+  dplyr::filter(TYPE == "data-set") |>
+  order_by_date() |>
+  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI_URL>}}",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(substr(DATE, 1, 7), "\\newline"),
+                       # paste0(substr(DATE, 1, 7)),
+                       # embolden(JOURNAL), 
+                       .protect = FALSE)
+  
 ```
 
 ## SOFTWARE
 
 ```{r}
-vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
-  # dplyr::filter(type == '') |>
-  dplyr::filter(stringr::str_detect(tolower(note), "r package")) |>
-  dplyr::arrange(title)
+# "\\textbf{<TITLE>}: <DESCRIPTION> \\newline 
+#                                   via \\textit{\\underline{\\href{<URL>}{GitHub}}} 
+#                                   (<ifelse(TYPE == 'private', glue::glue('last updated {DATE_END}: private'), glue::glue('last updated {DATE_END}'))>)"
+BIBLIO_R |>
+  dplyr::arrange(desc(DATE_START), TITLE) |>
+  vitae::brief_entries(ifelse(TYPE == 'public',
+                              glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{\\href{<URL>}{<URL>}} (last updated <DATE_END>)",
+                                         .open = "<",
+                                         .close = ">"),
+                              glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. (<stringr::str_to_sentence(TYPE)>: last updated <DATE_END>)",
+                                         .open = "<",
+                                         .close = ">")),
+                       paste0(DATE_START, "\\newline"),
+                       .protect = FALSE)
+# vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
+#   # dplyr::filter(type == '') |>
+#   dplyr::filter(stringr::str_detect(tolower(note), "r package")) |>
+#   dplyr::arrange(title)
 # BIBLIO_R |>
 #   vitae::brief_entries(glue::glue("\\textbf{<PKG>}: <ROLE> \\newline <DESCRIPTION>", 
 #                                   .open = "<", 
@@ -135,86 +259,143 @@ vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>
 #                        .protect = FALSE)
 
 ```
--->
-<!-- # CONFERENCES AND PRESENTATIONS
 
-```{r}
-# # CONFERENCES AND PRESENTATIONS
-PRESENTATIONS |> 
-  dplyr::filter(lubridate::year(lubridate::as_date(paste0(DATE, "-01"))) >= 2014) |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 PRESENTATION) |>
-  vitae::brief_entries(glue::glue("\\textbf{<PRESENTATION>} \\newline <AGENCY>, <LOCATION>",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(DATE, "\\newline"),
-                       # glue::glue("\\textbf{<LOCATION>}",
-                       #            .open = "<",
-                       #            .close = ">"),
-                       .protect = FALSE)
-```
--->
 # CONSULTING
 
+## RESEARCH
+
 ```{r, results = "asis"}
-CONSULTING |>
+CONSULTING_EXPERIENCE |>
+  order_by_date() |>
   ## Because FDL belongs more in Honours than IRC...
-  dplyr::filter(AGENCY != "Frontier Development Lab") |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT))) |>
+  # dplyr::filter(AGENCY != "Frontier Development Lab") |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 # desc(readr::parse_number(AMOUNT))) |>
   vitae::brief_entries(glue::glue("\\textbf{<PROJECT>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
-                       glue::glue("\\textbf{<AMOUNT>}",
+                       embolden(AMOUNT),
+                       .protect = FALSE)
+```
+
+## MANUSCRIPT REVIEWER
+
+```{r}
+tibble::tribble(
+  ~ JOURNAL, ~ URL, ~TYPE, ~ DATE_START, ~ DATE_END, ~ ARTICLES,
+  "Fire Ecology", "https://fireecology.springeropen.com/", "Open access", "2019-01", "2019-05", c(
+    "https://fireecology.springeropen.com/articles/10.1186/s42408-019-0043-y"
+    )
+) |>
+  dplyr::group_by(JOURNAL) |>
+  dplyr::mutate(N_REVIEWS = length(unlist(ARTICLES))) |>
+  dplyr::ungroup() |>
+  order_by_date() |>
+  vitae::brief_entries(glue::glue("\\textbf{\\textit{<JOURNAL>}} (<TYPE>: <URL>) \\newline <N_REVIEWS> <ifelse(N_REVIEWS == 1, 'article', 'articles')> since <substr(DATE_START, 1, 4)>",
                                   .open = "<",
                                   .close = ">"),
+                       paste0("\\newline"),
+                       "",
+                       .protect = FALSE)
+```
+
+# OUTREACH
+
+## CONFERENCES AND PRESENTATIONS
+
+```{r}
+OUTREACH |>
+  dplyr::filter(TYPE %in% c(
+    "professional", "academic", "conference"
+  )) |>
+  tidyr::unnest(c(URL, URL_TYPE)) |>
+  dplyr::group_by(TITLE) |> 
+  dplyr::slice(1) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
+  order_by_date() |>
+  vitae::brief_entries(dplyr::case_when(!is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT> (\\underline{\\href{<URL>}{<URL_TYPE>}})", 
+                                                                                 .open = "<", 
+                                                                                 .close = ">"),
+                                        is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY> (\\underline{\\href{<URL>}{<URL_TYPE>}})",
+                                                                                .open = "<",
+                                                                                .close = ">"),
+                                        !is.na(EVENT) & is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT>",
+                                                                                .open = "<",
+                                                                                .close = ">"),
+                                        TRUE ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>", 
+                                                          .open = "<", 
+                                                          .close = ">")),
+                       paste0(DATE, "\\newline"),
+                       embolden(LOCATION),
+                       .protect = FALSE)
+```
+
+## PRESS
+
+```{r}
+OUTREACH |>
+  dplyr::filter(TYPE %in% c(
+    "press"
+  )) |>
+  dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
+  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline <AGENCY> (\\underline{\\href{<URL>}{<URL_TYPE>}})",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(substr(DATE, 1, 7), "\\newline"),
+                       .protect = FALSE)
+```
+
+## COURSEWORK
+
+```{r}
+
+OUTREACH |>
+  dplyr::filter(TYPE %in% c(
+    "coursework"
+  )) |>
+  tidyr::unnest(c(URL, URL_TYPE)) |>
+  dplyr::group_by(TITLE) |> 
+  dplyr::slice(1) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
+  order_by_date() |>
+  vitae::brief_entries(dplyr::case_when(!is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT> (\\underline{\\href{<URL>}{<URL_TYPE>}})", 
+                                                                                 .open = "<", 
+                                                                                 .close = ">"),
+                                        is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY> (\\underline{\\href{<URL>}{<URL_TYPE>}})",
+                                                                                .open = "<",
+                                                                                .close = ">"),
+                                        !is.na(EVENT) & is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT>",
+                                                                                .open = "<",
+                                                                                .close = ">"),
+                                        TRUE ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>", 
+                                                          .open = "<", 
+                                                          .close = ">")),
+                       paste0(DATE, "\\newline"),
+                       embolden(LOCATION),
                        .protect = FALSE)
 ```
 
 # HONOURS
 
-```{r, results = "asis"}
-HONOURS |>
-  # dplyr::filter(TYPE == 'award') |>
-  filter_latest("YEAR", 5) |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT)))  |>
-  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(DATE, "\\newline"),
-                       ifelse(!is.na(AMOUNT),
-                              glue::glue("\\textbf{<AMOUNT>}",
-                                         .open = "<",
-                                         .close = ">"),
-                              paste0("")),
-                       .protect = FALSE)
-```
-<!--
 ## AWARDS
 
 ```{r, results = "asis"}
 HONOURS |>
   dplyr::filter(TYPE == 'award') |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT)))  |>
+  order_by_date() |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+  #                desc(readr::parse_number(AMOUNT)))  |>
   vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
                        ifelse(!is.na(AMOUNT),
-                              glue::glue("\\textbf{<AMOUNT>}",
-                                         .open = "<",
-                                         .close = ">"),
+                              embolden(AMOUNT),
                               paste0("")),
                        .protect = FALSE)
-# baretable(align='llp{5.5cm}p{7.75cm}r',
-  #           hline.after=c(0,NROW(.)),
-  #           size="\\fontsize{5}{2}",
-  #           add.to.row=list(
-  #             pos=as.list(seq(NROW(.))),
-  #             command=rep("\\\\[-0.2cm]",NROW(.))))
 ```
 
 ## GRANTS AND SCHOLARSHIPS
@@ -222,48 +403,16 @@ HONOURS |>
 ```{r}
 HONOURS |>
   dplyr::filter(TYPE %in% c('grant', 'scholarship')) |>
-  dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
-                 desc(readr::parse_number(AMOUNT)))  |>
+  order_by_date() |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 # desc(readr::parse_number(AMOUNT)))  |>
   vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
                        ifelse(!is.na(AMOUNT),
-                              glue::glue("\\textbf{<AMOUNT>}",
-                                         .open = "<",
-                                         .close = ">"),
+                              embolden(AMOUNT),
                               paste0("")),
                        .protect = FALSE)
 ```
--->
-# VOLUNTEER EXPERIENCE
 
-```{r}
-VOLUNTEER_EXPERIENCE |>
-  # dplyr::filter(YEAR_END >= lubridate::year(Sys.Date()) - 5) |>
-  filter_latest("YEAR_END", 5) |>
-  dplyr::arrange(desc(YEAR_START)) |>
-  vitae::detailed_entries(INSTITUTION,
-                          DATES,
-                          POSITION,
-                          embolden(LOCATION),
-                          .protect = FALSE)
-  # vitae::brief_entries(glue::glue("\\textbf{<POSITION>} \\newline <INSTITUTION>",
-  #                                 .open = "<",
-  #                                 .close = ">"),
-  #                      paste0(DATES, "\\newline"),
-  #                      glue::glue("\\textbf{<LOCATION>}",
-  #                                 .open = "<",
-  #                                 .close = ">"),
-  #                      .protect = FALSE)
-```
-<!--
-
-# MANUSCRIPT REVIEWER
-
-* [Fire Ecology](https://link.springer.com/journal/42408)
-
-# PRESS
-
-* 2021-10-12: [Bushfire research team awarded prestigious Eureka Prize](https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize). University of Tasmania.
--->
