@@ -327,4 +327,5 @@ BIBLIOGRAPHY <-
                    DOI_URL = ifelse(!is.na(`external-id-value`),
                                     paste0("https://doi.org/", `external-id-value`),
                                     NA_real_),
-                   .SRC = `source.source-name.value`)
+                   .SRC = `source.source-name.value`) |>
+  order_by_date()
