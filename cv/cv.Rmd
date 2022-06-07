@@ -238,13 +238,18 @@ BIBLIOGRAPHY |>
 #                                   (<ifelse(TYPE == 'private', glue::glue('last updated {DATE_END}: private'), glue::glue('last updated {DATE_END}'))>)"
 BIBLIO_R |>
   dplyr::arrange(desc(DATE_START), TITLE) |>
-  vitae::brief_entries(ifelse(TYPE == 'public',
-                              glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{\\href{<URL>}{<URL>}} (last updated <DATE_END>)",
-                                         .open = "<",
-                                         .close = ">"),
-                              glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. (<stringr::str_to_sentence(TYPE)>: last updated <DATE_END>)",
-                                         .open = "<",
-                                         .close = ">")),
+  vitae::brief_entries(dplyr::case_when(TYPE == 'public' & !is.na(DATE_END) ~
+                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{\\href{<URL>}{<URL>}} (last updated <DATE_END>)",
+                                                     .open = "<",
+                                                     .close = ">"),
+                                        TYPE == 'public' & is.na(DATE_END) ~
+                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>.",
+                                                     .open = "<",
+                                                     .close = ">"),
+                                        TRUE ~ 
+                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{<TYPE>}",
+                                                     .open = "<",
+                                                     .close = ">")),
                        paste0(DATE_START, "\\newline"),
                        .protect = FALSE)
 # vitae::bibliography_entries(here::here("./bib/bibliography--personal.bib")) |>

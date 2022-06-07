@@ -91,8 +91,8 @@ PROFESSIONAL_EXPERIENCE |>
 
 ```{r, results = "asis"}
 CONSULTING_EXPERIENCE |>
-  ## Because FDL belongs more in Honours than IRC...
-  dplyr::filter(AGENCY != "Frontier Development Lab") |>
+  ## Does FDL belong here or in consulting?
+  # dplyr::filter(AGENCY != "Frontier Development Lab") |>
   # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
                  # desc(readr::parse_number(AMOUNT))) |>
   vitae::brief_entries(glue::glue("\\textbf{<PROJECT>} \\newline <AGENCY>",
@@ -107,6 +107,8 @@ CONSULTING_EXPERIENCE |>
 
 ```{r, results = "asis"}
 HONOURS |>
+  ## Does FDL belong here or in consulting?
+  dplyr::filter(AGENCY != "Frontier Development Lab") |>
   filter_latest("DATE", 5) |>
   # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
   #                desc(readr::parse_number(AMOUNT)))  |>

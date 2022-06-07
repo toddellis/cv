@@ -188,12 +188,12 @@ PROFESSIONAL_EXPERIENCE <-
       "Assisted in infrastructure restoration projects to maximise public access benefits",
       "Received national government-sponsored training in defensive driving"
     ),
-    "The University of Texas at Austin", "2012-01", "2013-01", "Austin, TX, USA", "Laboratory Assistant", "Texas Natual Science Center", "internship", c(
+    "The University of Texas at Austin", "2012-08", "2013-01", "Austin, TX, USA", "Laboratory Assistant", "Texas Natual Science Center", "internship", c(
       "Catalogued, conserved, photographed, and archived acadmic fish and fossils collections",
       "Maintained and updated relational database management system for institution collections",
       "Trained volunteers and students in laboratory safety and inventory procedures"
     ),
-    "Texas State University", "2011-03", "2012-12", "San Marcos, TX, USA", "Laboratory Assistant", "Department of Geography", "internship", c(
+    "Texas State University", "2012-08", "2012-12", "San Marcos, TX, USA", "Laboratory Assistant", "Department of Geography", "internship", c(
       "Established geology and palaeontology laboratories for the university",
       "Prepared vertebrate fossils for laboratory use and public display",
       "Trained volunteers in laboratory procedures and sample preparation techniques",
@@ -240,7 +240,8 @@ VOLUNTEER_EXPERIENCE <-
     "Geographic Information Systems Technician", "2017-01", "2017-11", "Portland State University", "Portland, OR, USA",
     "Assistant Librarian", "2017-01", "2017-11", "Beacon Hill Elementary School", "Kelso, WA, USA",
     "Technology Tutor", "2014-07", "2016-08", "Bellingham Public Library", "Bellingham, WA, USA",
-    "Laboratory Assistant", "2011-03", "2012-12", "Texas State University", "San Marcos, TX, USA"
+    "Laboratory Assistant", "2012-01", "2012-07", "The University of Texas at Austin", "Austin, TX, USA",
+    "Laboratory Assistant", "2011-03", "2012-07", "Texas State University", "San Marcos, TX, USA"
   ) |>
   order_by_date()
 
@@ -275,8 +276,10 @@ HONOURS <-
 OUTREACH <-
   tibble::tribble(
     ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
+    "2022-06", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
     "2021-10-12", "press", "Bushfire research team awarded prestigious Eureka Prize", NA_character_, NA_character_, "University of Tasmania", "https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize", "article",
     "2021-10", "professional", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
+    "2021-05", "academic", "Fuel moisture trend tool", "Bushfire Risk Management Research Hub Researchers' Meeting 2021", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/wp1-fmc-fire-seasons-2021-05.pdf", "poster",
     "2020-07", "coursework", "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future", "University of Tasmania Graduate Seminars", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2020-03", "academic", "Changes in moisture availability drive fire risk", "Bushfire Risk Management Research Hub Researchers' Meeting 2020", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2020/03/firehub_meet_20200302.pdf", "presentation",
     "2016-06", "coursework", "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Defense", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_thesis_defense.pdf", "presentation",
@@ -294,12 +297,54 @@ OUTREACH <-
 
 BIBLIO_R <-
   tibble::tribble(
-    ~ TITLE, ~ DATE_START, ~ DATE_END, ~ ROLE, ~ DESCRIPTION, ~ URL, ~ TYPE, ~ SRC,
-    "miao", "2021-08", "2022-02", "Lead Developer", "Custom exploratory data analysis and statistical tools", "https://github.com/toddellis/miao", "public", "GitHub",
-    "utaspptx", "2021-11", "2022-01", "Lead Developer", "Simple methods for producing themed reports and presentations in Microsoft Office software", "https://github.com/utas-analytics/utaspptx", "private", "GitHub",
-    "utastoolkit", "2021-05", "2022-03", "Lead Developer", "Tools for accessing and reporting internal University data from the Enterprise Data Warehouse", "https://github.com/utas-analytics/utastoolkit", "private", "GitHub"
+    ~ TITLE, ~ DATE_START, ~ ROLE, ~ DESCRIPTION, ~ URL, ~ TYPE, ~ SRC,
+    "miao", "2021-08", "Lead Developer", "Custom exploratory data analysis and statistical tools", "https://github.com/toddellis/miao", "public", "GitHub",
+    "utaspptx", "2021-11", "Lead Developer", "Simple methods for producing themed reports and presentations in Microsoft Office software", "https://github.com/utas-analytics/utaspptx", "private", "GitHub",
+    "utastoolkit", "2021-05", "Lead Developer", "Tools for accessing and reporting internal University data from the Enterprise Data Warehouse", "https://github.com/utas-analytics/utastoolkit", "private", "GitHub"
   ) |>
+  mutate(DATE_END = purrr::map2(.x = URL,
+                                .y = TYPE,
+                                .f = ~ ifelse(.y == 'public',
+                                              ## Sometimes this fails
+                                              tryCatch({
+                                                rvest::read_html(.x) |>
+                                                  rvest::html_element("relative-time") |>
+                                                  rvest::html_text() |>
+                                                  lubridate::as_date(format = "%B %d, %Y") |>
+                                                  substr(1, 7)
+                                              },
+                                              warning = function(cond) {},
+                                              error = function(cond) {
+                                                NA_character_
+                                              }),
+                                              NA_character_))) |>
   order_by_date()
+
+## Some scratch code or auto-pulling latest updates from public packages
+## 1. Entirely via rvest
+# foo <- BIBLIO_R |>
+#   # filter(TYPE == 'public') |>
+#   mutate(DATE_LATEST = purrr::map2(.x = URL,
+#                                   .y = TYPE,
+#                                   .f = ~ ifelse(.y == 'public',
+#                                                 tryCatch({
+#                                                   rvest::read_html(.x) |>
+#                                                   rvest::html_element("relative-time") |>
+#                                                   rvest::html_text() |>
+#                                                   lubridate::as_date(format = "%B %d, %Y") |>
+#                                                   substr(1, 7)},
+#                                                   warning = function(cond) {},
+#                                                   error = function(cond) {
+#                                                     NA_character_
+#                                                   }),
+#                                                 NA_character_)))
+## 2. After running into occasional failures to load via rvest
+# rvest::read_html("https://github.com/toddellis/miao") |>
+#   rvest::html_text() |>
+#   as_tibble() |> mutate(value = (strsplit(as.character(value), "\n"))) |>
+#   tidyr::unnest(value) |>
+#   mutate(value = stringr::str_trim(value)) |>
+#   filter(value != "")
 
 # rorcid::orcid_auth()
 ## Add identifier to the R environment
