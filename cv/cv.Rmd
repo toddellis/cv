@@ -243,7 +243,7 @@ BIBLIO_R |>
                                                      .open = "<",
                                                      .close = ">"),
                                         TYPE == 'public' & is.na(DATE_END) ~
-                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>.",
+                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{\\href{<URL>}{<URL>}}",
                                                      .open = "<",
                                                      .close = ">"),
                                         TRUE ~ 
@@ -332,7 +332,7 @@ OUTREACH |>
                                         TRUE ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>", 
                                                           .open = "<", 
                                                           .close = ">")),
-                       paste0(DATE, "\\newline"),
+                       paste0(substr(DATE, 1, 7), "\\newline"),
                        embolden(LOCATION),
                        .protect = FALSE)
 ```
@@ -378,7 +378,7 @@ OUTREACH |>
                                         TRUE ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>", 
                                                           .open = "<", 
                                                           .close = ">")),
-                       paste0(DATE, "\\newline"),
+                       paste0(substr(DATE, 1, 7), "\\newline"),
                        embolden(LOCATION),
                        .protect = FALSE)
 ```

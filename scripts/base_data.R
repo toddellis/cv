@@ -16,6 +16,7 @@ library(huxtable)
 library(gridExtra)
 library(rsvg)
 library(htmltools)
+library(rvest)
 library(tibble)
 library(stringr)
 library(here)
@@ -276,6 +277,7 @@ HONOURS <-
 OUTREACH <-
   tibble::tribble(
     ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
+    "2022-09-14", "professional", "Schools Recommendation Program Overview", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2022-06", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
     "2021-10-12", "press", "Bushfire research team awarded prestigious Eureka Prize", NA_character_, NA_character_, "University of Tasmania", "https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize", "article",
     "2021-10", "professional", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
