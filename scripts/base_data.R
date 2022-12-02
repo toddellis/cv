@@ -59,7 +59,10 @@ order_by_date <- function(x) {
     dplyr::arrange(desc(DATE_END_SORT), desc(DATE_START_SORT))
   } else if ("DATE" %in% colnames(x)) {
     x |>
-      dplyr::mutate(DATE_SORT = lubridate::as_date(paste0(DATE, "-01"),
+      ## N.B. This is fairly hack-y and assumptive!
+      dplyr::mutate(DATE_SORT = lubridate::as_date(ifelse(nchar(DATE) < 8,
+                                                          paste0(DATE, "-01"),
+                                                          DATE),
                                                    format = "%Y-%m-%d")) |>
       dplyr::arrange(desc(DATE_SORT))
   } else {
@@ -259,8 +262,9 @@ CONSULTING_EXPERIENCE <-
 HONOURS <-
   tibble::tribble(
     ~ DATE, ~ AGENCY, ~ HONOUR, ~ AMOUNT, ~ TYPE,
+    "2022-11", "University of Tasmania", "Future Students Staff Excellence 2022 Sustainability Award", "AUD\\$50", "award",
     "2021-10", "Australian Museum", "NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research", "AUD\\$10,000", "award",
-    "2021-09", "University of Tasmania", "Sustainability Award", NA_character_, "award",
+    "2021-09", "University of Tasmania", "Future Students Staff Excellence 2021 Sustainability Award", NA_character_, "award",
     "2021-08", "Ten Lives Cat Centre", "Certifi-Cat of Appreciation", NA_character_, "award",
     "2020-08", "Frontier Development Lab", "Bushfire Data Quest 2020", "AUD\\$1,000", "grant",
     "2019-09", "NSW Bushfire Risk Management Research Hub", "Tasmania Graduate Research Scholarship (3.5x)", "AUD\\$28,000 p.a.", "scholarship",
@@ -277,6 +281,7 @@ HONOURS <-
 OUTREACH <-
   tibble::tribble(
     ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
+    "2022-12-01", "conference", "Removing Barriers and transforming access to tertiary education: The Schools Recommendation Program in Tasmania", "Australasian Association for Institutional Research Forum 2022", "Macquarie Park, NSW, Australia", "Australasian Association for Institutional Research", NA_character_, NA_character_,
     "2022-09-14", "professional", "Schools Recommendation Program Overview", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2022-06", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
     "2021-10-12", "press", "Bushfire research team awarded prestigious Eureka Prize", NA_character_, NA_character_, "University of Tasmania", "https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize", "article",
@@ -363,16 +368,16 @@ BIBLIOGRAPHY <-
                    JOURNAL = ifelse(!is.na(`journal-title.value`),
                                     `journal-title.value`,
                                     stringr::str_extract(`url.value`, "(figshare)")),
-                   URL = `url.value`,
+                   URL = tolower(`url.value`),
                    DATE = paste0(`publication-date.year.value`, "-",
                                  `publication-date.month.value`, "-",
                                  `publication-date.day.value`) |>
                      lubridate::as_date(),
                    ## 6th edition APA DOI
-                   DOI = paste0("doi:", `external-id-value`),
+                   DOI = paste0("doi:", tolower(`external-id-value`)),
                    ## 7th edition APA DOI
                    DOI_URL = ifelse(!is.na(`external-id-value`),
-                                    paste0("https://doi.org/", `external-id-value`),
+                                    paste0("https://doi.org/", tolower(`external-id-value`)),
                                     NA_real_),
                    .SRC = `source.source-name.value`) |>
   order_by_date()

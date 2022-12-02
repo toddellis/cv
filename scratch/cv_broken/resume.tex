@@ -1,0 +1,239 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+% Awesome CV LaTeX Template for CV/Resume
+%
+% This template has been downloaded from:
+% https://github.com/posquit0/Awesome-CV
+%
+% Author:
+% Claud D. Park <posquit0.bj@gmail.com>
+% http://www.posquit0.com
+%
+%
+% Adapted to be an Rmarkdown template by Mitchell O'Hara-Wild
+% 23 November 2018
+%
+% Template license:
+% CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+%
+%-------------------------------------------------------------------------------
+% CONFIGURATIONS
+%-------------------------------------------------------------------------------
+% A4 paper size by default, use 'letterpaper' for US letter
+\documentclass[11pt,a4paper,]{awesome-cv}
+
+% Configure page margins with geometry
+\usepackage{geometry}
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+
+% Specify the location of the included fonts
+\fontdir[fonts/]
+
+% Color for highlights
+% Awesome Colors: awesome-emerald, awesome-skyblue, awesome-red, awesome-pink, awesome-orange
+%                 awesome-nephritis, awesome-concrete, awesome-darknight
+
+\definecolor{awesome}{HTML}{44B0D1}
+
+% Colors for text
+% Uncomment if you would like to specify your own color
+% \definecolor{darktext}{HTML}{414141}
+% \definecolor{text}{HTML}{333333}
+% \definecolor{graytext}{HTML}{5D5D5D}
+% \definecolor{lighttext}{HTML}{999999}
+
+% Set false if you don't want to highlight section with awesome color
+\setbool{acvSectionColorHighlight}{true}
+
+% If you would like to change the social information separator from a pipe (|) to something else
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+\def\endfirstpage{\newpage}
+
+%-------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%	Comment any of the lines below if they are not required
+%-------------------------------------------------------------------------------
+% Available options: circle|rectangle,edge/noedge,left/right
+
+\photo{portrait--yee.jpg}
+\name{Todd M.}{Ellis}
+
+\position{Data Analyst \& Statistical Programmer}
+\address{Hobart, Tasmania, Australia}
+
+\mobile{+61 466 683 552}
+\email{\href{mailto:toddellis.wa@gmail.com}{\nolinkurl{toddellis.wa@gmail.com}}}
+\orcid{0000-0002-4410-8676}
+\researchgate{Todd-Ellis-4}
+\github{toddellis}
+\linkedin{tmichaelellis}
+\twitter{tootstorm}
+
+% \gitlab{gitlab-id}
+% \stackoverflow{SO-id}{SO-name}
+% \skype{skype-id}
+% \reddit{reddit-id}
+
+
+\usepackage{booktabs}
+
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%------------------------------------------------------------------------------
+
+
+\usepackage{float} \usepackage{multicol} \usepackage{colortbl} \usepackage{hhline}
+
+% Pandoc CSL macros
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{2em}
+\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\honortitlestyle{#1}}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\honordatestyle{#1}}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\begin{document}
+
+% Print the header with above personal informations
+% Give optional argument to change alignment(C: center, L: left, R: right)
+\makecvheader
+
+% Print the footer with 3 arguments(<left>, <center>, <right>)
+% Leave any of these blank if they are not needed
+% 2019-02-14 Chris Umphlett - add flexibility to the document name in footer, rather than have it be static Curriculum Vitae
+
+
+%-------------------------------------------------------------------------------
+%	CV/RESUME CONTENT
+%	Each section is imported separately, open each file in turn to modify content
+%------------------------------------------------------------------------------
+
+
+
+\hypertarget{professional-summary}{%
+\section{PROFESSIONAL SUMMARY}\label{professional-summary}}
+
+I'm a data analyst and scientist with a background in forest ecology,
+physical geography, and higher education. I've worked as an analyst in a
+wide variety of laboratory, field, and office settings across the United
+States and Australia. Over the course of my career, I've developed novel
+mathematical tools and statistical models; maintained relational
+databases and statistical packages used for conducting data analysis and
+producing standardized reports; trained countless staff, students, and
+volunteers; and managed complex and critical projects. My research has
+been published in high-impact, peer-reviewed journals, and I'm also
+skilled at conveying complex data and information to both casual and
+experienced stakeholders.
+
+\hypertarget{education}{%
+\section{EDUCATION}\label{education}}
+
+\begin{cventries}
+    \cventry{University of Tasmania}{Doctor of Philosophy, Biological Sciences}{\textbf{Sandy Bay, TAS, Australia}}{2019 - present}{\begin{cvitems}
+\item Dissertation: Dynamic mapping and analysis of New South Wales fire regimes: Past, present, and future
+\item Supervisors: Drs. Grant J. Williamson and David M.J.S. Bowman
+\end{cvitems}}
+    \cventry{Western Washington University}{Master of Science, Geography}{\textbf{Bellingham, WA, USA}}{2013 - 2016}{\begin{cvitems}
+\item Thesis: Climatic drivers of western spruce budworm outbreaks in the Okanogan Highlands
+\item Supervisor: Dr. Aquila Flower
+\end{cvitems}}
+    \cventry{Texas State University}{Bachelor of Science, Physical Geography / Geology}{\textbf{San Marcos, TX, USA}}{2007 - 2012}{}\vspace{-4.0mm}
+\end{cventries}
+
+\hypertarget{professional-experience}{%
+\section{PROFESSIONAL EXPERIENCE}\label{professional-experience}}
+
+\begin{cventries}
+    \cventry{University of Tasmania: Division of Future Students (part-time / full-time)}{Data Analyst}{\textbf{Sandy Bay, TAS, Australia}}{2021-02 - present}{\begin{cvitems}
+\item Developing statistical models and tools for meeting target university milestones
+\item Managing design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation
+\item Designing and implementing programming and data analytics training seminars for institution staff
+\item Overseeing development of internal reporting and statistical packages
+\end{cvitems}}
+    \cventry{University of Tasmania: College of Sciences and Engineering (full-time)}{Adjunct Researcher}{\textbf{Sandy Bay, TAS, Australia}}{2019-09 - present}{\begin{cvitems}
+\item Developing complex data-processing and analysis pipelines using high-performance computing and big data
+\item Overseeing multi-year projct design and implementation addressing wildfire and global climate change challenges
+\item Managing custom platform for interactive web-mapping, on-the-fly statistical analyses, and novel data visualisation
+\item Collaborating with national and international research teams tackling climate change risk and mitigation
+\end{cvitems}}
+    \cventry{University of Tasmania: Division of Future Students (casual)}{Sustainability Analyst}{\textbf{Sandy Bay, TAS, Australia}}{2019-10 - 2021-02}{\begin{cvitems}
+\item Processed, analysed, and reported data to promote and review institution programmes
+\item Developed pipelines for automating data cleaning and collation
+\item Prepared data and briefings for global institution rankings
+\item Promoted nation-wide sustainability targets using data dashboards and reports
+\end{cvitems}}
+    \cventry{Apex Systems: Apple, Inc. (contract)}{Data \& GIS Analyst}{\textbf{Austin, TX, USA}}{2018-12 - 2019-05}{\begin{cvitems}
+\item Developed and standardised data-processing methods for vector and multispectral raster datasets
+\item Managed and processed corporate GIS databases using data-driven software and programming languages
+\item Prepared statistical summaries, models, and analytical reports
+\item Led research and development projects to define novel methodologies for geospatial data
+\end{cvitems}}
+    \cventry{Oregon State University: USDA Forest Service Forestry Sciences Laboratory (contract)}{Faculty Research Assistant}{\textbf{Wenatchee, WA, USA}}{2017-11 - 2018-06}{\begin{cvitems}
+\item Converted complex data and findings into academic and government reports
+\item Developed explanatory models for sustainable forest management under climate change
+\item Created and maintained relational databases for government research
+\item Gathered and analysed ecological data using statistical software
+\end{cvitems}}
+    \cventry{Washington Department of Fish and Wildlife: Region 5 (contract)}{Biological Science Technician II}{\textbf{Ridgefield, WA, USA}}{2017-08 - 2017-11}{\begin{cvitems}
+\item Applied QA/QC to develop electronic biological data collection system and relational database
+\item Analysed biological fisheries data for state government research reporting
+\item Collected and recorded biological data for government research and both commercial and tribal fisheries
+\item Designed, built, and maintained department, fisheries, and commercial research equipment
+\end{cvitems}}
+\end{cventries}
+
+\hypertarget{consulting}{%
+\section{CONSULTING}\label{consulting}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Predicting fire behaviour using historical satellite imagery} \newline Frontier Development Lab}{\textbf{AUD\$1,000}}{2020-08\newline}
+    \cvhonor{}{\textbf{Post-fire logging effects on reburn severity} \newline USDA Forest Service}{\textbf{USD\$2,500}}{2019-06\newline}
+    \cvhonor{}{\textbf{Restoration treatment effects on ponderosa pine growth sensitivity to climate} \newline USDA Forest Service}{\textbf{USD\$2,500}}{2018-08\newline}
+\end{cvhonors}
+
+\hypertarget{honours}{%
+\section{HONOURS}\label{honours}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Future Students Staff Excellence 2022 Sustainability Award} \newline University of Tasmania}{}{2022-11\newline}
+    \cvhonor{}{\textbf{NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research} \newline Australian Museum}{\textbf{AUD\$10,000}}{2021-10\newline}
+    \cvhonor{}{\textbf{Future Students Staff Excellence 2021 Sustainability Award} \newline University of Tasmania}{}{2021-09\newline}
+    \cvhonor{}{\textbf{Certifi-Cat of Appreciation} \newline Ten Lives Cat Centre}{}{2021-08\newline}
+    \cvhonor{}{\textbf{Tasmania Graduate Research Scholarship (3.5x)} \newline NSW Bushfire Risk Management Research Hub}{\textbf{AUD\$28,000 p.a.}}{2019-09\newline}
+    \cvhonor{}{\textbf{NSW Bushfire Risk Management Research Hub Top-Up (3.5x)} \newline NSW Bushfire Risk Management Research Hub}{\textbf{AUD\$5,000 p.a.}}{2019-09\newline}
+    \cvhonor{}{\textbf{Best Fish and Wildlife Science} \newline Washington Department of Fish and Wildlife}{}{2018-06\newline}
+    \cvhonor{}{\textbf{Conservation Award} \newline Washington Department of Fish and Wildlife}{}{2017-10\newline}
+\end{cvhonors}
+
+\hypertarget{volunteer-experience}{%
+\section{VOLUNTEER EXPERIENCE}\label{volunteer-experience}}
+
+\begin{cventries}
+    \cventry{Ten Lives Cat Centre}{Foster Parent}{\textbf{Hobart, TAS, Australia}}{2020-05 - present}{}\vspace{-4.0mm}
+    \cventry{Humane Society of the New Braunfels Area}{Animal Handler}{\textbf{New Braunfels, TX, USA}}{2018-08 - 2019-01}{}\vspace{-4.0mm}
+    \cventry{Wenatchee Valley Humane Society}{Animal Handler}{\textbf{Wenatchee, WA, USA}}{2018-03 - 2018-08}{}\vspace{-4.0mm}
+    \cventry{North Central Regional Library}{Technology Tutor}{\textbf{Wenatchee, WA, USA}}{2018-01 - 2018-08}{}\vspace{-4.0mm}
+    \cventry{Portland State University}{Geographic Information Systems Technician}{\textbf{Portland, OR, USA}}{2017-01 - 2017-11}{}\vspace{-4.0mm}
+    \cventry{Beacon Hill Elementary School}{Assistant Librarian}{\textbf{Kelso, WA, USA}}{2017-01 - 2017-11}{}\vspace{-4.0mm}
+\end{cventries}
+
+
+\label{LastPage}~
+\end{document}

@@ -23,9 +23,7 @@ header-includes:
   \usepackage{float}
   \usepackage{multicol}
   \usepackage{colortbl}
-  \arrayrulecolor{white}
   \usepackage{hhline}
-  \definecolor{light-gray}{gray}{0.95}
 editor_options: 
   chunk_output_type: console
 ---
@@ -37,6 +35,8 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = FALSE)
 
 source(here::here('./scripts/base_data.R'))
+  # \arrayrulecolor{white}
+  # \definecolor{light-gray}{gray}{0.95}
 ```
 
 # PROFESSIONAL SUMMARY
@@ -49,7 +49,7 @@ I’m a data analyst and scientist with a background in forest ecology, physical
 EDUCATION |>
   ## Remove my TXState faux-thesis.
   ## N.B. This 'thesis' is really just the major, defining research project of my undergraduate which I simply want to remember for its impact.
-  tidyr::unnest() |>
+  tidyr::unnest(cols = c(THESIS)) |>
   dplyr::mutate(THESIS = ifelse(INSTITUTION == 'Texas State University',
                                 NA_character_,
                                 THESIS)) |>
@@ -134,3 +134,4 @@ VOLUNTEER_EXPERIENCE |>
                           embolden(LOCATION),
                           .protect = FALSE)
 ```
+

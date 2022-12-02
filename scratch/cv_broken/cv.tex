@@ -1,0 +1,391 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+% Awesome CV LaTeX Template for CV/Resume
+%
+% This template has been downloaded from:
+% https://github.com/posquit0/Awesome-CV
+%
+% Author:
+% Claud D. Park <posquit0.bj@gmail.com>
+% http://www.posquit0.com
+%
+%
+% Adapted to be an Rmarkdown template by Mitchell O'Hara-Wild
+% 23 November 2018
+%
+% Template license:
+% CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+%
+%-------------------------------------------------------------------------------
+% CONFIGURATIONS
+%-------------------------------------------------------------------------------
+% A4 paper size by default, use 'letterpaper' for US letter
+\documentclass[11pt,a4paper,]{awesome-cv}
+
+% Configure page margins with geometry
+\usepackage{geometry}
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+
+% Specify the location of the included fonts
+\fontdir[fonts/]
+
+% Color for highlights
+% Awesome Colors: awesome-emerald, awesome-skyblue, awesome-red, awesome-pink, awesome-orange
+%                 awesome-nephritis, awesome-concrete, awesome-darknight
+
+\definecolor{awesome}{HTML}{44B0D1}
+
+% Colors for text
+% Uncomment if you would like to specify your own color
+% \definecolor{darktext}{HTML}{414141}
+% \definecolor{text}{HTML}{333333}
+% \definecolor{graytext}{HTML}{5D5D5D}
+% \definecolor{lighttext}{HTML}{999999}
+
+% Set false if you don't want to highlight section with awesome color
+\setbool{acvSectionColorHighlight}{true}
+
+% If you would like to change the social information separator from a pipe (|) to something else
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+\def\endfirstpage{\newpage}
+
+%-------------------------------------------------------------------------------
+%	PERSONAL INFORMATION
+%	Comment any of the lines below if they are not required
+%-------------------------------------------------------------------------------
+% Available options: circle|rectangle,edge/noedge,left/right
+
+\photo{portrait--yee.jpg}
+\name{Todd M.}{Ellis}
+
+\position{Data Analyst \& Statistical Programmer}
+\address{Hobart, Tasmania, Australia}
+
+\mobile{+61 466 683 552}
+\email{\href{mailto:toddellis.wa@gmail.com}{\nolinkurl{toddellis.wa@gmail.com}}}
+\orcid{0000-0002-4410-8676}
+\researchgate{Todd-Ellis-4}
+\github{toddellis}
+\linkedin{tmichaelellis}
+\twitter{tootstorm}
+
+% \gitlab{gitlab-id}
+% \stackoverflow{SO-id}{SO-name}
+% \skype{skype-id}
+% \reddit{reddit-id}
+
+
+\usepackage{booktabs}
+
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%------------------------------------------------------------------------------
+
+
+\textbackslash begin\{document\} ¶
+\usepackage{float} \usepackage{multicol} \usepackage{colortbl} \usepackage{hhline}
+
+% Pandoc CSL macros
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{2em}
+\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\honortitlestyle{#1}}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\honordatestyle{#1}}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\begin{document}
+
+% Print the header with above personal informations
+% Give optional argument to change alignment(C: center, L: left, R: right)
+\makecvheader
+
+% Print the footer with 3 arguments(<left>, <center>, <right>)
+% Leave any of these blank if they are not needed
+% 2019-02-14 Chris Umphlett - add flexibility to the document name in footer, rather than have it be static Curriculum Vitae
+
+
+%-------------------------------------------------------------------------------
+%	CV/RESUME CONTENT
+%	Each section is imported separately, open each file in turn to modify content
+%------------------------------------------------------------------------------
+
+
+
+\hypertarget{professional-summary}{%
+\section{PROFESSIONAL SUMMARY}\label{professional-summary}}
+
+I'm a data analyst and scientist with a background in forest ecology,
+physical geography, and higher education. I've worked as an analyst in a
+wide variety of laboratory, field, and office settings across the United
+States and Australia. Over the course of my career, I've developed novel
+mathematical tools and statistical models; maintained relational
+databases and statistical packages used for conducting data analysis and
+producing standardized reports; trained countless staff, students, and
+volunteers; and managed complex and critical projects. My research has
+been published in high-impact, peer-reviewed journals, and I'm also
+skilled at conveying complex data and information to both casual and
+experienced stakeholders.
+
+\hypertarget{education}{%
+\section{EDUCATION}\label{education}}
+
+\begin{cventries}
+    \cventry{University of Tasmania}{Doctor of Philosophy, Biological Sciences}{\textbf{Sandy Bay, TAS, Australia}}{2019 - present}{\begin{cvitems}
+\item Dissertation: Dynamic mapping and analysis of New South Wales fire regimes: Past, present, and future
+\item Supervisors: Drs. Grant J. Williamson and David M.J.S. Bowman
+\end{cvitems}}
+    \cventry{Western Washington University}{Master of Science, Geography}{\textbf{Bellingham, WA, USA}}{2013 - 2016}{\begin{cvitems}
+\item Thesis: Climatic drivers of western spruce budworm outbreaks in the Okanogan Highlands
+\item Supervisor: Dr. Aquila Flower
+\end{cvitems}}
+    \cventry{Texas State University}{Bachelor of Science, Physical Geography / Geology}{\textbf{San Marcos, TX, USA}}{2007 - 2012}{}\vspace{-4.0mm}
+\end{cventries}
+
+\hypertarget{professional-experience}{%
+\section{PROFESSIONAL EXPERIENCE}\label{professional-experience}}
+
+\begin{cventries}
+    \cventry{University of Tasmania: Division of Future Students (part-time / full-time)}{Data Analyst}{\textbf{Sandy Bay, TAS, Australia}}{2021-02 - present}{\begin{cvitems}
+\item Developing statistical models and tools for meeting target university milestones
+\item Managing design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation
+\item Designing and implementing programming and data analytics training seminars for institution staff
+\item Overseeing development of internal reporting and statistical packages
+\item Processing, analysing and reporting data to promote and review university programs
+\end{cvitems}}
+    \cventry{University of Tasmania: College of Sciences and Engineering (full-time)}{Adjunct Researcher}{\textbf{Sandy Bay, TAS, Australia}}{2019-09 - present}{\begin{cvitems}
+\item Developing complex data-processing and analysis pipelines using high-performance computing and big data
+\item Overseeing multi-year projct design and implementation addressing wildfire and global climate change challenges
+\item Managing custom platform for interactive web-mapping, on-the-fly statistical analyses, and novel data visualisation
+\item Collaborating with national and international research teams tackling climate change risk and mitigation
+\end{cvitems}}
+    \cventry{University of Tasmania: Division of Future Students (casual)}{Sustainability Analyst}{\textbf{Sandy Bay, TAS, Australia}}{2019-10 - 2021-02}{\begin{cvitems}
+\item Processed, analysed, and reported data to promote and review institution programmes
+\item Developed pipelines for automating data cleaning and collation
+\item Prepared data and briefings for global institution rankings
+\item Promoted nation-wide sustainability targets using data dashboards and reports
+\end{cvitems}}
+    \cventry{Apex Systems: Apple, Inc. (contract)}{Data \& GIS Analyst}{\textbf{Austin, TX, USA}}{2018-12 - 2019-05}{\begin{cvitems}
+\item Developed and standardised data-processing methods for vector and multispectral raster datasets
+\item Managed and processed corporate GIS databases using data-driven software and programming languages
+\item Prepared statistical summaries, models, and analytical reports
+\item Led research and development projects to define novel methodologies for geospatial data
+\item Collaboratd with a global network of analysts and technicians
+\end{cvitems}}
+    \cventry{Oregon State University: USDA Forest Service Forestry Sciences Laboratory (contract)}{Faculty Research Assistant}{\textbf{Wenatchee, WA, USA}}{2017-11 - 2018-06}{\begin{cvitems}
+\item Converted complex data and findings into academic and government reports
+\item Developed explanatory models for sustainable forest management under climate change
+\item Created and maintained relational databases for government research
+\item Gathered and analysed ecological data using statistical software
+\end{cvitems}}
+    \cventry{Washington Department of Fish and Wildlife: Region 5 (contract)}{Biological Science Technician II}{\textbf{Ridgefield, WA, USA}}{2017-08 - 2017-11}{\begin{cvitems}
+\item Applied QA/QC to develop electronic biological data collection system and relational database
+\item Analysed biological fisheries data for state government research reporting
+\item Collected and recorded biological data for government research and both commercial and tribal fisheries
+\item Designed, built, and maintained department, fisheries, and commercial research equipment
+\item Conducted outreach to the public, providing information on fisheries research, management principles, and local regulations
+\item Monitord critical fish migrations using DNA sampling and the PTAGIS coordination project
+\item Received training in fish, plant, and organism identification, government safety procedures, boat operation, and defensive driving
+\end{cvitems}}
+    \cventry{Kelso School District: Beacon Hill Elementary School (casual)}{Substitute Teacher}{\textbf{Kelso, WA, USA}}{2017-01 - 2017-08}{\begin{cvitems}
+\item Taught a variety of classrooms, with a focus on K-5 primary education, special education, and LAP classrooms using specialised learning plans
+\item Engaged young students with an interest in scientific research, giving special outreach presentations
+\item Helped integrate and refine special education lesson plans as an instructional assistant
+\end{cvitems}}
+    \cventry{Western Washington University: Huxley College of the Environment (full-time)}{Graduate Teaching Assistant}{\textbf{Bellingham, WA, USA}}{2013-08 - 2016-06}{\begin{cvitems}
+\item Conceptualised, developed, and published novel dendroecological research
+\item Presented research findings at national academic conferences
+\item Coordinated and taught laboratory classrooms for analytical GIS, remote sensing, and research methodology
+\item Trained and led teams of students in the safe use of field and laboratory equipment in inclement weather and rough terrain
+\item Scripted statistical methods for identifying complex ecological and climatological relationships
+\item Presided over and maintained the Huxley Tree Ring Laboratory
+\item Coordinated international travel and classrooms for students and participating agencies
+\item Edited and performed technical reviews of student research papers at the developmental, substantive, and line level
+\item Classes taught: Remote Sensing (ESCI 442), Introduction to GIS (ENVS 320), Computer Cartography (ENVS 321), Research and Writing (ENVS 319), Environmental Data and Information (ENVS 201), Environmental History and Ethics (ENVS 305), Physical Geography (ENVS 203), the Soil Environment and Landscapes (ENVS 427), Water Resources (ENVS 427), Agroecology and Sustainable Agriculture (ENVS 410), Food Cultures of Italy (ENVS 497), and Ecogastronomy (ENVS 110)
+\end{cvitems}}
+    \cventry{The University of Texas at Austin: Texas Natural Science Center (contract)}{Research Engineer}{\textbf{Austin, TX, USA}}{2013-04 - 2013-08}{\begin{cvitems}
+\item Compiled, georeferences, and managed academic collections and geospatial databaes
+\item Contributed historial species range data to statewide virtual biodiversity museum
+\item Reconstructed historical biodata collections and events
+\end{cvitems}}
+    \cventry{Student Conservation Association: USDA Forest Service, Reigon 5 (internship)}{Trail Management Intern}{\textbf{Angeles National Forest, CA, USA}}{2013-01 - 2013-04}{\begin{cvitems}
+\item Co-managed Trails Assessment and Conditions Survey (TrACS) team
+\item Conducted detailed survey of fire damage to public roads and trail systems
+\item Assisted in infrastructure restoration projects to maximise public access benefits
+\item Received national government-sponsored training in defensive driving
+\end{cvitems}}
+    \cventry{The University of Texas at Austin: Texas Natual Science Center (internship)}{Laboratory Assistant}{\textbf{Austin, TX, USA}}{2012-08 - 2013-01}{\begin{cvitems}
+\item Catalogued, conserved, photographed, and archived acadmic fish and fossils collections
+\item Maintained and updated relational database management system for institution collections
+\item Trained volunteers and students in laboratory safety and inventory procedures
+\end{cvitems}}
+    \cventry{Texas State University: Department of Geography (internship)}{Laboratory Assistant}{\textbf{San Marcos, TX, USA}}{2012-08 - 2012-12}{\begin{cvitems}
+\item Established geology and palaeontology laboratories for the university
+\item Prepared vertebrate fossils for laboratory use and public display
+\item Trained volunteers in laboratory procedures and sample preparation techniques
+\item Organised and led field exercises for sample collections and cleanings
+\item Captured and processed ichnological and palaeontological data using Structure from Motion
+\item Curated departmental fossils and rock collections
+\end{cvitems}}
+\end{cventries}
+
+\hypertarget{volunteer-experience}{%
+\section{VOLUNTEER EXPERIENCE}\label{volunteer-experience}}
+
+\begin{cventries}
+    \cventry{Ten Lives Cat Centre}{Foster Parent}{\textbf{Hobart, TAS, Australia}}{2020-05 - present}{}\vspace{-4.0mm}
+    \cventry{Humane Society of the New Braunfels Area}{Animal Handler}{\textbf{New Braunfels, TX, USA}}{2018-08 - 2019-01}{}\vspace{-4.0mm}
+    \cventry{Wenatchee Valley Humane Society}{Animal Handler}{\textbf{Wenatchee, WA, USA}}{2018-03 - 2018-08}{}\vspace{-4.0mm}
+    \cventry{North Central Regional Library}{Technology Tutor}{\textbf{Wenatchee, WA, USA}}{2018-01 - 2018-08}{}\vspace{-4.0mm}
+    \cventry{Portland State University}{Geographic Information Systems Technician}{\textbf{Portland, OR, USA}}{2017-01 - 2017-11}{}\vspace{-4.0mm}
+    \cventry{Beacon Hill Elementary School}{Assistant Librarian}{\textbf{Kelso, WA, USA}}{2017-01 - 2017-11}{}\vspace{-4.0mm}
+    \cventry{Bellingham Public Library}{Technology Tutor}{\textbf{Bellingham, WA, USA}}{2014-07 - 2016-08}{}\vspace{-4.0mm}
+    \cventry{The University of Texas at Austin}{Laboratory Assistant}{\textbf{Austin, TX, USA}}{2012-01 - 2012-07}{}\vspace{-4.0mm}
+    \cventry{Texas State University}{Laboratory Assistant}{\textbf{San Marcos, TX, USA}}{2011-03 - 2012-07}{}\vspace{-4.0mm}
+\end{cventries}
+
+\hypertarget{publications}{%
+\section{PUBLICATIONS}\label{publications}}
+
+\hypertarget{journal-articles}{%
+\subsection{JOURNAL ARTICLES}\label{journal-articles}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Double-differenced dNBR: Combining MODIS and Landsat imagery to map fine-grained fire mosaics in lowland Eucalyptus savanna in Kakadu National Park, northern Australia} \newline \textit{Fire}. \underline{\href{https://doi.org/10.3390/fire5050160}{https://doi.org/10.3390/fire5050160}}}{}{2022-10\newline}
+    \cvhonor{}{\textbf{Global increase in wildfire risk due to climate‐driven declines in fuel moisture} \newline \textit{Global Change Biology}. \underline{\href{https://doi.org/10.1111/gcb.16006}{https://doi.org/10.1111/gcb.16006}}}{}{2022-02\newline}
+    \cvhonor{}{\textbf{A multicentury dendrochronological reconstruction of western spruce budworm outbreaks in the Okanogan Highlands, northeastern Washington} \newline \textit{Canadian Journal of Forest Research}. \underline{\href{https://doi.org/10.1139/cjfr-2016-0399}{https://doi.org/10.1139/cjfr-2016-0399}}}{}{2017-09\newline}
+\end{cvhonors}
+
+\hypertarget{theses}{%
+\subsection{THESES}\label{theses}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Climatic Drivers of Western Spruce Budworm Outbreaks in the Okanogan Highlands} \newline \textit{Western Washington University}. \underline{\href{https://doi.org/10.25710/D4XW-5825}{https://doi.org/10.25710/D4XW-5825}}}{}{2016-06\newline}
+\end{cvhonors}
+
+\hypertarget{open-access-data}{%
+\subsection{OPEN-ACCESS DATA}\label{open-access-data}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Double-differenced dNBR: Combining MODIS and Landsat imagery to map fine-grained fire mosaics in lowland Eucalyptus savanna in Kakadu National Park, northern Australia} \newline \textit{figshare}. \underline{\href{https://doi.org/10.6084/M9.FIGSHARE.21259524}{https://doi.org/10.6084/M9.FIGSHARE.21259524}}}{}{2022-10\newline}
+    \cvhonor{}{\textbf{Global ERA5 fuel moisture trends 1979 - 2019} \newline \textit{figshare}. \underline{\href{https://doi.org/10.6084/m9.figshare.16794727}{https://doi.org/10.6084/m9.figshare.16794727}}}{}{2021-11\newline}
+\end{cvhonors}
+
+\hypertarget{software}{%
+\subsection{SOFTWARE}\label{software}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{utaspptx}: Simple methods for producing themed reports and presentations in Microsoft Office software \newline GitHub. \underline{private}}{}{2021-11\newline}
+    \cvhonor{}{\textbf{miao}: Custom exploratory data analysis and statistical tools \newline GitHub. \underline{\href{https://github.com/toddellis/miao}{https://github.com/toddellis/miao}}}{}{2021-08\newline}
+    \cvhonor{}{\textbf{utastoolkit}: Tools for accessing and reporting internal University data from the Enterprise Data Warehouse \newline GitHub. \underline{private}}{}{2021-05\newline}
+\end{cvhonors}
+
+\hypertarget{consulting}{%
+\section{CONSULTING}\label{consulting}}
+
+\hypertarget{research}{%
+\subsection{RESEARCH}\label{research}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Predicting fire behaviour using historical satellite imagery} \newline Frontier Development Lab}{\textbf{AUD\$1,000}}{2020-08\newline}
+    \cvhonor{}{\textbf{Post-fire logging effects on reburn severity} \newline USDA Forest Service}{\textbf{USD\$2,500}}{2019-06\newline}
+    \cvhonor{}{\textbf{Restoration treatment effects on ponderosa pine growth sensitivity to climate} \newline USDA Forest Service}{\textbf{USD\$2,500}}{2018-08\newline}
+\end{cvhonors}
+
+\hypertarget{manuscript-reviewer}{%
+\subsection{MANUSCRIPT REVIEWER}\label{manuscript-reviewer}}
+
+\begin{cvhonors}
+    \cvhonor{}{\underline{\textbf{\textit{\href{https://nph.onlinelibrary.wiley.com/journal/14698137}{New Phytologist}}}}}{}{\newline}
+    \cvhonor{}{\underline{\textbf{\textit{\href{https://onlinelibrary.wiley.com/journal/13652486}{Global Change Biology}}}}}{}{\newline}
+    \cvhonor{}{\underline{\textbf{\textit{\href{https://agupubs.onlinelibrary.wiley.com/journal/23284277}{Earth's Future}}}}}{}{\newline}
+    \cvhonor{}{\underline{\textbf{\textit{\href{https://fireecology.springeropen.com/}{Fire Ecology}}}}}{}{\newline}
+\end{cvhonors}
+
+\hypertarget{outreach}{%
+\section{OUTREACH}\label{outreach}}
+
+\hypertarget{conferences-and-presentations}{%
+\subsection{CONFERENCES AND
+PRESENTATIONS}\label{conferences-and-presentations}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Removing Barriers and transforming access to tertiary education: The Schools Recommendation Program in Tasmania} \newline AAIR Forum 2022}{\textbf{Macquarie University, NSW}}{2022-12\newline}
+    \cvhonor{}{\textbf{Schools Recommendation Program Overview} \newline University of Tasmania Lunch \& Learn}{\textbf{Sandy Bay, TAS}}{2022-09\newline}
+    \cvhonor{}{\textbf{Dynamic mapping and analysis of fire regimes, past, present, and future} \newline Bushfire Risk Management Research Hub Showcase 2022 (\underline{\href{https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf}{poster}})}{\textbf{Wollongong, NSW}}{2022-06\newline}
+    \cvhonor{}{\textbf{Tasmanian Analytics Project} \newline University of Tasmania and Department of Education Lunch \& Learn}{\textbf{Sandy Bay, TAS}}{2021-10\newline}
+    \cvhonor{}{\textbf{Fuel moisture trend tool} \newline Bushfire Risk Management Research Hub Researchers' Meeting 2021 (\underline{\href{https://toddmellis.files.wordpress.com/2022/06/wp1-fmc-fire-seasons-2021-05.pdf}{poster}})}{\textbf{Wollongong, NSW}}{2021-05\newline}
+    \cvhonor{}{\textbf{Changes in moisture availability drive fire risk} \newline Bushfire Risk Management Research Hub Researchers' Meeting 2020 (\underline{\href{https://toddmellis.files.wordpress.com/2020/03/firehub_meet_20200302.pdf}{presentation}})}{\textbf{Wollongong, NSW}}{2020-03\newline}
+    \cvhonor{}{\textbf{Controlling factors of spruce budworm outbreaks in the Okanogan Highlands} \newline American Association of Geographers Annual Meeting 2016 (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/ellis-2016_aag_pres.pdf}{presentation}})}{\textbf{San Francisco, CA}}{2016-04\newline}
+    \cvhonor{}{\textbf{Climate responses of \textit{Pseudotsuga menziesii} and \textit{Pinus flexilis} in the Greater Yellowstone (USA)} \newline North American Dendroecological Fieldweek 2014 (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponsepres.pdf}{presentation}})}{\textbf{Cody, WY}}{2014-07\newline}
+    \cvhonor{}{\textbf{Perceptions of risk in Bellingham, Washington} \newline Association of Washington Geographers Spring Meeting 2014}{\textbf{Seattle, WA}}{2014-04\newline}
+\end{cvhonors}
+
+\hypertarget{press}{%
+\subsection{PRESS}\label{press}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Bushfire research team awarded prestigious Eureka Prize} \newline University of Tasmania (\underline{\href{https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize}{article}})}{}{2021-10\newline}
+\end{cvhonors}
+
+\hypertarget{coursework}{%
+\subsection{COURSEWORK}\label{coursework}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future} \newline University of Tasmania Graduate Seminars}{\textbf{Sandy Bay, TAS}}{2020-07\newline}
+    \cvhonor{}{\textbf{Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands} \newline Western Washington University Graduate Defense (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/ellis_thesis_defense.pdf}{presentation}})}{\textbf{Bellingham, WA}}{2016-06\newline}
+    \cvhonor{}{\textbf{Controlling factors of spruce budworm outbreaks in the Okanogan Highlands} \newline Western Washington University Graduate Seminars}{\textbf{Bellingham, WA}}{2014-05\newline}
+    \cvhonor{}{\textbf{Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery} \newline Western Washington University EGEO 504: Geographic Methods \& Techniques (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetreepres.pdf}{presentation}})}{\textbf{Bellingham, WA}}{2014-05\newline}
+    \cvhonor{}{\textbf{Biogeographic implications of Structure-from-Motion imagery} \newline Western Washington University EGEO 501: History and Philosophy of Geography (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/ellis_2013_sfm.pdf}{paper}})}{\textbf{Bellingham, WA}}{2013-12\newline}
+    \cvhonor{}{\textbf{Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988} \newline Texas State University GEO 4412: Digital Remote Sensing (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazardpres.pdf}{presentation}})}{\textbf{San Marcos, TX}}{2012-05\newline}
+    \cvhonor{}{\textbf{Cretaceous-aged fossiliferous outcrops of the Big Bend region} \newline Texas State University GEO 4310: Regional Field Studies (\underline{\href{https://toddmellis.files.wordpress.com/2017/11/ellis-20120301-cretaceous-aged-fossiliferous-outcrops-of-the-big-bend-region.pdf}{paper}})}{\textbf{San Marcos, TX}}{2012-04\newline}
+    \cvhonor{}{\textbf{Predator-prey relations in the Greater Yellowstone Ecosystem} \newline Texas State University GEO 4316: Landscape Biogeography (\underline{\href{https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye-presentation.pdf}{presentation}})}{\textbf{San Marcos, TX}}{2011-12\newline}
+\end{cvhonors}
+
+\hypertarget{honours}{%
+\section{HONOURS}\label{honours}}
+
+\hypertarget{awards}{%
+\subsection{AWARDS}\label{awards}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Future Students Staff Excellence 2022 Sustainability Award} \newline University of Tasmania}{}{2022-11\newline}
+    \cvhonor{}{\textbf{NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research} \newline Australian Museum}{\textbf{AUD\$10,000}}{2021-10\newline}
+    \cvhonor{}{\textbf{Future Students Staff Excellence 2021 Sustainability Award} \newline University of Tasmania}{}{2021-09\newline}
+    \cvhonor{}{\textbf{Certifi-Cat of Appreciation} \newline Ten Lives Cat Centre}{}{2021-08\newline}
+    \cvhonor{}{\textbf{Best Fish and Wildlife Science} \newline Washington Department of Fish and Wildlife}{}{2018-06\newline}
+    \cvhonor{}{\textbf{Conservation Award} \newline Washington Department of Fish and Wildlife}{}{2017-10\newline}
+    \cvhonor{}{\textbf{Award for Outstanding Poster Presentation by a Graduate Student} \newline Association of Washington Geographers}{\textbf{USD\$125}}{2014-05\newline}
+\end{cvhonors}
+
+\hypertarget{grants-and-scholarships}{%
+\subsection{GRANTS AND SCHOLARSHIPS}\label{grants-and-scholarships}}
+
+\begin{cvhonors}
+    \cvhonor{}{\textbf{Bushfire Data Quest 2020} \newline Frontier Development Lab}{\textbf{AUD\$1,000}}{2020-08\newline}
+    \cvhonor{}{\textbf{Tasmania Graduate Research Scholarship (3.5x)} \newline NSW Bushfire Risk Management Research Hub}{\textbf{AUD\$28,000 p.a.}}{2019-09\newline}
+    \cvhonor{}{\textbf{NSW Bushfire Risk Management Research Hub Top-Up (3.5x)} \newline NSW Bushfire Risk Management Research Hub}{\textbf{AUD\$5,000 p.a.}}{2019-09\newline}
+    \cvhonor{}{\textbf{Dean and Sandy Blinn Travel and Research Fund} \newline Western Washington University}{\textbf{USD\$450}}{2016-04\newline}
+    \cvhonor{}{\textbf{Dean's Fund for Sustainability Studies} \newline Western Washington University}{\textbf{USD\$500}}{2016-04\newline}
+    \cvhonor{}{\textbf{North American Dendroecological Fieldweek research fellowship} \newline North American Dendroecological Fieldweek}{\textbf{USD\$3,000}}{2014-07\newline}
+\end{cvhonors}
+
+
+\label{LastPage}~
+\end{document}

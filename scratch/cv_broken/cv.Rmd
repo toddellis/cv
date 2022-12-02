@@ -20,6 +20,7 @@ output:
     page_total: true
 always_allow_html: yes
 header-includes:
+  \begin{document}
   \usepackage{float}
   \usepackage{multicol}
   \usepackage{colortbl}
@@ -35,8 +36,18 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = FALSE)
 
 source(here::here('./scripts/base_data.R'))
-```
 
+## FONTS #### 
+## Only needed if I end up keeping the map -- not sure I like that, however.
+# .uni <-
+#   fontawesome::fa('university')
+# .job <-
+#   fontawesome::fa('briefcase')
+
+## As at 2022-12-02, these inputs in header-includes in the YAML seem to break the document.
+#   \arrayrulecolor{white}
+  # \definecolor{light-gray}{gray}{0.95}
+```
 
 # PROFESSIONAL SUMMARY
 
@@ -159,7 +170,6 @@ VOLUNTEER_EXPERIENCE |>
 
 BIBLIOGRAPHY |>
   dplyr::filter(TYPE == "journal-article") |>
-  dplyr::filter(!is.na(DATE)) |>
   order_by_date() |>
   vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI_URL>}}",
                                   .open = "<",
@@ -293,8 +303,7 @@ tibble::tribble(
   dplyr::mutate(N_REVIEWS = length(unlist(ARTICLES))) |>
   dplyr::ungroup() |>
   order_by_date() |>
-  dplyr::arrange(JOURNAL) |>
-  vitae::brief_entries(glue::glue("\\underline{\\textbf{\\textit{\\href{<URL>}{<JOURNAL>}}}} (since <DATE_START>)",
+  vitae::brief_entries(glue::glue("\\underline{\\textbf{\\textit{\\href{<URL>}{<JOURNAL>}}}}",
                                   .open = "<",
                                   .close = ">"),
                        paste0("\\newline"),
@@ -322,7 +331,7 @@ OUTREACH |>
   dplyr::slice(1) |>
   dplyr::ungroup() |>
   dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
-  order_by_date() |> 
+  order_by_date() |>
   vitae::brief_entries(dplyr::case_when(!is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT> (\\underline{\\href{<URL>}{<URL_TYPE>}})", 
                                                                                  .open = "<", 
                                                                                  .close = ">"),

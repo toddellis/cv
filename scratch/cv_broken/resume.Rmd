@@ -1,0 +1,136 @@
+---
+name: Todd M.
+surname: Ellis
+position: "Data Analyst & Statistical Programmer"
+profilepic: portrait--yee.jpg
+address: |
+         | Hobart, Tasmania, Australia
+phone: +61 466 683 552
+email: "toddellis.wa@gmail.com"
+linkedin: tmichaelellis
+orcid: 0000-0002-4410-8676
+researchgate: Todd-Ellis-4
+github: toddellis
+twitter: tootstorm
+date: "`r format(Sys.time(), '%B %Y')`"
+headcolor: 44B0D1
+output: 
+  vitae::awesomecv:
+    keep_tex: false
+    page_total: true
+always_allow_html: yes
+header-includes:
+  \usepackage{float}
+  \usepackage{multicol}
+  \usepackage{colortbl}
+  \usepackage{hhline}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE,
+                      cache = FALSE)
+
+source(here::here('./scripts/base_data.R'))
+  # \arrayrulecolor{white}
+  # \definecolor{light-gray}{gray}{0.95}
+```
+
+# PROFESSIONAL SUMMARY
+
+I’m a data analyst and scientist with a background in forest ecology, physical geography, and higher education. I've worked as an analyst in a wide variety of laboratory, field, and office settings across the United States and Australia. Over the course of my career, I've developed novel mathematical tools and statistical models; maintained relational databases and statistical packages used for conducting data analysis and producing standardized reports; trained countless staff, students, and volunteers; and managed complex and critical projects. My research has been published in high-impact, peer-reviewed journals, and I'm also skilled at conveying complex data and information to both casual and experienced stakeholders.
+
+# EDUCATION 
+
+```{r}
+EDUCATION |>
+  ## Remove my TXState faux-thesis.
+  ## N.B. This 'thesis' is really just the major, defining research project of my undergraduate which I simply want to remember for its impact.
+  tidyr::unnest(cols = c(THESIS)) |>
+  dplyr::mutate(THESIS = ifelse(INSTITUTION == 'Texas State University',
+                                NA_character_,
+                                THESIS)) |>
+  vitae::detailed_entries(INSTITUTION, 
+                          DATES, 
+                          DEGREE,
+                          embolden(LOCATION), 
+                          THESIS,
+                          .protect=FALSE)
+```
+
+# PROFESSIONAL EXPERIENCE
+
+```{r}
+
+PROFESSIONAL_EXPERIENCE |>
+  ## Remove those positions that don't quite fit
+  dplyr::filter(!POSITION %in% c(
+    ## If displaying a consulsting section, don't need this
+    "Independent Research Contractor", 
+    ## Likely not relevant for most applications
+    "Substitute Teacher"
+  )) |>
+  tidyr::unnest(DESCRIPTION) |>
+  dplyr::group_by(INSTITUTION, DATES, POSITION) |>
+  dplyr::slice(1:4) |>
+  filter_latest("DATE_END", 5) |>
+  order_by_date() |>
+  vitae::detailed_entries(paste0(INSTITUTION, ": ", DEPARTMENT, " (", TYPE, ")"),
+                          DATES,
+                          POSITION,
+                          embolden(LOCATION),
+                          DESCRIPTION,
+                          .protect = FALSE)
+
+```
+
+# CONSULTING
+
+```{r, results = "asis"}
+CONSULTING_EXPERIENCE |>
+  ## Does FDL belong here or in consulting?
+  # dplyr::filter(AGENCY != "Frontier Development Lab") |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+                 # desc(readr::parse_number(AMOUNT))) |>
+  vitae::brief_entries(glue::glue("\\textbf{<PROJECT>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       embolden(AMOUNT),
+                       .protect = FALSE)
+```
+
+# HONOURS
+
+```{r, results = "asis"}
+HONOURS |>
+  ## Does FDL belong here or in consulting?
+  dplyr::filter(AGENCY != "Frontier Development Lab") |>
+  filter_latest("DATE", 5) |>
+  # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
+  #                desc(readr::parse_number(AMOUNT)))  |>
+  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       ifelse(!is.na(AMOUNT),
+                              embolden(AMOUNT),
+                              paste0("")),
+                       .protect = FALSE)
+```
+
+# VOLUNTEER EXPERIENCE
+
+```{r}
+VOLUNTEER_EXPERIENCE |>
+  filter_latest("YEAR_END", 5) |>
+  dplyr::arrange(desc(YEAR_START)) |>
+  vitae::detailed_entries(INSTITUTION,
+                          DATES,
+                          POSITION,
+                          embolden(LOCATION),
+                          .protect = FALSE)
+```
