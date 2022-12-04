@@ -4,16 +4,18 @@ surname: Ellis
 position: "Data Analyst & Statistical Programmer"
 profilepic: portrait--yee.jpg
 address: |
-         | Hobart, Tasmania, Australia
+         | Greater Hobart Region, Tasmania, Australia
+         | `r format(Sys.time(), '%B %Y')`
+aboutme: ""
 phone: +61 466 683 552
 email: "toddellis.wa@gmail.com"
 linkedin: tmichaelellis
 orcid: 0000-0002-4410-8676
 researchgate: Todd-Ellis-4
 github: toddellis
-twitter: tootstorm
 date: "`r format(Sys.time(), '%B %Y')`"
 headcolor: 44B0D1
+docname: "Résumé"
 output: 
   vitae::awesomecv:
     keep_tex: false
@@ -37,6 +39,7 @@ knitr::opts_chunk$set(echo = FALSE,
 source(here::here('./scripts/base_data.R'))
   # \arrayrulecolor{white}
   # \definecolor{light-gray}{gray}{0.95}
+# twitter: tootstorm
 ```
 
 # PROFESSIONAL SUMMARY
@@ -99,7 +102,8 @@ CONSULTING_EXPERIENCE |>
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
-                       embolden(AMOUNT),
+                       ## Shouldn't include amounts in short-form resume(?)
+                       "", # embolden(AMOUNT),
                        .protect = FALSE)
 ```
 
@@ -116,9 +120,11 @@ HONOURS |>
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),
-                       ifelse(!is.na(AMOUNT),
-                              embolden(AMOUNT),
-                              paste0("")),
+                       ## Shouldn't include amounts in short-form resume(?)
+                       "",
+                       # ifelse(!is.na(AMOUNT),
+                       #        embolden(AMOUNT),
+                       #        paste0("")),
                        .protect = FALSE)
 ```
 
