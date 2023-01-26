@@ -117,7 +117,12 @@ EDUCATION <-
 PROFESSIONAL_EXPERIENCE <-
   tibble::tribble(
     ~ INSTITUTION, ~ DATE_START, ~ DATE_END, ~ LOCATION, ~ POSITION, ~ DEPARTMENT, ~ TYPE, ~ DESCRIPTION,
-    "University of Tasmania", "2021-02", NA, "Sandy Bay, TAS, Australia", "Data Analyst", "Division of Future Students", "part-time / full-time", c(
+    "University of Tasmania", "2023-01", NA, "Sandy Bay, TAS, Australia", "Data Insights Analyst", "Division of Future Students", "full-time", c(
+      "Developing novel student admissions tools and processes using novel data and modelling",
+      "Leading development and modelling on higher education programs actively improving equity of access for potential applicants",
+      "Providing insights and consulting to university stakeholders across the institution"
+    ),
+    "University of Tasmania", "2021-02", "2023-01", "Sandy Bay, TAS, Australia", "Data Analyst", "Division of Future Students", "part-time / full-time", c(
       "Developing statistical models and tools for meeting target university milestones",
       "Managing design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation",
       "Designing and implementing programming and data analytics training seminars for institution staff",

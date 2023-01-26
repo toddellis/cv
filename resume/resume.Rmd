@@ -10,6 +10,7 @@ aboutme: ""
 phone: +61 466 683 552
 email: "toddellis.wa@gmail.com"
 linkedin: tmichaelellis
+googlescholar: q6vTAroAAAAJ
 orcid: 0000-0002-4410-8676
 researchgate: Todd-Ellis-4
 github: toddellis

@@ -322,6 +322,9 @@
 % Usage: \linkedin{<linked-in-nick>}
 \newcommand*{\linkedin}[1]{\def\@linkedin{#1}}
 
+% Usage: \mastodon{<mastodon-handle>}
+% \newcommand*{\mastodon[1]{\def\@mastodon{#1}}
+
 % Usage: \twitter{<twitter handle>}
 \newcommand*{\twitter}[1]{\def\@twitter{#1}}
 
@@ -521,6 +524,12 @@
           \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
           \href{https://www.linkedin.com/in/\@linkedin}{\faLinkedinSquare\acvHeaderIconSep\@linkedin}%
         }%
+      %\ifthenelse{\isundefined{\@mastodon}}%
+      %  {}%
+      %  {%
+      %    \ifbool{isstart}{\setbool{isstart}{false}}{\acvHeaderSocialSep}%
+      %    \href{https://eldritch.cafe/\@mastodon}{\faTwitter\acvHeaderIconSep\@mastodon}%
+      %  }%
       \ifthenelse{\isundefined{\@twitter}}%
         {}%
         {%
