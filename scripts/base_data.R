@@ -123,22 +123,22 @@ PROFESSIONAL_EXPERIENCE <-
       "Providing insights and consulting to university stakeholders across the institution"
     ),
     "University of Tasmania", "2021-02", "2023-01", "Sandy Bay, TAS, Australia", "Data Analyst", "Division of Future Students", "part-time / full-time", c(
-      "Developing statistical models and tools for meeting target university milestones",
-      "Managing design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation",
-      "Designing and implementing programming and data analytics training seminars for institution staff",
-      "Overseeing development of internal reporting and statistical packages",
-      "Processing, analysing and reporting data to promote and review university programs"
+      "Developed statistical models and tools for meeting target university milestones",
+      "Managed design and implementation of broad-scale university ML models for directing future university marketing, funding, and course creation",
+      "Designed and implemented programming and data analytics training seminars for institution staff",
+      "Oversaw development of internal reporting and statistical packages",
+      "Processed, analysed and reported data to promote and review university programs"
     ),
     "Self-Employed", "2018-07", "2020-09", NA, "Independent Research Contractor", NA, "contract", c(
       "Developed large-scale data-processing methodologies for resource and hazard management",
       "Produced interactive, dynamic dashboard products for exploratory data analysis and modelling"
       # "Notable contracts incl. U.S. Forest Service (2018-08, 2019-06) and Frontier Development Lab (2020-08)"
     ),
-    "University of Tasmania", "2019-09", NA, "Sandy Bay, TAS, Australia", "Adjunct Researcher", "College of Sciences and Engineering", "full-time", c(
-      "Developing complex data-processing and analysis pipelines using high-performance computing and big data",
-      "Overseeing multi-year projct design and implementation addressing wildfire and global climate change challenges",
-      "Managing custom platform for interactive web-mapping, on-the-fly statistical analyses, and novel data visualisation",
-      "Collaborating with national and international research teams tackling climate change risk and mitigation"
+    "University of Tasmania", "2019-09", "2023-03", "Sandy Bay, TAS, Australia", "Adjunct Researcher", "College of Sciences and Engineering", "full-time", c(
+      "Developed complex data-processing and analysis pipelines using high-performance computing and big data",
+      "Oversaw multi-year projct design and implementation addressing wildfire and global climate change challenges",
+      "Managed custom platform for interactive web-mapping, on-the-fly statistical analyses, and novel data visualisation",
+      "Collaborated with national and international research teams tackling climate change risk and mitigation"
     ),
     "University of Tasmania", "2019-10", "2021-02", "Sandy Bay, TAS, Australia", "Sustainability Analyst", "Division of Future Students", "casual", c(
       "Processed, analysed, and reported data to promote and review institution programmes",
