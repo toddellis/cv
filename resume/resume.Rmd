@@ -51,17 +51,10 @@ I’m a data analyst and scientist with a background in forest ecology, physical
 
 ```{r}
 EDUCATION |>
-  ## Remove my TXState faux-thesis.
-  ## N.B. This 'thesis' is really just the major, defining research project of my undergraduate which I simply want to remember for its impact.
-  tidyr::unnest(cols = c(THESIS)) |>
-  dplyr::mutate(THESIS = ifelse(INSTITUTION == 'Texas State University',
-                                NA_character_,
-                                THESIS)) |>
   vitae::detailed_entries(INSTITUTION, 
                           DATES, 
                           DEGREE,
                           embolden(LOCATION), 
-                          THESIS,
                           .protect=FALSE)
 ```
 
@@ -72,10 +65,8 @@ EDUCATION |>
 PROFESSIONAL_EXPERIENCE |>
   ## Remove those positions that don't quite fit
   dplyr::filter(!POSITION %in% c(
-    ## If displaying a consulsting section, don't need this
-    "Independent Research Contractor", 
-    ## Likely not relevant for most applications
-    "Substitute Teacher"
+    ## If displaying a consulting section, don't need this
+    "Independent Research Contractor"
   )) |>
   tidyr::unnest(DESCRIPTION) |>
   dplyr::group_by(INSTITUTION, DATES, POSITION) |>

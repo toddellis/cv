@@ -1,4 +1,14 @@
 #### SETUP #### ----------------------------------------------------------------
+### N.B. Instructions or quirks when trying to run these from new sources:
+## 1. LaTeX needs to be properly installed. The easiest way:
+##    a. [Ensure admin privileges are enabled!]
+##    b. install.packages("tinytex")
+##    c. tinytex::install_tinytex()
+## 2. ORCID needs to be authenticated!
+##    a. rorcid::orcid_auth() ## Opens a browser to log in to ORCID
+##    b. usethis::edit_r_environ() ## Opens an environment file
+##    c. ORCID_TOKEN="_insert_token_spit_out_by_a_"
+##    d. [Save and restart R session.]
 ### LOAD PACKAGES --------------------------------------------------------------
 library(vitae)
 library(rorcid)
@@ -104,7 +114,7 @@ EDUCATION <-
                                                                                                                     "Supervisors: Drs. Grant J. Williamson and David M.J.S. Bowman"),
     "Western Washington University", 2013, 2016, "Bellingham, WA, USA", "Master of Science, Geography", c("Thesis: Climatic drivers of western spruce budworm outbreaks in the Okanogan Highlands",
                                                                                                           "Supervisor: Dr. Aquila Flower"),
-    "Texas State University", 2007, 2012, "San Marcos, TX, USA", "Bachelor of Science, Physical Geography / Geology", "Capstone: Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987 - 1988"
+    "Texas State University", 2007, 2012, "San Marcos, TX, USA", "Bachelor of Science, Physical Geography and Geology", "Capstone: Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987 - 1988"
   ) |>
   ## Add date range
   dplyr::mutate(
@@ -118,9 +128,10 @@ PROFESSIONAL_EXPERIENCE <-
   tibble::tribble(
     ~ INSTITUTION, ~ DATE_START, ~ DATE_END, ~ LOCATION, ~ POSITION, ~ DEPARTMENT, ~ TYPE, ~ DESCRIPTION,
     "University of Tasmania", "2023-01", NA, "Sandy Bay, TAS, Australia", "Data Insights Analyst", "Division of Future Students", "full-time", c(
-      "Developing novel student admissions tools and processes using novel data and modelling",
-      "Leading development and modelling on higher education programs actively improving equity of access for potential applicants",
-      "Providing insights and consulting to university stakeholders across the institution"
+      "Managing the development and implementation of a transformative statewide program to improve equity of access to higher education",
+      "Leading the development of statistical models and reporting tools for managing offers and course quotas",
+      "Streamlining and automating the higher education admissions system for school leavers",
+      "Providing insights and consultations to institutional and external stakeholders"
     ),
     "University of Tasmania", "2021-02", "2023-01", "Sandy Bay, TAS, Australia", "Data Analyst", "Division of Future Students", "part-time / full-time", c(
       "Developed statistical models and tools for meeting target university milestones",
@@ -278,7 +289,7 @@ HONOURS <-
     "2017-10","Washington Department of Fish and Wildlife", "Conservation Award", NA_character_, "award",
     "2016-04", "Western Washington University", "Dean and Sandy Blinn Travel and Research Fund", "USD\\$450", "scholarship",
     "2016-04", "Western Washington University", "Dean's Fund for Sustainability Studies", "USD\\$500", "scholarship",
-    "2014-07", "North American Dendroecological Fieldweek", "North American Dendroecological Fieldweek research fellowship", "USD\\$3,000", "scholarship",
+    "2014-07", "North American Dendroecological Fieldweek", "North American Dendroecological Fieldweek Research Fellowship", "USD\\$3,000", "scholarship",
     "2014-05", "Association of Washington Geographers", "Award for Outstanding Poster Presentation by a Graduate Student", "USD\\$125", "award"
   ) |>
   order_by_date()
