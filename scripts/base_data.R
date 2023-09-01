@@ -32,6 +32,9 @@ library(stringr)
 library(here)
 library(xtable)
 library(rlang)
+library(janitor)
+library(scholar)
+library(rscopus)
 #### HELPER FUNCTIONS ----------------------------------------------------------
 ## Bold text in vitae entries
 embolden <- function(x) {
@@ -398,3 +401,58 @@ BIBLIOGRAPHY <-
                                     NA_real_),
                    .SRC = `source.source-name.value`) |>
   order_by_date()
+
+SCOPUS_RAW <-
+  # rscopus::author_data(last_name = "Ellis", first_name = "Todd M.")
+  rscopus::author_data(au_id = "57198884833")
+
+SCOPUS <-
+  SCOPUS_RAW$df |>
+  janitor::clean_names() |>
+  dplyr::rename_all(.funs = ~ stringr::str_remove(.x, "(prism_|dc_)")) |>
+  dplyr::select(entry_number,
+                title, cover_date, cover_display_date, publication_name, volume, issue_identifier, page_range, article_number, doi,
+                citedby_count,
+                aggregation_type, subtype_description, author_count,openaccess_flag, freetoread_label_value, pubmed_id, fund_sponsor) |>
+  dplyr::mutate(dplyr::across(.cols = c(entry_number, citedby_count),
+                              .fns = ~ as.numeric(.x)),
+                cover_date = lubridate::as_date(cover_date),
+                pub_year = lubridate::year(cover_date)) |>
+  dplyr::left_join(SCOPUS_RAW$full_data$author |>
+                     dplyr::mutate(surname = ifelse(`@seq` == max(`@seq`, na.rm = TRUE),
+                                                    glue::glue("and {surname}"),
+                                                    surname),
+                                   .by = entry_number) |>
+                     dplyr::mutate(author = glue::glue("{surname}, {initials}"),
+                                   author = ifelse(author == "Ellis, T.M.",
+                                                   "\\textbf{Ellis, T.M.}",
+                                                   author),
+                                   entry_number = as.numeric(entry_number)) |>
+                     dplyr::summarise(authors = paste0(author, collapse = ", "),
+                                      author_no = `@seq`[author == "\\textbf{Ellis, T.M.}"],
+                                      .by = entry_number),
+                   by = dplyr::join_by(entry_number)) |>
+  ## Manual, *known* fixes
+  dplyr::mutate(title = stringr::str_replace(title, "MOSAICS", "Mosaics")) |>
+  tibble::as_tibble()
+
+## Maybe things to use:
+# scholar::get_citation_history(id = "q6vTAroAAAAJ")
+
+GSCHOLAR <-
+  scholar::get_profile(id = "q6vTAroAAAAJ")
+# scholar::get_publications(id = "q6vTAroAAAAJ")
+
+ACADEMIC_SUMMARY <-
+  tibble::tibble(pub_count = nrow(SCOPUS),
+                 pub_count_journal = nrow(filter(SCOPUS,
+                                                 aggregation_type == "Journal",
+                                                 !subtype_description %in% c("Book Chapter",
+                                                                             "Conference Paper",
+                                                                             "Erratum"))),
+                 pub_count_first = nrow(filter(SCOPUS,
+                                               author_no == 1,
+                                               subtype_description != "Erratum")),
+                 h_index = GSCHOLAR$h_index,
+                 citations_gscholar = GSCHOLAR$total_cites,
+                 citations_scopus = sum(SCOPUS$citedby_count, na.rm = TRUE))

@@ -38,6 +38,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = FALSE)
 
 source(here::here('./scripts/base_data.R'))
+# twitter: tootstorm
 ```
 
 # PROFESSIONAL SUMMARY 
@@ -50,8 +51,6 @@ As at `r Sys.Date()`, I have `r ACADEMIC_SUMMARY$pub_count` peer-reviewed public
 
 ```{r}
 EDUCATION |>
-  ## Remove my TXState faux-thesis.
-  ## N.B. This 'thesis' is really just the major, defining research project of my undergraduate which I simply want to remember for its impact.
   tidyr::unnest(THESIS) |>
   dplyr::mutate(THESIS = ifelse(INSTITUTION == 'Texas State University',
                                 NA_character_,
@@ -71,19 +70,26 @@ PROFESSIONAL_EXPERIENCE |>
   dplyr::filter(!POSITION %in% c(
     "Independent Research Contractor"
   )) |>
+  dplyr::mutate(POSITION_NO = dplyr::row_number()) |> 
+  tidyr::unnest(DESCRIPTION) |>
+  dplyr::group_by(INSTITUTION, DEPARTMENT, TYPE, DATES, POSITION, LOCATION) |>
+  dplyr::slice(1:4) |>
+  # tidyr::nest(DESCRIPTION = DESCRIPTION) |> 
+  dplyr::ungroup() |>
+  filter_latest("YEAR_END", 3) |>
   order_by_date() |>
+  dplyr::filter(POSITION_NO <= 3) |>
   vitae::detailed_entries(paste0(INSTITUTION, ": ", DEPARTMENT, " (", TYPE, ")"),
                           DATES,
                           POSITION,
                           embolden(LOCATION),
                           DESCRIPTION,
-                          .protect = FALSE)
+                          .protect = FALSE) |> 
+  suppressWarnings()
 
 ```
 
 # PUBLICATIONS
-
-## JOURNAL ARTICLES
 
 ```{r}
 SCOPUS |>
@@ -91,6 +97,15 @@ SCOPUS |>
                 !subtype_description %in% c("Book Chapter",
                                             "Conference Paper",
                                             "Erratum")) |>
+  ## N.B. Probably something to update over time as I publish more, but these steps are a way to:
+  ##      a) Limit the article count to 3-5 to ensure we're maintaining 2 pages
+  ##      b) Pull only the most cited publications within a specified timeframe
+  dplyr::mutate(DATE = substr(cover_date, 1, 7)) |>
+  filter_latest("DATE",
+                n = 7) |>
+  dplyr::arrange(desc(citedby_count)) |>
+  dplyr::slice(1:3) |>
+  order_by_date() |>
   vitae::brief_entries(what = glue::glue("{<authors>} ({<substr(cover_date, 1, 4)>}). {<title>}. \\textit{<publication_name>}{<dplyr::case_when(!is.na(volume) & is.na(issue_identifier) ~ glue::glue(', {volume}'), !is.na(volume) & !is.na(issue_identifier) ~ glue::glue(', {volume}({issue_identifier})'), TRUE ~ '')>}{<dplyr::case_when(!is.na(page_range) ~ glue::glue(', {page_range}'), is.na(page_range) & !is.na(article_number) ~ glue::glue(', {article_number}'), TRUE ~ '')>}, \\underline{\\href{<paste0('https://doi.org/', doi)>}{<paste0('doi:', doi)>}}",
                                          .open = "<",
                                          .close = ">"),
@@ -98,67 +113,6 @@ SCOPUS |>
                        with = embolden(glue::glue("{citedby_count} citations")),
                        .protect = FALSE)
 
-## For reference, this ORCID-based script was used prior to 2023-08
-# BIBLIOGRAPHY |>
-#   dplyr::filter(TYPE == "journal-article") |>
-#   dplyr::filter(!is.na(DATE)) |>
-#   order_by_date() |>
-#   vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI_URL>}}",
-#                                   .open = "<",
-#                                   .close = ">"),
-#                        paste0(substr(DATE, 1, 7), "\\newline"),
-#                        # paste0(substr(DATE, 1, 7)),
-#                        # embolden(JOURNAL), 
-#                        .protect = FALSE)
-```
-
-## THESES
-
-```{r}
-BIBLIOGRAPHY |>
-  dplyr::filter(TYPE == "dissertation-thesis") |>
-  order_by_date() |>
-  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI>}}",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(substr(DATE, 1, 7), "\\newline"),
-                       .protect = FALSE)
-```
-
-## OPEN-ACCESS DATA
-
-```{r}
-BIBLIOGRAPHY |>
-  dplyr::filter(TYPE == "data-set") |>
-  order_by_date() |>
-  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline \\textit{<JOURNAL>}. \\underline{\\href{<DOI_URL>}{<DOI>}}",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(substr(DATE, 1, 7), "\\newline"),
-                       # paste0(substr(DATE, 1, 7)),
-                       # embolden(JOURNAL), 
-                       .protect = FALSE)
-```
-
-## SOFTWARE
-
-```{r}
-BIBLIO_R |>
-  dplyr::arrange(desc(DATE_START), TITLE) |>
-  vitae::brief_entries(dplyr::case_when(TYPE == 'public' & !is.na(DATE_END) ~
-                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{\\href{<URL>}{<URL>}} (last updated <DATE_END>)",
-                                                     .open = "<",
-                                                     .close = ">"),
-                                        TYPE == 'public' & is.na(DATE_END) ~
-                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{\\href{<URL>}{<URL>}}",
-                                                     .open = "<",
-                                                     .close = ">"),
-                                        TRUE ~ 
-                                          glue::glue("\\textbf{<TITLE>}: <DESCRIPTION> \\newline <SRC>. \\underline{<TYPE>}",
-                                                     .open = "<",
-                                                     .close = ">")),
-                       paste0(DATE_START, "\\newline"),
-                       .protect = FALSE)
 ```
 
 # CONSULTING
@@ -200,28 +154,13 @@ tibble::tribble(
 
 # HONOURS
 
-## AWARDS
-
-```{r, results = "asis"}
-HONOURS |>
-  dplyr::filter(TYPE == 'award') |>
-  order_by_date() |>
-  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(DATE, "\\newline"),
-                       ifelse(!is.na(AMOUNT),
-                              embolden(AMOUNT),
-                              paste0("")),
-                       .protect = FALSE)
-```
-
-## GRANTS AND SCHOLARSHIPS
+## GRANTS, SCHOLARSHIPS AND AWARDS
 
 ```{r}
 HONOURS |>
-  dplyr::filter(TYPE %in% c('grant', 'scholarship')) |>
   order_by_date() |>
+  filter_latest("DATE", n = 5) |>
+  dplyr::filter(!is.na(AMOUNT)) |>
   vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
@@ -239,7 +178,8 @@ HONOURS |>
 ```{r}
 OUTREACH |>
   dplyr::filter(TYPE %in% c(
-    "professional", "academic", "conference"
+    "academic", 
+    "conference"
   )) |>
   tidyr::unnest(c(URL, URL_TYPE)) |>
   dplyr::group_by(TITLE) |> 
@@ -247,6 +187,7 @@ OUTREACH |>
   dplyr::ungroup() |>
   dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
   order_by_date() |> 
+  filter_latest("DATE", n = 5) |> 
   vitae::brief_entries(dplyr::case_when(!is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT> (\\underline{\\href{<URL>}{<URL_TYPE>}})", 
                                                                                  .open = "<", 
                                                                                  .close = ">"),
@@ -264,60 +205,3 @@ OUTREACH |>
                        .protect = FALSE)
 ```
 
-## PRESS
-
-```{r}
-OUTREACH |>
-  dplyr::filter(TYPE %in% c(
-    "press"
-  )) |>
-  dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
-  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline <AGENCY> (\\underline{\\href{<URL>}{<URL_TYPE>}})",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(substr(DATE, 1, 7), "\\newline"),
-                       .protect = FALSE)
-```
-
-## COURSEWORK
-
-```{r}
-
-OUTREACH |>
-  dplyr::filter(TYPE %in% c(
-    "coursework"
-  )) |>
-  tidyr::unnest(c(URL, URL_TYPE)) |>
-  dplyr::group_by(TITLE) |> 
-  dplyr::slice(1) |>
-  dplyr::ungroup() |>
-  dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
-  order_by_date() |>
-  vitae::brief_entries(dplyr::case_when(!is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT> (\\underline{\\href{<URL>}{<URL_TYPE>}})", 
-                                                                                 .open = "<", 
-                                                                                 .close = ">"),
-                                        is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY> (\\underline{\\href{<URL>}{<URL_TYPE>}})",
-                                                                                .open = "<",
-                                                                                .close = ">"),
-                                        !is.na(EVENT) & is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT>",
-                                                                                .open = "<",
-                                                                                .close = ">"),
-                                        TRUE ~ glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>", 
-                                                          .open = "<", 
-                                                          .close = ">")),
-                       paste0(substr(DATE, 1, 7), "\\newline"),
-                       embolden(LOCATION),
-                       .protect = FALSE)
-```
-
-# VOLUNTEER EXPERIENCE
-
-```{r}
-VOLUNTEER_EXPERIENCE |>
-  order_by_date() |>
-  vitae::detailed_entries(INSTITUTION,
-                          DATES,
-                          POSITION,
-                          embolden(LOCATION),
-                          .protect = FALSE)
-```
