@@ -453,6 +453,17 @@ ACADEMIC_SUMMARY <-
                  pub_count_first = nrow(filter(SCOPUS,
                                                author_no == 1,
                                                subtype_description != "Erratum")),
-                 h_index = GSCHOLAR$h_index,
+                 h_gscholar = GSCHOLAR$h_index,
+                 h_scopus = SCOPUS |>
+                   dplyr::filter(citedby_count >= 1) |>
+                   dplyr::distinct(doi, citedby_count) |>
+                   tidyr::expand_grid(h_index = c(1:50)) |>
+                   dplyr::summarise(n_articles = sum(citedby_count >= h_index),
+                                    .by = h_index) |>
+                   dplyr::summarise(h_index = max(h_index[max(n_articles,
+                                                              na.rm = TRUE)],
+                                                  na.rm = TRUE)) |>
+                   dplyr::slice(1) |>
+                   dplyr::pull(h_index),
                  citations_gscholar = GSCHOLAR$total_cites,
                  citations_scopus = sum(SCOPUS$citedby_count, na.rm = TRUE))
