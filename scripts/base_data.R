@@ -281,6 +281,7 @@ CONSULTING_EXPERIENCE <-
 HONOURS <-
   tibble::tribble(
     ~ DATE, ~ AGENCY, ~ HONOUR, ~ AMOUNT, ~ TYPE,
+    "2023-09", "University of Tasmania", "Student Services and Operations (SSO) Division Student Focus Award", "AUD\\$50", "award",
     "2022-11", "University of Tasmania", "Future Students Staff Excellence 2022 Sustainability Award", "AUD\\$50", "award",
     "2021-10", "Australian Museum", "NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research", "AUD\\$10,000", "award",
     "2021-09", "University of Tasmania", "Future Students Staff Excellence 2021 Sustainability Award", NA_character_, "award",
