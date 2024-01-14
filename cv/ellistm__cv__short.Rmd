@@ -146,10 +146,14 @@ tibble::tribble(
   dplyr::ungroup() |>
   order_by_date() |>
   dplyr::arrange(JOURNAL) |>
-  vitae::brief_entries(glue::glue("\\underline{\\textbf{\\textit{\\href{<URL>}{<JOURNAL>}}}} (since <DATE_START>)",
+  dplyr::mutate(NEW_TITLE = glue::glue("\\underline{\\textbf{\\textit{\\href{<URL>}{<JOURNAL>}}}}",# (since <DATE_START>)",
                                   .open = "<",
-                                  .close = ">"),
+                                  .close = ">")) |>
+  dplyr::summarise(NEW_TITLE = paste(NEW_TITLE, collapse = ", ")) |>
+  vitae::brief_entries(NEW_TITLE,
                        .protect = FALSE)
+  # dplyr::pull(NEW_TITLE) |>
+  # paste0(collapse = ", ")
 ```
 
 # HONOURS
