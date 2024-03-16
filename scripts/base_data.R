@@ -51,32 +51,39 @@ filter_latest <- function(x, col, n = 5) {
 ## Order by dates
 order_by_date <- function(x) {
 
-  if ("DATE_START" %in% colnames(x)) {
-  x |>
-    ## Add date range
-    dplyr::mutate(
-      DATES = ifelse(!is.na(DATE_END),
-                     paste0(DATE_START, " - ", DATE_END),
-                     paste0(DATE_START, " - present")),
-      YEAR_START = as.numeric(substr(DATE_START, 1, 4)),
-      YEAR_END = ifelse(is.na(DATE_END),
-                        lubridate::year(Sys.Date()),
-                        as.numeric(substr(DATE_END, 1, 4))),
-      DATE_START_SORT = lubridate::as_date(paste0(DATE_START, "-01"),
-                                           format = "%Y-%m-%d"),
-      DATE_END_SORT = ifelse(!is.na(DATE_END),
-                           lubridate::as_date(paste0(DATE_END, "-01"),
-                                              format = "%Y-%m-%d"),
-                           lubridate::today())
-    ) |>
-    dplyr::arrange(desc(DATE_END_SORT), desc(DATE_START_SORT))
+  if ("DATE_END_SORT" %in% colnames(x) &
+      "DATE_START_SORT" %in% colnames(x)) {
+    x |>
+      dplyr::arrange(desc(DATE_END_SORT), desc(DATE_START_SORT))
+  } else if ("DATE_START" %in% colnames(x)) {
+    x |>
+      ## 2024-03-17: Adding this here as the ifelse(...) statement originally used for DATE_END_SORT below no longer works after recent updates.
+      dplyr::mutate(DATES = ifelse(!is.na(DATE_END),
+                                   paste0(DATE_START, " - ", DATE_END),
+                                   paste0(DATE_START, " - present"))) |>
+      tidyr::replace_na(list(DATE_END = stringr::str_sub(lubridate::today(), 1, 7))) |>
+      ## Add date range
+      dplyr::mutate(
+        YEAR_START = as.numeric(substr(DATE_START, 1, 4)),
+        YEAR_END = ifelse(is.na(DATE_END),
+                          lubridate::year(Sys.Date()),
+                          as.numeric(substr(DATE_END, 1, 4))),
+        DATE_START_SORT = lubridate::as_date(paste0(DATE_START, "-01"),
+                                             format = "%Y-%m-%d"),
+        DATE_END_SORT = lubridate::as_date(paste0(DATE_END, "-01"),
+                                           format = "%Y-%m-%d")
+      ) |>
+      dplyr::arrange(desc(DATE_END_SORT), desc(DATE_START_SORT))
   } else if ("DATE" %in% colnames(x)) {
     x |>
-      ## N.B. This is fairly hack-y and assumptive!
-      dplyr::mutate(DATE_SORT = lubridate::as_date(ifelse(nchar(DATE) < 8,
-                                                          paste0(DATE, "-01"),
-                                                          DATE),
-                                                   format = "%Y-%m-%d")) |>
+      ## 2024-03-17: Simplifying this but leaving in original for reference. Why did it check for field length?
+      dplyr::mutate(DATE_SORT = ifelse(
+        nchar(DATE) < 8,
+        paste0(DATE, "-01") |>
+          lubridate::as_date(format = "%Y-%m-%d"),
+        lubridate::as_date(DATE,
+                           format = "%Y-%m-%d")
+      )) |>
       dplyr::arrange(desc(DATE_SORT))
   } else {
     print("No recognised date column.")
@@ -130,7 +137,7 @@ EDUCATION <-
 PROFESSIONAL_EXPERIENCE <-
   tibble::tribble(
     ~ INSTITUTION, ~ DATE_START, ~ DATE_END, ~ LOCATION, ~ POSITION, ~ DEPARTMENT, ~ TYPE, ~ DESCRIPTION,
-    "University of Tasmania", "2023-01", NA, "Sandy Bay, TAS, Australia", "Data Insights Analyst", "Division of Future Students", "full-time", c(
+    "University of Tasmania", "2023-01", NA, "Sandy Bay, TAS, Australia", "Data Insights Analyst", "Student Services and Operations", "full-time", c(
       "Managing the development and implementation of a transformative statewide program to improve equity of access to higher education",
       "Leading the development of statistical models and reporting tools for managing offers and course quotas",
       "Streamlining and automating the higher education admissions system for school leavers",
@@ -303,23 +310,23 @@ OUTREACH <-
     ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
     "2022-12-01", "conference", "Removing Barriers and transforming access to tertiary education: The Schools Recommendation Program in Tasmania", "Australasian Association for Institutional Research Forum 2022", "Macquarie Park, NSW, Australia", "Australasian Association for Institutional Research", NA_character_, NA_character_,
     "2022-09-14", "professional", "Schools Recommendation Program Overview", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
-    "2022-06", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
+    "2022-06-01", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
     "2022-02-16", "professional", "Intro to sentiment analysis in R", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2021-10-12", "press", "Bushfire research team awarded prestigious Eureka Prize", NA_character_, NA_character_, "University of Tasmania", "https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize", "article",
-    "2021-10", "professional", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
-    "2021-05", "academic", "Fuel moisture trend tool", "Bushfire Risk Management Research Hub Researchers' Meeting 2021", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/wp1-fmc-fire-seasons-2021-05.pdf", "poster",
-    "2020-07", "coursework", "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future", "University of Tasmania Graduate Seminars", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
-    "2020-03", "academic", "Changes in moisture availability drive fire risk", "Bushfire Risk Management Research Hub Researchers' Meeting 2020", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2020/03/firehub_meet_20200302.pdf", "presentation",
-    "2016-06", "coursework", "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Defense", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_thesis_defense.pdf", "presentation",
-    "2016-04", "conference", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "American Association of Geographers Annual Meeting 2016", "San Francisco, CA, USA", "American Association of Geographers", "https://toddmellis.files.wordpress.com/2016/10/ellis-2016_aag_pres.pdf", "presentation",
-    "2014-07", "academic", "Climate responses of \\textit{Pseudotsuga menziesii} and \\textit{Pinus flexilis} in the Greater Yellowstone (USA)", "North American Dendroecological Fieldweek 2014", "Cody, WY, USA", "North American Dendroecological Fieldweek", c("https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponsepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponse.pdf"), c("presentation", "paper"),
-    "2014-05", "coursework", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Seminars", "Bellingham, WA, USA", "Western Washington University", NA_character_, NA_character_,
-    "2014-05", "coursework", "Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery", "Western Washington University EGEO 504: Geographic Methods \\& Techniques", "Bellingham, WA, USA", "Western Washington University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetreepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetree.pdf"), c("presentation", "paper"),
-    "2014-04", "conference", "Perceptions of risk in Bellingham, Washington", "Association of Washington Geographers Spring Meeting 2014", "Seattle, WA, USA", "Association of Washington Geographers", NA_character_, NA_character_,
-    "2013-12", "coursework", "Biogeographic implications of Structure-from-Motion imagery", "Western Washington University EGEO 501: History and Philosophy of Geography", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_2013_sfm.pdf", "paper",
-    "2012-05", "coursework", "Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988", "Texas State University GEO 4412: Digital Remote Sensing", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazardpres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazard.pdf"), c("presentation", "paper"),
-    "2012-04", "coursework", "Cretaceous-aged fossiliferous outcrops of the Big Bend region", "Texas State University GEO 4310: Regional Field Studies", "San Marcos, TX, USA", "Texas State University", "https://toddmellis.files.wordpress.com/2017/11/ellis-20120301-cretaceous-aged-fossiliferous-outcrops-of-the-big-bend-region.pdf", "paper",
-    "2011-12", "coursework", "Predator-prey relations in the Greater Yellowstone Ecosystem", "Texas State University GEO 4316: Landscape Biogeography", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye-presentation.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye.pdf"), c("presentation", "paper")
+    "2021-10-01", "professional", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
+    "2021-05-01", "academic", "Fuel moisture trend tool", "Bushfire Risk Management Research Hub Researchers' Meeting 2021", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/wp1-fmc-fire-seasons-2021-05.pdf", "poster",
+    "2020-07-01", "coursework", "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future", "University of Tasmania Graduate Seminars", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
+    "2020-03-01", "academic", "Changes in moisture availability drive fire risk", "Bushfire Risk Management Research Hub Researchers' Meeting 2020", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2020/03/firehub_meet_20200302.pdf", "presentation",
+    "2016-06-01", "coursework", "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Defense", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_thesis_defense.pdf", "presentation",
+    "2016-04-01", "conference", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "American Association of Geographers Annual Meeting 2016", "San Francisco, CA, USA", "American Association of Geographers", "https://toddmellis.files.wordpress.com/2016/10/ellis-2016_aag_pres.pdf", "presentation",
+    "2014-07-01", "academic", "Climate responses of \\textit{Pseudotsuga menziesii} and \\textit{Pinus flexilis} in the Greater Yellowstone (USA)", "North American Dendroecological Fieldweek 2014", "Cody, WY, USA", "North American Dendroecological Fieldweek", c("https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponsepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponse.pdf"), c("presentation", "paper"),
+    "2014-05-01", "coursework", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Seminars", "Bellingham, WA, USA", "Western Washington University", NA_character_, NA_character_,
+    "2014-05-01", "coursework", "Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery", "Western Washington University EGEO 504: Geographic Methods \\& Techniques", "Bellingham, WA, USA", "Western Washington University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetreepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetree.pdf"), c("presentation", "paper"),
+    "2014-04-01", "conference", "Perceptions of risk in Bellingham, Washington", "Association of Washington Geographers Spring Meeting 2014", "Seattle, WA, USA", "Association of Washington Geographers", NA_character_, NA_character_,
+    "2013-12-01", "coursework", "Biogeographic implications of Structure-from-Motion imagery", "Western Washington University EGEO 501: History and Philosophy of Geography", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_2013_sfm.pdf", "paper",
+    "2012-05-01", "coursework", "Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988", "Texas State University GEO 4412: Digital Remote Sensing", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazardpres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazard.pdf"), c("presentation", "paper"),
+    "2012-04-01", "coursework", "Cretaceous-aged fossiliferous outcrops of the Big Bend region", "Texas State University GEO 4310: Regional Field Studies", "San Marcos, TX, USA", "Texas State University", "https://toddmellis.files.wordpress.com/2017/11/ellis-20120301-cretaceous-aged-fossiliferous-outcrops-of-the-big-bend-region.pdf", "paper",
+    "2011-12-01", "coursework", "Predator-prey relations in the Greater Yellowstone Ecosystem", "Texas State University GEO 4316: Landscape Biogeography", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye-presentation.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis-and-mcdonnell-2011-predator-prey-relations-in-the-gye.pdf"), c("presentation", "paper")
   ) |>
   order_by_date()
 
@@ -333,19 +340,25 @@ BIBLIO_R <-
   mutate(DATE_END = purrr::map2(.x = URL,
                                 .y = TYPE,
                                 .f = ~ ifelse(.y == 'public',
-                                              ## Sometimes this fails
+                                              ## 2024-03-17: Temporary 'fix' as {rvest} can no longer read the date from GitHub's HTML(?) -- original notes had "Sometimes this fails," however....May need to re-think this.
                                               tryCatch({
-                                                rvest::read_html(.x) |>
+                                                foo <-
+                                                  rvest::read_html(.x) |>
                                                   rvest::html_element("relative-time") |>
                                                   rvest::html_text() |>
                                                   lubridate::as_date(format = "%B %d, %Y") |>
                                                   substr(1, 7)
+                                                ifelse(is.na(foo),
+                                                       stringr::str_sub(lubridate::today(), 1, 7),
+                                                       foo)
                                               },
-                                              warning = function(cond) {},
+                                              warning = function(cond) {
+                                              },
                                               error = function(cond) {
                                                 NA_character_
                                               }),
                                               NA_character_))) |>
+  tidyr::unnest(DATE_END) |>
   order_by_date()
 
 ## Some scratch code or auto-pulling latest updates from public packages
@@ -384,6 +397,8 @@ BIBLIOGRAPHY <-
   tidyr::unnest(`external-ids.external-id`)  |>
   dplyr::filter(`external-id-type` == 'doi') |>
   tidyr::replace_na(list(`publication-date.day.value` = "01")) |>
+  ## 2024-03-17: ORCID has suddenly created duplicate journal articles with missing date information...this removes those. What the heck??
+  dplyr::filter(!is.na(`publication-date.month.value`)) |>
   dplyr::transmute(TYPE = type,
                    TITLE = `title.title.value`,
                    JOURNAL = ifelse(!is.na(`journal-title.value`),
@@ -392,8 +407,7 @@ BIBLIOGRAPHY <-
                    URL = tolower(`url.value`),
                    DATE = paste0(`publication-date.year.value`, "-",
                                  `publication-date.month.value`, "-",
-                                 `publication-date.day.value`) |>
-                     lubridate::as_date(),
+                                 `publication-date.day.value`),
                    ## 6th edition APA DOI
                    DOI = paste0("doi:", tolower(`external-id-value`)),
                    ## 7th edition APA DOI
@@ -468,3 +482,4 @@ ACADEMIC_SUMMARY <-
                    dplyr::pull(h_index),
                  citations_gscholar = GSCHOLAR$total_cites,
                  citations_scopus = sum(SCOPUS$citedby_count, na.rm = TRUE))
+
