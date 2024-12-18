@@ -9,6 +9,29 @@
 ##    b. usethis::edit_r_environ() ## Opens an environment file
 ##    c. ORCID_TOKEN="_insert_token_spit_out_by_a_"
 ##    d. [Save and restart R session.]
+## 3. Elsevier at some point has introduced a required API key between 2024-03 and 2024-12.
+##    N.B. This method doesn't actually seem to stick, and the above has to be used.
+##    a. Requested via https://dev.elsevier.com/apikey/manage
+##    b. Set via: Sys.setenv(Elsevier_API = "[API_KEY]")
+##### NOTES #### ---------------------------------------------------------------
+## 2024-12: awesomecv template broke at some point between 2024-03 and 2024-10, removing linespaces.
+##        : To tweak this, edit awesome-cv.cls in N++, lines (as at 2024-12-18) 609 - 622.
+##        : Play around with the placement of \vspace values or \setlength{\extrarowheight}{0pt}
+##        : N.B. Current setup is a bit weird for volunteer section -- i.e., any lists without details. Lots of white space.
+# % Define an entry of cv information
+# % Usage: \cventry{<position>}{<title>}{<location>}{<date>}{<description>}
+# \newcommand*{\cventry}[5]{
+#   %  \vspace{-2.0mm}
+#   \setlength\tabcolsep{0pt}%
+#   \setlength{\extrarowheight}{0pt}%
+#   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}%
+#   \ifempty{#2#3}{\entrypositionstyle{#1} & \entrydatestyle{#4} \\}%
+#     {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\%
+#       \entrypositionstyle{#1} & \entrydatestyle{#4} \\}%
+#         \multicolumn{2}{L{\textwidth}}{\descriptionstyle{#5}}%
+#           \vspace{4.0mm}
+#           \end{tabular*}%
+#         }
 ### LOAD PACKAGES --------------------------------------------------------------
 library(vitae)
 library(rorcid)
@@ -120,8 +143,9 @@ EDUCATION <-
   ## Raw data
   tibble::tribble(
     ~ INSTITUTION, ~ DATE_START, ~ DATE_END, ~ LOCATION, ~ DEGREE, ~ THESIS,
-    "University of Tasmania", 2019, NA, "Sandy Bay, TAS, Australia", "Doctor of Philosophy, Biological Sciences", c("Dissertation: Dynamic mapping and analysis of New South Wales fire regimes: Past, present, and future",
-                                                                                                                    "Supervisors: Drs. Grant J. Williamson and David M.J.S. Bowman"),
+    "University of Tasmania", 2019, 2025, "Sandy Bay, TAS, Australia", "Doctor of Philosophy, Biological Sciences", c("Dissertation: The pyrogeography of fuel moisture trends, thresholds, and fire seasonality",
+                                                                                                                      # "Dissertation: Dynamic mapping and analysis of New South Wales fire regimes: Past, present, and future",
+                                                                                                                      "Supervisors: Drs. Grant J. Williamson and David M.J.S. Bowman"),
     "Western Washington University", 2013, 2016, "Bellingham, WA, USA", "Master of Science, Geography", c("Thesis: Climatic drivers of western spruce budworm outbreaks in the Okanogan Highlands",
                                                                                                           "Supervisor: Dr. Aquila Flower"),
     "Texas State University", 2007, 2012, "San Marcos, TX, USA", "Bachelor of Science, Physical Geography and Geology", "Capstone: Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987 - 1988"
@@ -137,11 +161,17 @@ EDUCATION <-
 PROFESSIONAL_EXPERIENCE <-
   tibble::tribble(
     ~ INSTITUTION, ~ DATE_START, ~ DATE_END, ~ LOCATION, ~ POSITION, ~ DEPARTMENT, ~ TYPE, ~ DESCRIPTION,
-    "University of Tasmania", "2023-01", NA, "Sandy Bay, TAS, Australia", "Data Insights Analyst", "Student Services and Operations", "full-time", c(
-      "Managing the development and implementation of a transformative statewide program to improve equity of access to higher education",
-      "Leading the development of statistical models and reporting tools for managing offers and course quotas",
-      "Streamlining and automating the higher education admissions system for school leavers",
-      "Providing insights and consultations to institutional and external stakeholders"
+    "University of Tasmania", "2024-04", NA, "Sandy Bay, TAS, Australia", "Research Associate", "School of Natural Sciences", "full-time", c(
+      "Developing complex data-processing and analysis pipelines using high-performance computing and big data",
+      "Designing and managing organisational research databases for spatial and big data applications",
+      "Overseeing collaborative research projects investigating issues of climate change risk",
+      "Working closely with stakeholders to provide applied solutions to complex research questions"
+    ),
+    "University of Tasmania", "2023-01", "2024-04", "Sandy Bay, TAS, Australia", "Data Insights Analyst", "Student Services and Operations", "full-time", c(
+      "Managed the development and implementation of a transformative statewide program to improve equity of access to higher education",
+      "Lead the development of statistical models and reporting tools for managing offers and course quotas",
+      "Streamlined and automated the higher education admissions system for school leavers",
+      "Provided insights and consultations to institutional and external stakeholders"
     ),
     "University of Tasmania", "2021-02", "2023-01", "Sandy Bay, TAS, Australia", "Data Analyst", "Division of Future Students", "part-time / full-time", c(
       "Developed statistical models and tools for meeting target university milestones",
@@ -157,7 +187,7 @@ PROFESSIONAL_EXPERIENCE <-
     ),
     "University of Tasmania", "2019-09", "2023-03", "Sandy Bay, TAS, Australia", "Adjunct Researcher", "College of Sciences and Engineering", "full-time", c(
       "Developed complex data-processing and analysis pipelines using high-performance computing and big data",
-      "Oversaw multi-year projct design and implementation addressing wildfire and global climate change challenges",
+      "Oversaw multi-year project design and implementation addressing wildfire and global climate change challenges",
       "Managed custom platform for interactive web-mapping, on-the-fly statistical analyses, and novel data visualisation",
       "Collaborated with national and international research teams tackling climate change risk and mitigation"
     ),
@@ -263,6 +293,7 @@ TEACHING_EXPERIENCE <-
 VOLUNTEER_EXPERIENCE <-
   tibble::tribble(
     ~ POSITION, ~ DATE_START, ~ DATE_END, ~ INSTITUTION, ~ LOCATION,
+    "University Research Committee Member", "2024-12", NA, "University of Tasmania Academic Senate", "Sandy Bay, TAS, Australia",
     "Foster Parent", "2020-05", NA, "Ten Lives Cat Centre", "Hobart, TAS, Australia",
     "Animal Handler", "2018-08", "2019-01", "Humane Society of the New Braunfels Area", "New Braunfels, TX, USA",
     "Technology Tutor", "2018-01", "2018-08", "North Central Regional Library", "Wenatchee, WA, USA",
@@ -288,6 +319,7 @@ CONSULTING_EXPERIENCE <-
 HONOURS <-
   tibble::tribble(
     ~ DATE, ~ AGENCY, ~ HONOUR, ~ AMOUNT, ~ TYPE,
+    "2024-11", "Australian Institute for Disaster Resilience", "Resilient Australia National Collaboration and Partnership Award", NA_character_, "award",
     "2023-09", "University of Tasmania", "Student Services and Operations (SSO) Division Student Focus Award", "AUD\\$50", "award",
     "2022-11", "University of Tasmania", "Future Students Staff Excellence 2022 Sustainability Award", "AUD\\$50", "award",
     "2021-10", "Australian Museum", "NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research", "AUD\\$10,000", "award",
@@ -308,6 +340,8 @@ HONOURS <-
 OUTREACH <-
   tibble::tribble(
     ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
+    "2024-09-24", "academic", "Effectiveness of fuel reduced areas on fire spread", "Safer Together Interim Results Workshop", "Melbourne, VIC, Australia", "Department of Energy, Environment, and Climate Action", NA_character_, NA_character_,
+    "2024-06-17", "coursework", "The pyrogeography of fuel moisture trends, thresholds, and fire seasonality", "University of Tasmania Final Biological Sciences Seminar", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2022-12-01", "conference", "Removing Barriers and transforming access to tertiary education: The Schools Recommendation Program in Tasmania", "Australasian Association for Institutional Research Forum 2022", "Macquarie Park, NSW, Australia", "Australasian Association for Institutional Research", NA_character_, NA_character_,
     "2022-09-14", "professional", "Schools Recommendation Program Overview", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2022-06-01", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
@@ -333,6 +367,7 @@ OUTREACH <-
 BIBLIO_R <-
   tibble::tribble(
     ~ TITLE, ~ DATE_START, ~ ROLE, ~ DESCRIPTION, ~ URL, ~ TYPE, ~ SRC,
+    "firekit", "2024-07", "Lead Developer", "General purpose toolkit for the University of Tasmania's Fire Centre", "https://github.com/Fire-Centre/firekit", "private", "GitHub",
     "miao", "2021-08", "Lead Developer", "Custom exploratory data analysis and statistical tools", "https://github.com/toddellis/miao", "public", "GitHub",
     "utaspptx", "2021-11", "Lead Developer", "Simple methods for producing themed reports and presentations in Microsoft Office software", "https://github.com/utas-analytics/utaspptx", "private", "GitHub",
     "utastoolkit", "2021-05", "Lead Developer", "Tools for accessing and reporting internal University data from the Enterprise Data Warehouse", "https://github.com/utas-analytics/utastoolkit", "private", "GitHub"
@@ -483,3 +518,19 @@ ACADEMIC_SUMMARY <-
                  citations_gscholar = GSCHOLAR$total_cites,
                  citations_scopus = sum(SCOPUS$citedby_count, na.rm = TRUE))
 
+MANUSCRIPT_REVIEWS <-
+  tibble::tribble(
+    ~ JOURNAL, ~ URL, ~TYPE, ~ DATE_START, ~ DATE_END, ~ ARTICLES,
+    "Canadian Journal of Forest Research", "https://cdnsciencepub.com/journal/cjfr", "", "2024-08", "2024-12", c("cjfr-2024-0127"),
+    "Climatic Change", "https://www.springer.com/journal/10584", "", "2023-06", "2023-07", c("CLIM-D-23-00438"),
+    "Earth\'s Future", "https://agupubs.onlinelibrary.wiley.com/journal/23284277", "", "2022-09", "2024-12", c("2022EF002806R", "2024EF005030"),
+    "Fire", "https://www.mdpi.com/journal/fire", "Open access", "2024-06", "2024-08", c("fire-3060554"),
+    "Fire Ecology", "https://fireecology.springeropen.com/", "Open access", "2019-01", "2019-05", c("https://fireecology.springeropen.com/articles/10.1186/s42408-019-0043-y"),
+    "Global Change Biology", "https://onlinelibrary.wiley.com/journal/13652486", "", "2022-10", "2022-10", c("GCB-22-2073"),
+    "Nature Climate Change", "https://www.nature.com/nclimate/", "", "2024-06", "2024-12", c("NPJCLIMATESCI-02434", "NPJCLIMATSCI-02487-T"),
+    "New Phytologist", "https://nph.onlinelibrary.wiley.com/journal/14698137", "", "2022-11", "2022-11", c("NPH-MS-2022-41630")
+  ) |>
+  dplyr::group_by(JOURNAL) |>
+  dplyr::mutate(N_REVIEWS = length(unlist(ARTICLES))) |>
+  dplyr::ungroup() |>
+  order_by_date()

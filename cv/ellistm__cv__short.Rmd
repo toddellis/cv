@@ -38,7 +38,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       cache = FALSE)
 
 source(here::here('./scripts/base_data.R'))
-# twitter: tootstorm
 ```
 
 # PROFESSIONAL SUMMARY 
@@ -68,7 +67,8 @@ EDUCATION |>
 ```{r}
 PROFESSIONAL_EXPERIENCE |>
   dplyr::filter(!POSITION %in% c(
-    "Independent Research Contractor"
+    "Independent Research Contractor",
+    "Adjunct Researcher"
   )) |>
   dplyr::mutate(POSITION_NO = dplyr::row_number()) |> 
   tidyr::unnest(DESCRIPTION) |>
@@ -133,22 +133,11 @@ CONSULTING_EXPERIENCE |>
 ## MANUSCRIPT REVIEWER
 
 ```{r}
-tibble::tribble(
-  ~ JOURNAL, ~ URL, ~TYPE, ~ DATE_START, ~ DATE_END, ~ ARTICLES,
-  "Fire Ecology", "https://fireecology.springeropen.com/", "Open access", "2019-01", "2019-05", c("https://fireecology.springeropen.com/articles/10.1186/s42408-019-0043-y"),
-  "Earth's Future", "https://agupubs.onlinelibrary.wiley.com/journal/23284277", "", "2022-09", "2022-10", c("2022EF002806R"),
-  "Global Change Biology", "https://onlinelibrary.wiley.com/journal/13652486", "", "2022-10", "2022-10", c("GCB-22-2073"),
-  "New Phytologist", "https://nph.onlinelibrary.wiley.com/journal/14698137", "", "2022-11", "2022-11", c("NPH-MS-2022-41630"),
-  "Climatic Change", "https://www.springer.com/journal/10584", "", "2023-06", "2023-07", c("CLIM-D-23-00438")
-) |>
-  dplyr::group_by(JOURNAL) |>
-  dplyr::mutate(N_REVIEWS = length(unlist(ARTICLES))) |>
-  dplyr::ungroup() |>
-  order_by_date() |>
+MANUSCRIPT_REVIEWS |>
   dplyr::arrange(JOURNAL) |>
   dplyr::mutate(NEW_TITLE = glue::glue("\\underline{\\textbf{\\textit{\\href{<URL>}{<JOURNAL>}}}}",# (since <DATE_START>)",
-                                  .open = "<",
-                                  .close = ">")) |>
+                                       .open = "<",
+                                       .close = ">")) |>
   dplyr::summarise(NEW_TITLE = paste(NEW_TITLE, collapse = ", ")) |>
   vitae::brief_entries(NEW_TITLE,
                        .protect = FALSE)
@@ -163,8 +152,9 @@ tibble::tribble(
 ```{r}
 HONOURS |>
   order_by_date() |>
-  filter_latest("DATE", n = 5) |>
-  dplyr::filter(!is.na(AMOUNT)) |>
+  filter_latest("DATE", n = 3) |>
+  # dplyr::filter(!is.na(AMOUNT)) |>
+  # dplyr::slice(1:5) |>
   vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
