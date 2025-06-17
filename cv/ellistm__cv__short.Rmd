@@ -102,7 +102,7 @@ SCOPUS |>
   ##      b) Pull only the most cited publications within a specified timeframe
   dplyr::mutate(DATE = substr(cover_date, 1, 7)) |>
   filter_latest("DATE",
-                n = 7) |>
+                n = 5) |>
   dplyr::arrange(desc(citedby_count)) |>
   dplyr::slice(1:3) |>
   order_by_date() |>
@@ -110,9 +110,33 @@ SCOPUS |>
                                          .open = "<",
                                          .close = ">"),
                        when = entry_number,
-                       with = embolden(glue::glue("{citedby_count} citations")),
+                       with = dplyr::if_else(citedby_count >= 1, 
+                                             embolden(glue::glue("{citedby_count} citations")),
+                                             ""),
                        .protect = FALSE)
 
+```
+
+# HONOURS
+
+## GRANTS, SCHOLARSHIPS AND AWARDS
+
+```{r}
+AWARDS |>
+  dplyr::bind_rows(GRANTS) |>
+  dplyr::filter(AMOUNT != "Unsuccessful" | is.na(AMOUNT)) |>
+  order_by_date() |>
+  filter_latest("DATE", n = 3) |>
+  # dplyr::filter(!is.na(AMOUNT)) |>
+  # dplyr::slice(1:5) |>
+  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>",
+                                  .open = "<",
+                                  .close = ">"),
+                       paste0(DATE, "\\newline"),
+                       ifelse(!is.na(AMOUNT),
+                              embolden(AMOUNT),
+                              paste0("")),
+                       .protect = FALSE)
 ```
 
 # CONSULTING
@@ -145,26 +169,6 @@ MANUSCRIPT_REVIEWS |>
   # paste0(collapse = ", ")
 ```
 
-# HONOURS
-
-## GRANTS, SCHOLARSHIPS AND AWARDS
-
-```{r}
-HONOURS |>
-  order_by_date() |>
-  filter_latest("DATE", n = 3) |>
-  # dplyr::filter(!is.na(AMOUNT)) |>
-  # dplyr::slice(1:5) |>
-  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
-                                  .open = "<",
-                                  .close = ">"),
-                       paste0(DATE, "\\newline"),
-                       ifelse(!is.na(AMOUNT),
-                              embolden(AMOUNT),
-                              paste0("")),
-                       .protect = FALSE)
-```
-
 # OUTREACH
 
 ## CONFERENCES AND PRESENTATIONS
@@ -181,7 +185,7 @@ OUTREACH |>
   dplyr::ungroup() |>
   dplyr::mutate(LOCATION = stringr::str_remove(LOCATION, "(, Australia|, USA)")) |>
   order_by_date() |> 
-  filter_latest("DATE", n = 5) |> 
+  filter_latest("DATE", n = 3) |> 
   vitae::brief_entries(dplyr::case_when(!is.na(EVENT) & !is.na(URL) ~ glue::glue("\\textbf{<TITLE>} \\newline <EVENT> (\\underline{\\href{<URL>}{<URL_TYPE>}})", 
                                                                                  .open = "<", 
                                                                                  .close = ">"),

@@ -102,13 +102,13 @@ CONSULTING_EXPERIENCE |>
 # HONOURS
 
 ```{r, results = "asis"}
-HONOURS |>
+AWARDS |>
   ## Does FDL belong here or in consulting?
   dplyr::filter(AGENCY != "Frontier Development Lab") |>
   filter_latest("DATE", 5) |>
   # dplyr::arrange(desc(lubridate::as_date(paste0(DATE, '-01'))),
   #                desc(readr::parse_number(AMOUNT)))  |>
-  vitae::brief_entries(glue::glue("\\textbf{<HONOUR>} \\newline <AGENCY>",
+  vitae::brief_entries(glue::glue("\\textbf{<TITLE>} \\newline <AGENCY>",
                                   .open = "<",
                                   .close = ">"),
                        paste0(DATE, "\\newline"),

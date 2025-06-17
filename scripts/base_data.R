@@ -308,55 +308,66 @@ VOLUNTEER_EXPERIENCE <-
 
 CONSULTING_EXPERIENCE <-
   tibble::tribble(
-    ~ DATE, ~ AGENCY, ~ PROJECT, ~ AMOUNT,
-    "2020-08", "Frontier Development Lab", "Predicting fire behaviour using historical satellite imagery", "AUD\\$1,000",
-    "2019-06", "USDA Forest Service", "Post-fire logging effects on reburn severity", "USD\\$2,500",
-    "2018-08", "USDA Forest Service", "Restoration treatment effects on ponderosa pine growth sensitivity to climate", "USD\\$2,500"
+    ~ DATE, ~ AGENCY, ~ PROJECT, ~ AMOUNT, ~ TYPE,
+    "2020-08", "Frontier Development Lab", "Predicting fire behaviour using historical satellite imagery", "AUD\\$1,000", "contract",
+    "2019-06", "USDA Forest Service", "Post-fire logging effects on reburn severity", "USD\\$2,500", "contract",
+    "2018-08", "USDA Forest Service", "Restoration treatment effects on ponderosa pine growth sensitivity to climate", "USD\\$2,500", "contract"
   ) |>
   order_by_date()
 
 
-HONOURS <-
+AWARDS <-
   tibble::tribble(
-    ~ DATE, ~ AGENCY, ~ HONOUR, ~ AMOUNT, ~ TYPE,
+    ~ DATE, ~ AGENCY, ~ TITLE, ~ AMOUNT, ~ TYPE,
     "2024-11", "Australian Institute for Disaster Resilience", "Resilient Australia National Collaboration and Partnership Award", NA_character_, "award",
     "2023-09", "University of Tasmania", "Student Services and Operations (SSO) Division Student Focus Award", "AUD\\$50", "award",
     "2022-11", "University of Tasmania", "Future Students Staff Excellence 2022 Sustainability Award", "AUD\\$50", "award",
     "2021-10", "Australian Museum", "NSW Environment, Energy and Science (DPIE) Eureka Prize for Applied Environmental Research", "AUD\\$10,000", "award",
     "2021-09", "University of Tasmania", "Future Students Staff Excellence 2021 Sustainability Award", NA_character_, "award",
     "2021-08", "Ten Lives Cat Centre", "Certifi-Cat of Appreciation", NA_character_, "award",
-    "2020-08", "Frontier Development Lab", "Bushfire Data Quest 2020", "AUD\\$1,000", "grant",
-    "2019-09", "NSW Bushfire Risk Management Research Hub", "Tasmania Graduate Research Scholarship (3.5x)", "AUD\\$28,000 p.a.", "scholarship",
-    "2019-09", "NSW Bushfire Risk Management Research Hub", "NSW Bushfire Risk Management Research Hub Top-Up (3.5x)", "AUD\\$5,000 p.a.", "scholarship",
     "2018-06", "Washington Department of Fish and Wildlife", "Best Fish and Wildlife Science", NA_character_, "award",
     "2017-10","Washington Department of Fish and Wildlife", "Conservation Award", NA_character_, "award",
-    "2016-04", "Western Washington University", "Dean and Sandy Blinn Travel and Research Fund", "USD\\$450", "scholarship",
-    "2016-04", "Western Washington University", "Dean's Fund for Sustainability Studies", "USD\\$500", "scholarship",
-    "2014-07", "North American Dendroecological Fieldweek", "North American Dendroecological Fieldweek Research Fellowship", "USD\\$3,000", "scholarship",
     "2014-05", "Association of Washington Geographers", "Award for Outstanding Poster Presentation by a Graduate Student", "USD\\$125", "award"
+  ) |>
+  order_by_date()
+
+
+GRANTS <-
+  tibble::tribble(
+    ~ DATE, ~ TYPE, ~ AGENCY, ~ TITLE, ~ AMOUNT, ~ ROLE, ~ FTE,
+    "2023-10", "grant", "Natural Hazards Research Australia", "FRM12: Effectiveness of fuel reduced areas on fire spread", "AUD\\$136,364", "Research Fellow", 0.9,
+    "2023-09", "grant", "Natural Hazards Research Australia", "T4-A1: Identifying and defining landscape dryness thresholds for fires", "Unsuccessful", "Research Fellow", 0.8,
+    "2023-08", "grant", "Natural Hazards Research Australia", "FRM09: Quantifying the relationship between fire management, bushfires and ecosystem resilience", "Unsuccessful", "Research Fellow", 0.2,
+    "2020-08", "grant", "Frontier Development Lab", "Bushfire Data Quest 2020", "AUD\\$1,000", "Research Fellow", 1.0,
+    "2019-09", "scholarship","NSW Bushfire Risk Management Research Hub", "Tasmania Graduate Research Scholarship (3.5x)", "AUD\\$28,000 p.a.", "Graduate Student", 1.0,
+    "2019-09", "scholarship","NSW Bushfire Risk Management Research Hub", "NSW Bushfire Risk Management Research Hub Top-Up (3.5x)", "AUD\\$5,000 p.a.", "Graduate Student", 1.0,
+    "2016-04", "scholarship","Western Washington University", "Dean and Sandy Blinn Travel and Research Fund", "USD\\$450", "Graduate Student", NA_real_,
+    "2016-04", "scholarship","Western Washington University", "Dean's Fund for Sustainability Studies", "USD\\$500", "Graduate Student", NA_real_,
+    "2014-07", "scholarship", "North American Dendroecological Fieldweek", "North American Dendroecological Fieldweek Research Fellowship", "USD\\$3,000", "Research Fellow", NA_real_
   ) |>
   order_by_date()
 
 OUTREACH <-
   tibble::tribble(
     ~ DATE, ~ TYPE, ~ TITLE, ~ EVENT, ~ LOCATION, ~ AGENCY, ~ URL, ~ URL_TYPE,
+    "2025-05-20", "academic", "FireTools severity, seasonality, and landscape metrics integration and FESM validation", "Bushfire and Natural Hazards Research Centre Symposium 2025", "Sydney, NSW, Australia", "Bushfire and Natural Hazards Research Centre", NA_character_, NA_character_,
     "2024-09-24", "academic", "Effectiveness of fuel reduced areas on fire spread", "Safer Together Interim Results Workshop", "Melbourne, VIC, Australia", "Department of Energy, Environment, and Climate Action", NA_character_, NA_character_,
     "2024-06-17", "coursework", "The pyrogeography of fuel moisture trends, thresholds, and fire seasonality", "University of Tasmania Final Biological Sciences Seminar", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
-    "2022-12-01", "conference", "Removing Barriers and transforming access to tertiary education: The Schools Recommendation Program in Tasmania", "Australasian Association for Institutional Research Forum 2022", "Macquarie Park, NSW, Australia", "Australasian Association for Institutional Research", NA_character_, NA_character_,
-    "2022-09-14", "professional", "Schools Recommendation Program Overview", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
+    "2022-12-01", "academic", "Removing Barriers and transforming access to tertiary education: The Schools Recommendation Program in Tasmania", "Australasian Association for Institutional Research Forum 2022", "Macquarie Park, NSW, Australia", "Australasian Association for Institutional Research", NA_character_, NA_character_,
+    "2022-09-14", "academic", "Schools Recommendation Program Overview", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2022-06-01", "academic", "Dynamic mapping and analysis of fire regimes, past, present, and future", "Bushfire Risk Management Research Hub Showcase 2022", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/bushfire-hub-poster-2022-06.pdf", "poster",
-    "2022-02-16", "professional", "Intro to sentiment analysis in R", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
+    "2022-02-16", "academic", "Intro to sentiment analysis in R", "University of Tasmania Lunch \\& Learn", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2021-10-12", "press", "Bushfire research team awarded prestigious Eureka Prize", NA_character_, NA_character_, "University of Tasmania", "https://www.utas.edu.au/communications/general-news/all-news/bushfire-research-team-awarded-prestigious-eureka-prize", "article",
-    "2021-10-01", "professional", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
+    "2021-10-01", "academic", "Tasmanian Analytics Project", "University of Tasmania and Department of Education Lunch \\& Learn", "Sandy Bay, TAS, Australia", "Department of Education", NA_character_, NA_character_,
     "2021-05-01", "academic", "Fuel moisture trend tool", "Bushfire Risk Management Research Hub Researchers' Meeting 2021", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2022/06/wp1-fmc-fire-seasons-2021-05.pdf", "poster",
     "2020-07-01", "coursework", "Dynamic mapping and analysis of New South Wales fire regimes: Past, present and future", "University of Tasmania Graduate Seminars", "Sandy Bay, TAS, Australia", "University of Tasmania", NA_character_, NA_character_,
     "2020-03-01", "academic", "Changes in moisture availability drive fire risk", "Bushfire Risk Management Research Hub Researchers' Meeting 2020", "Wollongong, NSW, Australia", "Bushfire Risk Management Research Hub", "https://toddmellis.files.wordpress.com/2020/03/firehub_meet_20200302.pdf", "presentation",
     "2016-06-01", "coursework", "Climatic Drivers of western spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Defense", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_thesis_defense.pdf", "presentation",
-    "2016-04-01", "conference", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "American Association of Geographers Annual Meeting 2016", "San Francisco, CA, USA", "American Association of Geographers", "https://toddmellis.files.wordpress.com/2016/10/ellis-2016_aag_pres.pdf", "presentation",
+    "2016-04-01", "academic", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "American Association of Geographers Annual Meeting 2016", "San Francisco, CA, USA", "American Association of Geographers", "https://toddmellis.files.wordpress.com/2016/10/ellis-2016_aag_pres.pdf", "presentation",
     "2014-07-01", "academic", "Climate responses of \\textit{Pseudotsuga menziesii} and \\textit{Pinus flexilis} in the Greater Yellowstone (USA)", "North American Dendroecological Fieldweek 2014", "Cody, WY, USA", "North American Dendroecological Fieldweek", c("https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponsepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/nadef2014_climresponse.pdf"), c("presentation", "paper"),
     "2014-05-01", "coursework", "Controlling factors of spruce budworm outbreaks in the Okanogan Highlands", "Western Washington University Graduate Seminars", "Bellingham, WA, USA", "Western Washington University", NA_character_, NA_character_,
     "2014-05-01", "coursework", "Mapping alpine treeline: A comparative analysis of Structure-from-Motion and LiDAR techniques using digital aerial imagery", "Western Washington University EGEO 504: Geographic Methods \\& Techniques", "Bellingham, WA, USA", "Western Washington University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetreepres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2014_mapalpinetree.pdf"), c("presentation", "paper"),
-    "2014-04-01", "conference", "Perceptions of risk in Bellingham, Washington", "Association of Washington Geographers Spring Meeting 2014", "Seattle, WA, USA", "Association of Washington Geographers", NA_character_, NA_character_,
+    "2014-04-01", "academic", "Perceptions of risk in Bellingham, Washington", "Association of Washington Geographers Spring Meeting 2014", "Seattle, WA, USA", "Association of Washington Geographers", NA_character_, NA_character_,
     "2013-12-01", "coursework", "Biogeographic implications of Structure-from-Motion imagery", "Western Washington University EGEO 501: History and Philosophy of Geography", "Bellingham, WA, USA", "Western Washington University", "https://toddmellis.files.wordpress.com/2016/10/ellis_2013_sfm.pdf", "paper",
     "2012-05-01", "coursework", "Wildfire hazard data for the Yellowstone National Park Ecosystem: 1987-1988", "Texas State University GEO 4412: Digital Remote Sensing", "San Marcos, TX, USA", "Texas State University", c("https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazardpres.pdf", "https://toddmellis.files.wordpress.com/2016/10/ellis_2012_gyehazard.pdf"), c("presentation", "paper"),
     "2012-04-01", "coursework", "Cretaceous-aged fossiliferous outcrops of the Big Bend region", "Texas State University GEO 4310: Regional Field Studies", "San Marcos, TX, USA", "Texas State University", "https://toddmellis.files.wordpress.com/2017/11/ellis-20120301-cretaceous-aged-fossiliferous-outcrops-of-the-big-bend-region.pdf", "paper",
@@ -463,7 +474,7 @@ SCOPUS <-
   dplyr::select(entry_number,
                 title, cover_date, cover_display_date, publication_name, volume, issue_identifier, page_range, article_number, doi,
                 citedby_count,
-                aggregation_type, subtype_description, author_count,openaccess_flag, freetoread_label_value, pubmed_id, fund_sponsor) |>
+                aggregation_type, subtype_description, author_count,openaccess_flag, freetoread_label_value, pubmed_id) |> ## 2025-06-17: `fund_sponsor` no longer in column names...?
   dplyr::mutate(dplyr::across(.cols = c(entry_number, citedby_count),
                               .fns = ~ as.numeric(.x)),
                 cover_date = lubridate::as_date(cover_date),
